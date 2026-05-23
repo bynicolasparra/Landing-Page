@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Mensual eCommerce — By Nicolás Parra</title>
+<meta name="description" content="Diagnóstico mensual de tu tienda Shopify, revisión de anuncios y análisis de data. Para marcas con producto propio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --black:#0A0A0A;
+  --white:#FFFFFF;
+  --g50:#FAFAFA;
+  --g100:#F2F2F2;
+  --g200:#E0E0E0;
+  --g400:#999;
+  --g600:#555;
+  --g800:#222;
+  --r16:16px;
+  --r24:24px;
+  --r32:32px;
+  --r48:48px;
+}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--white);
+  color:var(--black);
+  font-size:15px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+.serif{font-family:'Times New Roman',Times,Georgia,serif;}
+
+/* ANIMACIONES */
+.reveal{
+  opacity:0;
+  transform:translateY(32px);
+  transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+.reveal-delay-4{transition-delay:.4s;}
+.reveal-delay-5{transition-delay:.5s;}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--g200);
+  padding:0 5%;
+  display:flex;justify-content:space-between;align-items:center;
+  height:68px;
+}
+
+.logo{
+  font-family:'Poppins',sans-serif;
+  font-size:14px;font-weight:600;
+  letter-spacing:.04em;
+  color:var(--black);text-decoration:none;
+}
+
+.nav-links{display:flex;align-items:center;gap:2.5rem;}
+
+.nav-link{
+  font-size:13px;color:var(--g600);
+  text-decoration:none;font-weight:400;
+  transition:color .2s;
+}
+.nav-link:hover{color:var(--black);}
+
+.btn-nav{
+  font-size:13px;font-weight:500;
+  color:var(--white);background:var(--black);
+  padding:10px 22px;border-radius:100px;
+  text-decoration:none;
+  transition:transform .2s, background .2s;
+}
+.btn-nav:hover{background:var(--g800);transform:scale(1.03);}
+
+/* HERO */
+.hero{
+  padding:7rem 5% 5rem;
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1.1fr 0.9fr;
+  gap:5rem;align-items:center;
+}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--g600);
+  background:var(--g100);
+  padding:6px 14px;border-radius:100px;
+  margin-bottom:1.75rem;
+}
+
+.hero-dot{
+  width:6px;height:6px;
+  background:var(--black);border-radius:50%;
+}
+
+.hero-h1{
+  font-family:'Times New Roman',Times,Georgia,serif;
+  font-size:clamp(40px,4.5vw,62px);
+  font-weight:400;line-height:1.07;
+  letter-spacing:-.02em;
+  color:var(--black);
+  margin-bottom:1.5rem;
+}
+
+.hero-h1 em{
+  font-style:italic;
+  color:var(--g600);
+}
+
+.hero-sub{
+  font-size:16px;font-weight:300;
+  color:var(--g600);line-height:1.75;
+  max-width:500px;margin-bottom:2.5rem;
+}
+
+.hero-ctas{
+  display:flex;align-items:center;gap:1.25rem;
+  flex-wrap:wrap;
+}
+
+.btn-hero{
+  font-size:15px;font-weight:500;
+  color:var(--white);background:var(--black);
+  padding:15px 32px;border-radius:100px;
+  text-decoration:none;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-hero:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 32px rgba(0,0,0,.2);}
+
+.btn-ghost{
+  font-size:14px;font-weight:400;color:var(--g600);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  transition:color .2s;
+}
+.btn-ghost:hover{color:var(--black);}
+.btn-ghost::after{content:'→';transition:transform .2s;}
+.btn-ghost:hover::after{transform:translateX(4px);}
+
+/* HERO DERECHO */
+.hero-right{display:flex;flex-direction:column;gap:12px;}
+
+.hero-price-card{
+  background:var(--black);
+  border-radius:var(--r24);
+  padding:2rem 2.5rem;
+  color:var(--white);
+}
+
+.hpc-label{
+  font-size:11px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--g400);margin-bottom:.75rem;
+}
+
+.hpc-price{
+  font-family:'Times New Roman',Times,Georgia,serif;
+  font-size:52px;font-weight:400;
+  line-height:1;margin-bottom:4px;
+}
+
+.hpc-cop{
+  font-size:14px;font-weight:300;
+  color:var(--g400);
+}
+
+.hero-pills{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+
+.hero-pill{
+  background:var(--g50);
+  border-radius:var(--r16);
+  padding:1.25rem 1.5rem;
+}
+
+.hp-label{
+  font-size:11px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--g400);margin-bottom:4px;
+}
+
+.hp-val{
+  font-size:14px;font-weight:500;
+  color:var(--black);line-height:1.3;
+}
+
+/* MARQUEE */
+.marquee-wrap{
+  overflow:hidden;
+  background:var(--g50);
+  border-top:1px solid var(--g200);
+  border-bottom:1px solid var(--g200);
+  padding:16px 0;
+}
+
+.marquee-track{
+  display:flex;gap:3rem;
+  animation:marquee 25s linear infinite;
+  width:max-content;
+}
+
+.m-item{
+  font-size:12px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--g400);white-space:nowrap;
+  display:flex;align-items:center;gap:3rem;
+}
+
+.m-sep{width:4px;height:4px;background:var(--g200);border-radius:50%;flex-shrink:0;}
+
+@keyframes marquee{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
+/* SECCIÓN GENÉRICA */
+.sec{padding:6rem 5%;}
+.sec-inner{max-width:1200px;margin:0 auto;}
+
+.sec-eyebrow{
+  font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--g400);margin-bottom:1rem;
+}
+
+.sec-title{
+  font-family:'Times New Roman',Times,Georgia,serif;
+  font-size:clamp(30px,3.5vw,48px);
+  font-weight:400;line-height:1.1;
+  letter-spacing:-.015em;color:var(--black);
+}
+
+.sec-sub{
+  font-size:16px;font-weight:300;
+  color:var(--g600);line-height:1.75;
+  max-width:560px;margin-top:1rem;
+}
+
+/* PARA QUIÉN */
+.pq-intro{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:start;margin-bottom:3.5rem;
+}
+
+.pq-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.pq-card{
+  border-radius:var(--r24);
+  padding:2rem;
+}
+
+.pq-card.si{background:var(--black);}
+.pq-card.no{background:var(--g100);}
+
+.pq-head{
+  font-size:12px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;
+}
+
+.pq-head.si{color:#888;}
+.pq-head.no{color:var(--g400);}
+
+.pq-list{list-style:none;display:flex;flex-direction:column;gap:2px;}
+
+.pq-item{
+  font-size:13px;line-height:1.6;
+  padding:9px 0;
+  display:flex;align-items:flex-start;gap:10px;
+}
+
+.pq-item.si{
+  color:rgba(255,255,255,.75);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.pq-item.si:last-child{border-bottom:none;}
+
+.pq-item.no{
+  color:var(--g400);
+  border-bottom:1px solid var(--g200);
+}
+.pq-item.no:last-child{border-bottom:none;}
+
+.pq-check{flex-shrink:0;margin-top:2px;font-size:13px;}
+.pq-check.si{color:rgba(255,255,255,.4);}
+.pq-check.no{color:var(--g200);}
+
+/* SISTEMA */
+.sistema-intro{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:start;margin-bottom:3.5rem;
+}
+
+.fases{display:flex;flex-direction:column;gap:16px;}
+
+.fase-card{
+  background:var(--g50);
+  border-radius:var(--r24);
+  padding:2.5rem;
+  transition:background .3s, transform .3s;
+  cursor:default;
+}
+
+.fase-card:hover{
+  background:var(--g100);
+  transform:translateY(-4px);
+}
+
+.fase-top{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;margin-bottom:1.25rem;
+}
+
+.fase-num{
+  font-family:'Times New Roman',Times,Georgia,serif;
+  font-size:13px;font-weight:400;
+  color:var(--g200);
+}
+
+.fase-badge{
+  font-size:11px;font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--g400);background:var(--g200);
+  padding:4px 10px;border-radius:100px;
+}
+
+.fase-name{
+  font-size:18px;font-weight:600;
+  color:var(--black);margin-bottom:.5rem;
+  line-height:1.2;
+}
+
+.fase-desc{
+  font-size:14px;font-weight:300;
+  color:var(--g600);line-height:1.7;
+  margin-bottom:1.25rem;
+}
+
+.fase-tags{
+  display:flex;flex-wrap:wrap;gap:6px;
+}
+
+.fase-tag{
+  font-size:11px;font-weight:500;
+  color:var(--g600);
+  background:var(--white);
+  padding:5px 12px;border-radius:100px;
+  border:1px solid var(--g200);
+}
+
+/* QUÉ INCLUYE */
+.incluye-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.inc-card{
+  background:var(--g50);
+  border-radius:var(--r24);
+  padding:2rem;
+  transition:transform .3s, box-shadow .3s;
+}
+
+.inc-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 16px 48px rgba(0,0,0,.08);
+}
+
+.inc-icon{
+  font-size:28px;margin-bottom:1rem;
+  display:block;
+}
+
+.inc-name{
+  font-size:15px;font-weight:600;
+  color:var(--black);margin-bottom:.5rem;
+}
+
+.inc-desc{
+  font-size:13px;font-weight:300;
+  color:var(--g600);line-height:1.7;
+}
+
+.inc-freq{
+  display:inline-block;margin-top:1rem;
+  font-size:11px;font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;
+  color:var(--g400);background:var(--g200);
+  padding:4px 10px;border-radius:100px;
+}
+
+/* SOBRE */
+.sobre-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+
+.sobre-img{
+  background:var(--g100);
+  border-radius:var(--r32);
+  aspect-ratio:4/5;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Times New Roman',Times,Georgia,serif;
+  font-size:100px;font-weight:400;
+  color:var(--g200);
+  overflow:hidden;
+}
+
+.sobre-tag{
+  font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--g400);margin-bottom:1rem;
+}
+
+.sobre-name{
+  font-family:'Times New Roman',Times,Georgia,serif;
+  font-size:48px;font-weight:400;
+  color:var(--black);line-height:1;
+  margin-bottom:.25rem;
+}
+
+.sobre-handle{
+  font-size:14px;font-weight:300;
+  color:var(--g400);margin-bottom:2rem;
+}
+
+.sobre-text{
+  font-size:15px;font-weight:300;
+  color:var(--g600);line-height:1.8;
+  margin-bottom:2rem;
+}
+
+.sobre-text strong{
+  font-weight:500;color:var(--black);
+}
+
+.disclaimer{
+  background:var(--g50);
+  border-radius:var(--r16);
+  padding:1.5rem 2rem;
+  font-size:13px;font-weight:300;
+  color:var(--g600);line-height:1.7;
+}
+
+.disclaimer strong{
+  font-weight:500;color:var(--g800);
+}
+
+/* CTA FINAL */
+.cta-sec{
+  background:var(--black);
+  padding:7rem 5%;
+  text-align:center;
+}
+
+.cta-inner{max-width:720px;margin:0 auto;}
+
+.cta-label{
+  font-size:12px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--g600);margin-bottom:1.5rem;
+}
+
+.cta-title{
+  font-family:'Times New Roman',Times,Georgia,serif;
+  font-size:clamp(36px,5vw,64px);
+  font-weight:400;line-height:1.05;
+  color:var(--white);margin-bottom:1.25rem;
+}
+
+.cta-title em{
+  font-style:italic;color:var(--g400);
+}
+
+.cta-sub{
+  font-size:16px;font-weight:300;
+  color:var(--g400);line-height:1.7;
+  margin-bottom:3rem;
+}
+
+.btn-cta-white{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:16px;font-weight:500;
+  color:var(--black);background:var(--white);
+  padding:18px 40px;border-radius:100px;
+  text-decoration:none;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s;
+  box-shadow:0 4px 24px rgba(255,255,255,.15);
+}
+.btn-cta-white:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 8px 40px rgba(255,255,255,.25);}
+
+.cta-note{
+  margin-top:1.25rem;
+  font-size:13px;font-weight:300;
+  color:var(--g600);
+}
+
+/* PRECIO INLINE */
+.precio-badge{
+  display:inline-flex;align-items:center;gap:12px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r16);
+  padding:1rem 1.5rem;
+  margin-bottom:2.5rem;
+}
+
+.pb-price{
+  font-family:'Times New Roman',Times,Georgia,serif;
+  font-size:28px;font-weight:400;
+  color:var(--white);
+}
+
+.pb-sep{width:1px;height:28px;background:rgba(255,255,255,.15);}
+
+.pb-right{}
+
+.pb-cop{
+  font-size:13px;font-weight:400;
+  color:var(--white);line-height:1.2;
+}
+
+.pb-mes{
+  font-size:11px;font-weight:300;
+  color:var(--g600);
+}
+
+/* FOOTER */
+footer{
+  padding:1.75rem 5%;
+  border-top:1px solid var(--g200);
+  display:flex;justify-content:space-between;
+  align-items:center;
+}
+
+.footer-logo{
+  font-size:13px;font-weight:600;
+  letter-spacing:.04em;color:var(--black);
+}
+
+.footer-links{display:flex;gap:2rem;}
+.footer-link{font-size:12px;color:var(--g400);text-decoration:none;transition:color .2s;}
+.footer-link:hover{color:var(--black);}
+
+.footer-copy{font-size:12px;color:var(--g400);}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:3rem;padding:5rem 6% 4rem;}
+  .pq-intro{grid-template-columns:1fr;}
+  .pq-grid{grid-template-columns:1fr;}
+  .sistema-intro{grid-template-columns:1fr;}
+  .incluye-grid{grid-template-columns:1fr 1fr;}
+  .sobre-grid{grid-template-columns:1fr;}
+  .sobre-img{max-height:260px;aspect-ratio:unset;}
+  .hero-pills{grid-template-columns:1fr 1fr;}
+  footer{flex-direction:column;gap:1rem;align-items:flex-start;}
+}
+
+@media(max-width:600px){
+  nav{padding:0 6%;}
+  .nav-links .nav-link{display:none;}
+  .sec{padding:4rem 6%;}
+  .incluye-grid{grid-template-columns:1fr;}
+  .hero-pills{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">By Nicolás Parra</a>
+  <div class="nav-links">
+    <a href="#sistema" class="nav-link">Cómo funciona</a>
+    <a href="#incluye" class="nav-link">Qué incluye</a>
+    <a href="#cta" class="btn-nav">Empieza hoy →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-left reveal">
+      <div class="hero-tag">
+        <span class="hero-dot"></span>
+        Solo para marcas con producto propio
+      </div>
+      <h1 class="hero-h1">
+        Tu tienda vende menos<br>
+        de lo que <em>debería.</em>
+      </h1>
+      <p class="hero-sub">
+        Cada mes analizo tu web, tu oferta y tus anuncios de Meta Ads. Te digo exactamente qué cambiar y en qué orden. Sin agencia, sin excusas, sin rodeos.
+      </p>
+      <div class="hero-ctas">
+        <a href="#cta" class="btn-hero">
+          Quiero que analices mi tienda
+          <span>→</span>
+        </a>
+        <a href="#sistema" class="btn-ghost">Ver cómo funciona</a>
+      </div>
+    </div>
+    <div class="hero-right reveal reveal-delay-2">
+      <div class="hero-price-card">
+        <p class="hpc-label">Inversión mensual</p>
+        <p class="hpc-price">$279 <span style="font-size:24px;color:#666;">USD</span></p>
+        <p class="hpc-cop">~$1.000.000 COP al mes</p>
+      </div>
+      <div class="hero-pills">
+        <div class="hero-pill">
+          <p class="hp-label">Para quien tiene</p>
+          <p class="hp-val">Producto propio</p>
+        </div>
+        <div class="hero-pill">
+          <p class="hp-label">Acceso a</p>
+          <p class="hp-val">3 pilares</p>
+        </div>
+        <div class="hero-pill">
+          <p class="hp-label">Formato</p>
+          <p class="hp-val">100% online</p>
+        </div>
+        <div class="hero-pill">
+          <p class="hp-label">Experto en</p>
+          <p class="hp-val">Shopify · Meta Ads</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="m-item">Meta Ads <span class="m-sep"></span></span>
+    <span class="m-item">CRO Shopify <span class="m-sep"></span></span>
+    <span class="m-item">Oferta y márgenes <span class="m-sep"></span></span>
+    <span class="m-item">Embudo creativo <span class="m-sep"></span></span>
+    <span class="m-item">Análisis de data real <span class="m-sep"></span></span>
+    <span class="m-item">AOV · LTV <span class="m-sep"></span></span>
+    <span class="m-item">Revisión de anuncios <span class="m-sep"></span></span>
+    <span class="m-item">Anti-hype <span class="m-sep"></span></span>
+    <span class="m-item">LATAM <span class="m-sep"></span></span>
+    <span class="m-item">Meta Ads <span class="m-sep"></span></span>
+    <span class="m-item">CRO Shopify <span class="m-sep"></span></span>
+    <span class="m-item">Oferta y márgenes <span class="m-sep"></span></span>
+    <span class="m-item">Embudo creativo <span class="m-sep"></span></span>
+    <span class="m-item">Análisis de data real <span class="m-sep"></span></span>
+    <span class="m-item">AOV · LTV <span class="m-sep"></span></span>
+    <span class="m-item">Revisión de anuncios <span class="m-sep"></span></span>
+    <span class="m-item">Anti-hype <span class="m-sep"></span></span>
+    <span class="m-item">LATAM <span class="m-sep"></span></span>
+  </div>
+</div>
+
+<!-- PARA QUIÉN -->
+<section class="sec">
+  <div class="sec-inner">
+    <div class="pq-intro">
+      <div class="reveal">
+        <p class="sec-eyebrow">Para quién es</p>
+        <h2 class="sec-title">No es para todos.<br>Y eso es intencional.</h2>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <p class="sec-sub">Solo trabajo con emprendedores que tienen marca propia, producto real y ganas de hacer las cosas bien. Si estás buscando a alguien que te prometa ROAS garantizados en 30 días, este no es el lugar.</p>
+      </div>
+    </div>
+    <div class="pq-grid">
+      <div class="pq-card si reveal reveal-delay-1">
+        <p class="pq-head si">✦ &nbsp;Sí encajas si</p>
+        <ul class="pq-list">
+          <li class="pq-item si"><span class="pq-check si">✓</span>Tienes tienda Shopify con producto propio</li>
+          <li class="pq-item si"><span class="pq-check si">✓</span>Inviertes o quieres invertir en Meta Ads</li>
+          <li class="pq-item si"><span class="pq-check si">✓</span>Quieres entender qué falla y arreglarlo</li>
+          <li class="pq-item si"><span class="pq-check si">✓</span>Tienes tiempo para implementar lo que se recomienda</li>
+          <li class="pq-item si"><span class="pq-check si">✓</span>Buscas análisis real, no marketing de humo</li>
+        </ul>
+      </div>
+      <div class="pq-card no reveal reveal-delay-2">
+        <p class="pq-head no">✕ &nbsp;No encajas si</p>
+        <ul class="pq-list">
+          <li class="pq-item no"><span class="pq-check no">—</span>Haces dropshipping sin marca propia</li>
+          <li class="pq-item no"><span class="pq-check no">—</span>Quieres que alguien gestione tus campañas</li>
+          <li class="pq-item no"><span class="pq-check no">—</span>Esperas resultados garantizados sin ejecutar</li>
+          <li class="pq-item no"><span class="pq-check no">—</span>Tu producto no tiene demanda validada</li>
+          <li class="pq-item no"><span class="pq-check no">—</span>Tu margen no aguanta la inversión en publicidad</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EL SISTEMA -->
+<section class="sec" style="background:var(--g50);" id="sistema">
+  <div class="sec-inner">
+    <div class="sistema-intro">
+      <div class="reveal">
+        <p class="sec-eyebrow">El sistema</p>
+        <h2 class="sec-title">Tres pilares.<br>Un sistema que crece contigo.</h2>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <p class="sec-sub">No es consultoría de una sola vez. Es un sistema mensual que evoluciona según los datos reales de tu negocio. Cada mes sabes exactamente en qué estado estás y qué hacer primero.</p>
+      </div>
+    </div>
+    <div class="fases">
+      <div class="fase-card reveal">
+        <div class="fase-top">
+          <span class="fase-num">01</span>
+          <span class="fase-badge">Semana 1</span>
+        </div>
+        <p class="fase-name">Diagnóstico completo de los tres pilares</p>
+        <p class="fase-desc">La primera semana lo vemos todo. Tu tienda, tu oferta, tus anuncios. Recibes un diagnóstico claro con lo que está fallando y el orden exacto de prioridades. Más el embudo creativo listo para que comiences a publicar.</p>
+        <div class="fase-tags">
+          <span class="fase-tag">CRO Shopify</span>
+          <span class="fase-tag">Análisis de oferta y márgenes</span>
+          <span class="fase-tag">Auditoría Meta Ads</span>
+          <span class="fase-tag">Embudo creativo</span>
+        </div>
+      </div>
+      <div class="fase-card reveal reveal-delay-1">
+        <div class="fase-top">
+          <span class="fase-num">02</span>
+          <span class="fase-badge">Cada semana</span>
+        </div>
+        <p class="fase-name">Revisión continua — antes de que el dinero salga</p>
+        <p class="fase-desc">Tú creas los anuncios. Yo los reviso antes de que salgan al aire. Cada semana revisamos la tienda. Cada 15 días analizamos la data real de Ads Manager y tomamos decisiones basadas en números, no en intuición.</p>
+        <div class="fase-tags">
+          <span class="fase-tag">Revisión de anuncios previa</span>
+          <span class="fase-tag">Análisis quincenal de data</span>
+          <span class="fase-tag">Revisión web semanal</span>
+          <span class="fase-tag">WhatsApp directo</span>
+        </div>
+      </div>
+      <div class="fase-card reveal reveal-delay-2">
+        <div class="fase-top">
+          <span class="fase-num">03</span>
+          <span class="fase-badge">Cuando vendas bien</span>
+        </div>
+        <p class="fase-name">De adquirir clientes a multiplicar lo que ya tienes</p>
+        <p class="fase-desc">Cuando las ventas son consistentes, el trabajo cambia. Dejamos de apagar incendios y empezamos a escalar. El objetivo: más ingresos por cada cliente que ya entra, y que vuelva a comprar.</p>
+        <div class="fase-tags">
+          <span class="fase-tag">Bundles y upsells</span>
+          <span class="fase-tag">Estrategia de AOV</span>
+          <span class="fase-tag">Segunda compra · LTV</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ INCLUYE -->
+<section class="sec" id="incluye">
+  <div class="sec-inner">
+    <div style="margin-bottom:3rem;" class="reveal">
+      <p class="sec-eyebrow">Qué incluye</p>
+      <h2 class="sec-title">Todo lo que pasa<br>cada mes.</h2>
+    </div>
+    <div class="incluye-grid">
+      <div class="inc-card reveal">
+        <span class="inc-icon">🔍</span>
+        <p class="inc-name">Diagnóstico mensual</p>
+        <p class="inc-desc">Semáforo de los tres pilares actualizado cada mes. Sabes en qué estado está tu negocio y cuáles son las prioridades del siguiente período.</p>
+        <span class="inc-freq">Mensual</span>
+      </div>
+      <div class="inc-card reveal reveal-delay-1">
+        <span class="inc-icon">👁️</span>
+        <p class="inc-name">Revisión de anuncios previa</p>
+        <p class="inc-desc">Antes de activar cualquier anuncio yo lo reviso. Hook, copy, formato, coherencia con la audiencia. Evitas gastar en creativos que no van a funcionar.</p>
+        <span class="inc-freq">Cada vez que publiques</span>
+      </div>
+      <div class="inc-card reveal reveal-delay-2">
+        <span class="inc-icon">📊</span>
+        <p class="inc-name">Análisis de Ads Manager</p>
+        <p class="inc-desc">Accedo a tu cuenta con permisos de lectura. Analizo ROAS, fatiga creativa, distribución de presupuesto y te entrego tres decisiones concretas para los siguientes 15 días.</p>
+        <span class="inc-freq">Quincenal</span>
+      </div>
+      <div class="inc-card reveal reveal-delay-1">
+        <span class="inc-icon">🖥️</span>
+        <p class="inc-name">Revisión de la tienda</p>
+        <p class="inc-desc">Control semanal del estado de tu Shopify: cambios implementados, fricciones nuevas, velocidad, experiencia mobile. Una tienda que mejora semana a semana convierte más sin más tráfico.</p>
+        <span class="inc-freq">Semanal</span>
+      </div>
+      <div class="inc-card reveal reveal-delay-2">
+        <span class="inc-icon">⚡</span>
+        <p class="inc-name">Embudo creativo</p>
+        <p class="inc-desc">Estructura lista para publicar desde el mes 1. Ángulos por audiencia, hooks recomendados y formatos por etapa del funnel. Se actualiza según los datos reales de la cuenta.</p>
+        <span class="inc-freq">Mes 1 + actualizaciones</span>
+      </div>
+      <div class="inc-card reveal reveal-delay-3">
+        <span class="inc-icon">💬</span>
+        <p class="inc-name">WhatsApp directo</p>
+        <p class="inc-desc">Canal exclusivo para dudas puntuales que no pueden esperar. Respuesta en 48 horas hábiles. Para todo lo demás, el análisis quincenal.</p>
+        <span class="inc-freq">Async · 48h SLA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE NICOLÁS -->
+<section class="sec" style="background:var(--g50);">
+  <div class="sec-inner">
+    <div class="sobre-grid">
+      <div class="sobre-img reveal">NP</div>
+      <div class="reveal reveal-delay-1">
+        <p class="sobre-tag">Quién lo hace</p>
+        <h2 class="sobre-name">Nicolás<br>Parra</h2>
+        <p class="sobre-handle">@bynicolasparra</p>
+        <p class="sobre-text">
+          Trabajo con marcas de producto propio en LATAM que invierten en Meta Ads y quieren crecer sin depender de una agencia. Sin capturas de pantalla infladas ni promesas de ROAS garantizado.<br><br>
+          Mi enfoque: <strong>analizo lo que está pasando con datos reales, te digo exactamente qué cambiar y en qué orden, y tú ejecutas.</strong> No gestiono campañas. No prometo resultados. Entrego claridad.
+        </p>
+        <div class="disclaimer">
+          Los resultados dependen de tu producto, tu mercado y tu ejecución. Eso es lo que diferencia a un consultor honesto de uno que te dice lo que quieres escuchar.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-sec" id="cta">
+  <div class="cta-inner">
+    <p class="cta-label reveal">Listo para arrancar</p>
+    <h2 class="cta-title reveal reveal-delay-1">
+      Deja de adivinar.<br>
+      <em>Empieza a vender con datos.</em>
+    </h2>
+    <p class="cta-sub reveal reveal-delay-2">
+      Cupos limitados para mantener la calidad del análisis. Cuando se llenen, se cierra el acceso.
+    </p>
+    <div class="reveal reveal-delay-3">
+      <div class="precio-badge" style="display:inline-flex;margin-bottom:2rem;">
+        <p class="pb-price">$279 USD</p>
+        <div class="pb-sep"></div>
+        <div class="pb-right">
+          <p class="pb-cop">~$1.000.000 COP</p>
+          <p class="pb-mes">por mes</p>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-4">
+      <a href="https://wa.me/57TUNUMERO?text=Hola%20Nicolás%2C%20quiero%20que%20analices%20mi%20tienda" class="btn-cta-white">
+        Quiero que analices mi tienda
+        <span>→</span>
+      </a>
+      <p class="cta-note">Te respondo por WhatsApp en menos de 24 horas</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">By Nicolás Parra</span>
+  <div class="footer-links">
+    <a href="#sistema" class="footer-link">Cómo funciona</a>
+    <a href="#incluye" class="footer-link">Qué incluye</a>
+    <a href="#cta" class="footer-link">Precio</a>
+  </div>
+  <span class="footer-copy">@bynicolasparra</span>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+}, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
