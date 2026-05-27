@@ -7,7 +7,7 @@
 <meta name="description" content="Diseñamos tiendas Shopify y landing pages que convierten. CRO para ecommerce latinoamericano.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Caveat:wght@600&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -19,10 +19,11 @@ html{scroll-behavior:smooth;}
   --px:clamp(1.25rem,5vw,4rem);
   --font-main:'Poppins',sans-serif;
   --font-hand:'Caveat',cursive;
-  --font-mono:'Fira Code',monospace;
+  --font-mono:'Poppins',sans-serif;
 }
 body{font-family:var(--font-main);background:var(--white);background-image:radial-gradient(var(--gray-200) 1px,transparent 1px);background-size:24px 24px;color:var(--black);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 a{text-decoration:none;color:inherit;}ul{list-style:none;}
+
 #progress-bar{position:fixed;top:0;left:0;height:3px;width:0%;background:var(--black);z-index:9999;transition:width .1s linear;}
 .rv{opacity:0;transform:translateY(20px);transition:opacity .45s cubic-bezier(.16,1,.3,1),transform .45s cubic-bezier(.16,1,.3,1);}
 .rv.on{opacity:1;transform:none;}
@@ -33,7 +34,7 @@ a{text-decoration:none;color:inherit;}ul{list-style:none;}
 .rv-scale{opacity:0;transform:scale(.95);transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);}
 .rv-scale.on{opacity:1;transform:scale(1);}
 .d1{transition-delay:.04s;}.d2{transition-delay:.09s;}.d3{transition-delay:.14s;}.d4{transition-delay:.19s;}
-.hand{font-family:var(--font-hand);font-size:1.25em;color:var(--gray-600);transform:rotate(-3deg);display:inline-block;}
+.hand{font-family:var(--font-hand);font-size:1.4em;color:var(--gray-600);transform:rotate(-2deg);display:inline-block;}
 .badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;background:var(--black);color:var(--white);padding:8px 18px;border-radius:100px;}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--white);animation:pulse 2s infinite;}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.4);}70%{box-shadow:0 0 0 6px rgba(255,255,255,0);}100%{box-shadow:0 0 0 0 rgba(255,255,255,0);}}
@@ -197,6 +198,26 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 .loop-note{text-align:center;margin-top:10px;font-size:9px;color:#2a2a2a;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;}
 @keyframes loopScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
+/* Loop ticker colored steps */
+.lt-ads-step{border-color:#1e3a8a !important;background:#0f1f4a !important;}
+.lt-ads-step .lt-tag{color:#60a5fa !important;}
+.lt-ads-step .lt-lbl{color:#93c5fd !important;}
+.lt-web-step{border-color:#1e3a3a !important;background:#0a2020 !important;}
+.lt-web-step .lt-tag{color:#34d399 !important;}
+.lt-web-step .lt-lbl{color:#6ee7b7 !important;}
+.lt-step.lt-bad{border-color:#3f0f0f !important;background:#250808 !important;}
+.lt-step.lt-bad .lt-tag{color:#f87171 !important;}
+.lt-step.lt-bad .lt-lbl{color:#fca5a5 !important;}
+
+/* Mobile centering for ag-bottom button */
+@media(max-width:767px){
+  .ag-bottom{align-items:center;text-align:center;}
+  .ag-bottom-text{text-align:center;}
+  .btn-agitate{width:100%;justify-content:center;}
+  .sc-inner{flex-direction:column;gap:10px;text-align:center;}
+  .sc-divider{width:40px;height:1px;}
+}
+
 /* ── CARD 3: Visitor rain funnel ── */
 .rain-wrap{position:relative;height:170px;overflow:hidden;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:10px;}
 .rain-stage{position:absolute;left:0;right:0;height:1px;background:#1a1a1a;}
@@ -347,6 +368,91 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 .t-title{font-size:20px;font-weight:800;line-height:1.2;}
 .t-desc{font-size:14px;color:var(--gray-600);line-height:1.7;}
 .t-highlight{margin-top:1rem;padding:12px 14px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;font-size:13px;font-weight:600;color:var(--gray-800);}
+
+/* ══════════════════════════════════════
+   FASE 01 — Diagnostic Dashboard
+══════════════════════════════════════ */
+.diag-dash{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;overflow:hidden;margin-top:1.25rem;}
+.dd-header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--gray-50);border-bottom:1px solid var(--gray-200);}
+.dd-title-txt{font-size:11px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:.08em;font-family:var(--font-mono);}
+.dd-live{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--gray-400);font-family:var(--font-mono);}
+.dd-live-dot{width:6px;height:6px;border-radius:50%;background:var(--gray-300);transition:background .3s;}
+.dd-live-dot.active{background:#22c55e;animation:livePulse 1.4s ease-in-out infinite;}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4);}50%{box-shadow:0 0 0 4px rgba(34,197,94,0);}}
+.dd-scores{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding:16px 8px;}
+.dd-score-col{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px;}
+.dd-ring-wrap{position:relative;width:64px;height:64px;display:flex;align-items:center;justify-content:center;}
+.dd-ring-svg{position:absolute;inset:0;width:100%;height:100%;}
+.dd-ring-num{font-size:16px;font-weight:800;font-family:var(--font-mono);color:var(--black);line-height:1;z-index:1;}
+.dd-ring-label{font-size:11px;font-weight:700;color:var(--gray-700);}
+.dd-ring-status{font-size:9px;font-weight:600;color:var(--gray-400);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em;transition:color .4s;}
+.dd-ring-status.ok{color:#16a34a;}
+.dd-result{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#f0fdf4;border-top:1px solid #bbf7d0;opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s;}
+.dd-result.vis{opacity:1;transform:none;}
+.dd-result-ico{font-size:16px;color:#16a34a;}
+.dd-result-txt{font-size:12px;font-weight:600;color:#15803d;}
+
+/* ══════════════════════════════════════
+   FASE 02 — Design Stage Tracker
+══════════════════════════════════════ */
+.design-stage-wrap{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;overflow:hidden;margin-top:1.25rem;}
+.dst-track{display:flex;align-items:center;padding:14px 16px;background:var(--gray-50);border-bottom:1px solid var(--gray-200);gap:0;}
+.dst-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+.dst-num{width:28px;height:28px;border-radius:50%;background:var(--gray-200);border:2px solid var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--gray-400);font-family:var(--font-mono);transition:all .4s cubic-bezier(.16,1,.3,1);}
+.dst-step.dst-done .dst-num{background:var(--black);border-color:var(--black);color:var(--white);}
+.dst-step.dst-approved .dst-num{background:#22c55e;border-color:#22c55e;color:var(--white);}
+.dst-lbl{font-size:9px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;transition:color .4s;}
+.dst-step.dst-done .dst-lbl{color:var(--gray-700);}
+.dst-step.dst-approved .dst-lbl{color:#16a34a;}
+.dst-line{flex:1;height:2px;background:var(--gray-200);margin:0 6px;margin-bottom:12px;transition:background .6s;}
+.dst-line.lit{background:var(--black);}
+.dst-preview{padding:14px 16px;position:relative;}
+.dstp-nav{height:10px;background:var(--gray-100);border-radius:4px;margin-bottom:8px;}
+.dstp-hero{height:32px;border-radius:6px;background:var(--gray-200);margin-bottom:6px;transition:background .7s;}
+.dstp-hero.styled{background:linear-gradient(135deg,var(--gray-700),var(--gray-800));}
+.dstp-body{display:flex;flex-direction:column;gap:4px;margin-bottom:6px;}
+.dstp-block{height:8px;border-radius:4px;background:var(--gray-100);transition:background .7s .1s;}
+.dstp-block.styled{background:var(--gray-300);}
+.dstp-w80{width:80%;}
+.dstp-w60{width:60%;}
+.dstp-cta{height:20px;width:40%;border-radius:6px;background:var(--gray-200);margin-top:4px;transition:background .7s .15s,box-shadow .7s .15s;}
+.dstp-cta.styled{background:var(--black);box-shadow:0 4px 12px rgba(0,0,0,.2);}
+.dst-stamp{position:absolute;top:14px;right:16px;display:flex;align-items:center;gap:6px;background:#f0fdf4;border:1.5px solid #22c55e;border-radius:8px;padding:5px 10px;opacity:0;transform:scale(.8) rotate(-3deg);transition:opacity .5s,transform .5s cubic-bezier(.16,1,.3,1);}
+.dst-stamp.vis{opacity:1;transform:scale(1) rotate(-2deg);}
+.dst-stamp-check{font-size:14px;color:#22c55e;}
+.dst-stamp span:last-child{font-size:11px;font-weight:800;color:#15803d;}
+
+/* ══════════════════════════════════════
+   FASE 03 — Stack Compare
+══════════════════════════════════════ */
+.stack-compare{display:grid;grid-template-columns:1fr 28px 1fr;gap:10px;align-items:start;padding:14px;background:var(--white);border:1px solid var(--gray-200);border-radius:14px;margin-top:1.25rem;}
+.stk-col-label{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-family:var(--font-mono);}
+.stk-green{color:#16a34a !important;}
+.stk-app{display:flex;align-items:center;gap:7px;padding:7px 10px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;margin-bottom:4px;transition:opacity .4s,transform .4s,filter .4s;}
+.stk-app.eliminated{opacity:.25;text-decoration:line-through;transform:translateX(-4px);filter:grayscale(1);}
+.stk-app-dot{width:7px;height:7px;border-radius:50%;background:var(--gray-300);flex-shrink:0;}
+.stk-app-name{font-size:11px;font-weight:600;color:var(--gray-700);flex:1;}
+.stk-app-cost{font-size:10px;font-weight:700;color:var(--red);font-family:var(--font-mono);}
+.stk-total{font-size:11px;font-weight:700;color:var(--red);margin-top:6px;font-family:var(--font-mono);}
+.stk-mid{display:flex;align-items:center;justify-content:center;padding-top:22px;}
+.stk-arrow{font-size:16px;color:var(--gray-300);transition:color .6s;}
+.stk-arrow.lit{color:var(--black);}
+.stk-native{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--black);border-radius:10px;margin-bottom:8px;opacity:0;transform:translateY(6px);transition:opacity .5s,transform .5s cubic-bezier(.16,1,.3,1);}
+.stk-native.vis{opacity:1;transform:none;}
+.stk-native-icon{width:32px;height:32px;border-radius:6px;background:rgba(150,191,72,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.stk-native-name{font-size:12px;font-weight:700;color:var(--white);}
+.stk-native-sub{font-size:9px;color:#555;margin-top:1px;font-family:var(--font-mono);}
+.stk-metrics{display:grid;grid-template-columns:1fr 1px 1fr;gap:8px;padding:10px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;margin-bottom:6px;opacity:0;transition:opacity .5s .4s;}
+.stk-metrics.vis{opacity:1;}
+.stk-met{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.stk-met-val{font-size:22px;font-weight:800;font-family:var(--font-mono);line-height:1;}
+.stk-met-lbl{font-size:9px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:.05em;text-align:center;}
+.stk-met-divider{width:1px;background:var(--gray-200);}
+.stk-speed-track{width:100%;height:5px;background:var(--gray-200);border-radius:100px;overflow:hidden;}
+.stk-speed-fill{height:100%;background:linear-gradient(90deg,#15803d,#22c55e);border-radius:100px;width:0%;transition:width 1.2s .8s cubic-bezier(.16,1,.3,1);}
+.stk-speed-fill.on{width:82%;}
+.stk-zero-cost{font-size:11px;font-weight:700;color:#16a34a;font-family:var(--font-mono);text-align:center;opacity:0;transition:opacity .5s .7s;}
+.stk-zero-cost.vis{opacity:1;}
 .audit-rows{display:flex;flex-direction:column;gap:8px;margin-top:1rem;}
 .audit-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;transition:border-color .3s;}
 .audit-row.done{border-color:var(--black);}
@@ -377,7 +483,11 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 .tc-card.tc-after .tc-roas{color:#86efac;}
 
 /* SCARCITY */
-.scarcity-bar{padding:1.5rem var(--px);background:var(--black);display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.scarcity-bar{padding:1.25rem var(--px);background:var(--black);border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;}
+.sc-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:14px;}
+.sc-icon-wrap{width:32px;height:32px;border-radius:50%;border:1px solid #333;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sc-divider{width:1px;height:18px;background:#2a2a2a;flex-shrink:0;}
+.sc-title{font-size:14px;font-weight:600;color:var(--gray-400);letter-spacing:.01em;}
 .clock-hand-m{transform-origin:50% 50%;animation:tick 4s steps(60,end) infinite;}
 .clock-hand-h{transform-origin:50% 50%;animation:tick 48s steps(60,end) infinite;}
 @keyframes tick{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
@@ -428,6 +538,130 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 .faq-a strong{color:var(--white);}
 footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-direction:column;gap:1rem;align-items:center;font-size:13px;color:#555;background:var(--black);}
 @media(min-width:768px){footer{flex-direction:row;justify-content:space-between;}}
+
+/* ══ MODAL OVERLAY ══ */
+.modal-booking{position:fixed;inset:0;z-index:10000;display:none;align-items:flex-start;justify-content:center;padding:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);overflow-y:auto;}
+.modal-booking.open{display:flex;}
+.mb-inner{background:var(--white);width:100%;max-width:680px;min-height:100vh;padding:2rem clamp(1.25rem,5vw,2.5rem) 4rem;margin:0 auto;position:relative;animation:mbSlide .4s cubic-bezier(.16,1,.3,1);}
+@media(min-width:700px){.mb-inner{min-height:auto;border-radius:20px;margin:2rem auto;}}
+@keyframes mbSlide{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+.mb-close{position:absolute;top:1.25rem;right:1.25rem;width:36px;height:36px;border-radius:50%;background:var(--gray-100);border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--gray-600);transition:all .2s;font-family:var(--font-main);}
+.mb-close:hover{background:var(--gray-200);color:var(--black);}
+.mb-progress{height:3px;background:var(--gray-200);border-radius:100px;margin-bottom:2rem;overflow:hidden;}
+.mb-prog-fill{height:100%;background:var(--black);border-radius:100px;transition:width .5s cubic-bezier(.16,1,.3,1);}
+.mb-step{display:none;}
+.mb-step.active{display:block;animation:mbSlide .35s cubic-bezier(.16,1,.3,1);}
+.mb-badge{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:10px;}
+.mb-title{font-size:clamp(22px,4vw,30px);font-weight:800;letter-spacing:-.03em;margin-bottom:8px;}
+.mb-sub{font-size:14px;color:var(--gray-600);line-height:1.6;margin-bottom:2rem;}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:500px){.fg{grid-template-columns:1fr;}}
+.fg-full{grid-column:1/-1;}
+.ff{display:flex;flex-direction:column;gap:5px;}
+.ff label{font-size:11px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;}
+.ff input,.ff select,.ff textarea{font-family:var(--font-main);font-size:14px;font-weight:500;color:var(--black);background:var(--white);border:1.5px solid var(--gray-200);border-radius:10px;padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
+.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--black);box-shadow:0 0 0 3px rgba(5,5,5,.06);}
+.ff textarea{resize:vertical;min-height:110px;line-height:1.6;}
+.ff select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.ff-note{font-size:11px;color:var(--gray-400);}
+.ff input.err,.ff select.err,.ff textarea.err{border-color:var(--red);}
+.btn-mb{width:100%;margin-top:20px;background:var(--black);color:var(--white);font-family:var(--font-main);font-size:15px;font-weight:700;padding:16px;border-radius:12px;border:none;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);}
+.btn-mb:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.2);}
+/* Slots */
+.dates-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:20px;scrollbar-width:none;}
+.dates-row::-webkit-scrollbar{display:none;}
+.db{flex-shrink:0;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;background:var(--white);cursor:pointer;text-align:center;transition:all .2s;min-width:70px;}
+.db:hover{border-color:var(--black);}
+.db.sel{background:var(--black);border-color:var(--black);color:var(--white);}
+.db .dday{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);display:block;}
+.db.sel .dday{color:rgba(255,255,255,.6);}
+.db .dnum{font-size:20px;font-weight:800;color:var(--black);display:block;line-height:1.2;}
+.db.sel .dnum{color:var(--white);}
+.db .dmon{font-size:9px;color:var(--gray-400);display:block;}
+.db.sel .dmon{color:rgba(255,255,255,.5);}
+.slots-lbl{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:block;}
+.slots-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:20px;}
+.sb{padding:13px;border:1.5px solid var(--gray-200);border-radius:10px;background:var(--white);cursor:pointer;text-align:center;transition:all .2s;}
+.sb:hover:not(.sbk){border-color:var(--black);}
+.sb.sel{background:var(--black);border-color:var(--black);color:var(--white);}
+.sb.sbk{background:var(--gray-50);opacity:.45;cursor:not-allowed;}
+.sb .st{font-size:15px;font-weight:700;display:block;}
+.sb .sd{font-size:10px;color:var(--gray-400);display:block;margin-top:2px;}
+.sb.sel .sd{color:rgba(255,255,255,.5);}
+.conf-card{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:12px;padding:1rem 1.25rem;margin-bottom:16px;}
+.conf-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-200);font-size:13px;}
+.conf-row:last-child{border-bottom:none;}
+.conf-lbl{font-weight:600;color:var(--gray-400);}
+.conf-val{font-weight:700;}
+/* Success */
+.mb-success{text-align:center;padding:2rem 0;}
+.mb-sico{width:68px;height:68px;background:#f0fdf4;border:2px solid #22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:28px;}
+.mb-stitle{font-size:26px;font-weight:800;margin-bottom:8px;}
+.mb-ssub{font-size:14px;color:var(--gray-600);line-height:1.6;max-width:400px;margin:0 auto 1.5rem;}
+.btn-wa{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:var(--white);font-family:var(--font-main);font-size:15px;font-weight:700;padding:16px 28px;border-radius:12px;border:none;cursor:pointer;transition:all .3s;}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(37,211,102,.3);}
+
+/* ══ CRM ══ */
+#crmScreen{display:none;min-height:100vh;background:var(--gray-50);}
+.crm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
+.crm-login-card{background:var(--white);border:1px solid var(--gray-200);border-radius:20px;padding:2.5rem;width:100%;max-width:360px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.06);}
+.crm-logo{font-size:26px;font-weight:800;letter-spacing:-.04em;margin-bottom:6px;}
+.crm-logo em{font-style:italic;}
+.crm-logo-sub{font-size:12px;color:var(--gray-400);margin-bottom:2rem;}
+.crm-pw-field{text-align:left;margin-bottom:14px;}
+.crm-pw-field label{font-size:11px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:5px;}
+.crm-pw-field input{width:100%;font-family:var(--font-main);font-size:15px;border:1.5px solid var(--gray-200);border-radius:10px;padding:12px 14px;outline:none;transition:border-color .2s;}
+.crm-pw-field input:focus{border-color:var(--black);}
+.crm-btn-login{width:100%;background:var(--black);color:var(--white);font-family:var(--font-main);font-size:14px;font-weight:700;padding:14px;border-radius:10px;border:none;cursor:pointer;transition:all .3s;}
+.crm-btn-login:hover{transform:translateY(-2px);}
+.crm-err{font-size:12px;color:var(--red);font-weight:600;margin-top:8px;display:none;}
+.crm-topbar{background:var(--black);padding:0 clamp(1.25rem,4vw,2.5rem);height:60px;display:flex;align-items:center;justify-content:space-between;}
+.crm-tb-logo{font-size:16px;font-weight:800;letter-spacing:-.04em;color:var(--white);}
+.crm-tb-logo em{font-style:italic;}
+.crm-tb-right{display:flex;gap:12px;align-items:center;}
+.crm-tb-btn{font-size:12px;font-weight:700;color:var(--gray-400);cursor:pointer;padding:7px 12px;border:1px solid #333;border-radius:8px;transition:all .2s;background:none;}
+.crm-tb-btn:hover{color:var(--white);border-color:#666;}
+.crm-main{max-width:1200px;margin:0 auto;padding:2rem clamp(1.25rem,4vw,2.5rem);}
+.crm-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin-bottom:2rem;}
+.crm-stat{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:1.25rem;}
+.crm-stat-lbl{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.crm-stat-val{font-size:30px;font-weight:800;}
+.crm-stat-val.g{color:#22c55e;}
+.crm-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1.25rem;}
+.crm-search{font-family:var(--font-main);font-size:13px;padding:9px 14px;border:1.5px solid var(--gray-200);border-radius:8px;outline:none;width:220px;transition:border-color .2s;}
+.crm-search:focus{border-color:var(--black);}
+.crm-filters{display:flex;gap:6px;}
+.crm-fb{font-family:var(--font-main);font-size:11px;font-weight:700;padding:8px 14px;border:1.5px solid var(--gray-200);border-radius:8px;background:var(--white);cursor:pointer;transition:all .2s;}
+.crm-fb.on,.crm-fb:hover{background:var(--black);color:var(--white);border-color:var(--black);}
+.crm-export{font-family:var(--font-main);font-size:11px;font-weight:700;padding:8px 14px;border:1.5px solid var(--black);border-radius:8px;background:transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
+.crm-export:hover{background:var(--black);color:var(--white);}
+.crm-table-wrap{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;overflow:hidden;overflow-x:auto;}
+.crm-table-wrap table{width:100%;border-collapse:collapse;min-width:700px;}
+.crm-table-wrap th{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.07em;padding:11px 14px;text-align:left;background:var(--gray-50);border-bottom:1px solid var(--gray-200);white-space:nowrap;}
+.crm-table-wrap td{font-size:12px;font-weight:500;padding:12px 14px;border-bottom:1px solid var(--gray-100);vertical-align:top;}
+.crm-table-wrap tr:last-child td{border-bottom:none;}
+.crm-table-wrap tr:hover td{background:var(--gray-50);}
+.crm-td-name{font-weight:700;cursor:pointer;}
+.crm-td-name:hover{text-decoration:underline;}
+.crm-td-sm{font-size:11px;color:var(--gray-400);}
+.crm-td-cita{font-size:11px;font-weight:600;color:#22c55e;}
+.crm-bdg{font-size:9px;font-weight:700;padding:3px 8px;border-radius:100px;}
+.crm-bdg-new{background:#eff6ff;color:#1d4ed8;}
+.crm-bdg-ok{background:#f0fdf4;color:#15803d;}
+.crm-wa{font-size:10px;font-weight:700;color:#22c55e;cursor:pointer;background:#f0fdf4;border:none;border-radius:6px;padding:4px 8px;font-family:var(--font-main);transition:background .2s;}
+.crm-wa:hover{background:#dcfce7;}
+.crm-del{font-size:10px;color:var(--gray-400);cursor:pointer;padding:3px 8px;border:1px solid var(--gray-200);border-radius:6px;background:none;font-family:var(--font-main);transition:all .2s;}
+.crm-del:hover{color:var(--red);border-color:var(--red);}
+.crm-empty{text-align:center;padding:4rem 2rem;color:var(--gray-400);}
+.crm-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20000;display:none;align-items:center;justify-content:center;padding:1rem;}
+.crm-modal-ov.open{display:flex;}
+.crm-modal{background:var(--white);border-radius:20px;padding:2rem;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;}
+.crm-modal-title{font-size:20px;font-weight:800;margin-bottom:1.25rem;}
+.crm-mrow{margin-bottom:12px;}
+.crm-mlbl{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.crm-mval{font-size:13px;font-weight:500;line-height:1.6;}
+.crm-prob-box{background:var(--gray-50);padding:12px;border-radius:8px;line-height:1.7;font-size:13px;}
+
 </style>
 </head>
 <body>
@@ -435,7 +669,6 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
 <nav>
   <div>
     <div class="logo">CO<em>NI</em></div>
-    <span class="logo-sub">Diseñamos para guiar la compra</span>
   </div>
   <a href="#precios" class="btn-nav">Ver servicios</a>
 </nav>
@@ -444,7 +677,6 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
 <section class="hero">
   <div class="hero-orb orb-1"></div>
   <div class="hero-orb orb-2"></div>
-  <div class="badge rv" style="margin-bottom:1.5rem;"><span class="dot"></span>Máximo 5 proyectos al mes</div>
   <h1 id="hero-title" aria-label="Diseñamos para guiar la compra."></h1>
   <p class="hero-sub rv d2">Tiendas Shopify y landing pages para ecommerce latinoamericano. <strong>Cada elemento diseñado para llevar al visitante a comprar.</strong></p>
   <div class="rv d3"><a href="#metodo" class="btn-primary">Cómo lo hacemos</a></div>
@@ -493,20 +725,20 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
             <div class="vc-eyebrow">Con CONI</div>
             <div class="vc-sales" id="vcGood">0</div>
             <div class="vc-unit">ventas</div>
-            <div class="vc-rate">3.8%</div>
+            <div class="vc-rate">2.5%</div>
           </div>
         </div>
         <div class="vc-context">Por cada 1.000 visitas</div>
         <div class="chart-legend" style="margin-top:.75rem;">
           <span style="color:var(--gray-600);">Hoy dejas ir: <strong style="color:var(--red);">996 sin comprar</strong></span>
-          <span class="legend-arrow">×9.5</span>
+          <span class="legend-arrow">×6</span>
         </div>
       </div>
     </div>
 
     <div class="mock-card rv-right d2">
-      <h3 class="mc-title">Bonita en diseño pero rota en conversión</h3>
-      <p class="mc-desc">Diseñada para un portafolio, no para que el visitante compre. Son objetivos distintos.</p>
+      <h3 class="mc-title">La mayoría diseña para lucir bien, no para vender</h3>
+      <p class="mc-desc">Hay una diferencia enorme entre una página que se ve bien y una página que convierte.</p>
       <div style="padding:.75rem 0;">
         <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
           <span style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;">Conversión mes a mes</span>
@@ -519,12 +751,12 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
             <text x="240" y="80" font-size="9" fill="#fca5a5" font-family="Fira Code" font-weight="600">0.4%</text>
             <polyline id="mainLine" points="0,90 50,80 100,72 150,55 200,35 250,18 300,8" fill="none" stroke="#050505" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="line-path"/>
             <circle id="endDot" cx="300" cy="8" r="5" fill="#050505" opacity="0" style="transition:opacity .4s ease 1.6s"/>
-            <text id="endLabel" x="260" y="6" font-size="9" fill="#050505" font-family="Fira Code" font-weight="700" opacity="0" style="transition:opacity .4s ease 1.6s">3.8%</text>
+            <text id="endLabel" x="260" y="6" font-size="9" fill="#050505" font-family="Fira Code" font-weight="700" opacity="0" style="transition:opacity .4s ease 1.6s">2.5%</text>
           </svg>
         </div>
         <div class="conv-badge">
           <span style="color:var(--gray-600);">Diseño común: <strong style="color:var(--red);">0.4%</strong></span>
-          <span style="color:var(--gray-600);">Con CRO: <strong style="color:var(--black);">3.8%</strong></span>
+          <span style="color:var(--gray-600);">Con CRO: <strong style="color:var(--black);">2.5%</strong></span>
         </div>
       </div>
     </div>
@@ -572,7 +804,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         </div>
         <div class="chart-legend" style="margin-top:.75rem;">
           <span style="color:var(--gray-600);">El 99.6% se va sin comprar</span>
-          <span class="legend-arrow" style="color:var(--red);font-size:14px;">→ arreglable</span>
+          <span class="legend-arrow" style="color:var(--red);font-size:14px;">→ TIENE SOLUCIÓN</span>
         </div>
       </div>
     </div>
@@ -621,21 +853,21 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <div class="loop-outer">
           <div class="loop-mask">
             <div class="loop-track">
-              <div class="lt-step"><span class="lt-tag">ADS</span><span class="lt-lbl">Más ads</span></div>
+              <div class="lt-step lt-ads-step"><span class="lt-tag">ADS</span><span class="lt-lbl">Más ads</span></div>
               <span class="lt-arr">→</span>
-              <div class="lt-step"><span class="lt-tag">WEB</span><span class="lt-lbl">Tráfico</span></div>
-              <span class="lt-arr">→</span>
-              <div class="lt-step lt-bad"><span class="lt-tag">EXIT</span><span class="lt-lbl">Se van</span></div>
-              <span class="lt-arr" style="color:#3b0f0f;font-size:12px;">↩</span>
-              <div class="lt-step"><span class="lt-tag">ADS</span><span class="lt-lbl">Más ads</span></div>
-              <span class="lt-arr">→</span>
-              <div class="lt-step"><span class="lt-tag">WEB</span><span class="lt-lbl">Tráfico</span></div>
+              <div class="lt-step lt-web-step"><span class="lt-tag">WEB</span><span class="lt-lbl">Tráfico</span></div>
               <span class="lt-arr">→</span>
               <div class="lt-step lt-bad"><span class="lt-tag">EXIT</span><span class="lt-lbl">Se van</span></div>
               <span class="lt-arr" style="color:#3b0f0f;font-size:12px;">↩</span>
-              <div class="lt-step"><span class="lt-tag">ADS</span><span class="lt-lbl">Más ads</span></div>
+              <div class="lt-step lt-ads-step"><span class="lt-tag">ADS</span><span class="lt-lbl">Más ads</span></div>
               <span class="lt-arr">→</span>
-              <div class="lt-step"><span class="lt-tag">WEB</span><span class="lt-lbl">Tráfico</span></div>
+              <div class="lt-step lt-web-step"><span class="lt-tag">WEB</span><span class="lt-lbl">Tráfico</span></div>
+              <span class="lt-arr">→</span>
+              <div class="lt-step lt-bad"><span class="lt-tag">EXIT</span><span class="lt-lbl">Se van</span></div>
+              <span class="lt-arr" style="color:#3b0f0f;font-size:12px;">↩</span>
+              <div class="lt-step lt-ads-step"><span class="lt-tag">ADS</span><span class="lt-lbl">Más ads</span></div>
+              <span class="lt-arr">→</span>
+              <div class="lt-step lt-web-step"><span class="lt-tag">WEB</span><span class="lt-lbl">Tráfico</span></div>
               <span class="lt-arr">→</span>
               <div class="lt-step lt-bad"><span class="lt-tag">EXIT</span><span class="lt-lbl">Se van</span></div>
               <span class="lt-arr" style="color:#3b0f0f;font-size:12px;">↩</span>
@@ -679,7 +911,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
   <div style="max-width:1200px;margin:0 auto;">
     <div class="rv" style="text-align:center;margin:0 auto 4rem;max-width:680px;">
       <h2 class="sec-title" style="color:var(--white);font-size:clamp(32px,5vw,58px);">Diseñamos para guiar la compra.</h2>
-      <p style="font-size:16px;color:var(--gray-400);margin-top:.75rem;line-height:1.7;">Cada elemento tiene un solo propósito: llevar al visitante hacia la acción.</p>
+      <p style="font-size:16px;color:var(--gray-400);margin-top:.75rem;line-height:1.7;">Cada elemento tiene un solo propósito: llevar al visitante hacia la venta.</p>
     </div>
     <div class="bento">
 
@@ -693,20 +925,20 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <div class="journey-vis" id="journeyVis">
           <svg viewBox="0 0 260 148" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
             <rect x="8" y="8" width="244" height="26" rx="5" fill="#111" stroke="#222" stroke-width="1"/>
-            <text x="130" y="25" text-anchor="middle" font-size="7.5" fill="#3a3a3a" font-family="Fira Code, monospace" font-weight="700">HEADLINE</text>
+            <text x="130" y="25" text-anchor="middle" font-size="7.5" fill="#3a3a3a" font-family="Georgia, serif" font-weight="700">HEADLINE</text>
             <rect x="8" y="42" width="116" height="68" rx="5" fill="#111" stroke="#222" stroke-width="1"/>
-            <text x="66" y="80" text-anchor="middle" font-size="7.5" fill="#3a3a3a" font-family="Fira Code, monospace" font-weight="700">PRODUCTO</text>
+            <text x="66" y="80" text-anchor="middle" font-size="7.5" fill="#3a3a3a" font-family="Georgia, serif" font-weight="700">PRODUCTO</text>
             <rect x="132" y="42" width="120" height="16" rx="3" fill="#111" stroke="#222" stroke-width="1"/>
             <rect x="132" y="64" width="120" height="10" rx="3" fill="#111" stroke="#222" stroke-width="1"/>
             <rect x="132" y="80" width="120" height="10" rx="3" fill="#111" stroke="#222" stroke-width="1"/>
             <rect x="132" y="98" width="84" height="22" rx="7" fill="#1a2a1a" stroke="#22c55e" stroke-width="1.5"/>
-            <text x="174" y="113" text-anchor="middle" font-size="8" fill="#22c55e" font-family="Fira Code, monospace" font-weight="700">COMPRAR</text>
+            <text x="174" y="113" text-anchor="middle" font-size="8" fill="#22c55e" font-family="Georgia, serif" font-weight="700">COMPRAR</text>
             <path id="eyePath" d="M130,21 C110,35 66,40 66,42 L66,110 C66,120 110,119 132,109 Q174,104 174,120" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-dasharray="340" stroke-dashoffset="340" style="transition:stroke-dashoffset 2.2s cubic-bezier(.16,1,.3,1);"/>
             <circle id="ejD1" cx="130" cy="21" r="4" fill="#22c55e" opacity="0" style="transition:opacity .3s .2s;"/>
             <circle id="ejD2" cx="66" cy="76" r="4" fill="#22c55e" opacity="0" style="transition:opacity .3s 1.2s;"/>
             <circle id="ejD3" cx="174" cy="120" r="5" fill="#22c55e" opacity="0" style="transition:opacity .4s 2s;"/>
           </svg>
-          <div id="journeyLabel" style="position:absolute;bottom:8px;right:10px;font-size:9px;font-weight:700;font-family:var(--font-mono);color:#22c55e;opacity:0;transition:opacity .4s 2.2s;text-transform:uppercase;letter-spacing:.06em;">CVR ↑ 3.8%</div>
+          <div id="journeyLabel" style="text-align:right;margin-top:6px;font-size:10px;font-weight:700;font-family:var(--font-mono);color:#22c55e;opacity:0;transition:opacity .4s 2.2s;text-transform:uppercase;letter-spacing:.06em;padding-right:4px;">CVR ↑ 2.5%</div>
         </div>
       </div>
 
@@ -715,7 +947,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <div>
           <p class="b-num">02</p>
           <h3 class="b-title">Quitamos todo lo que frena</h3>
-          <p class="b-desc">Identificamos cada obstáculo entre el visitante y la compra y lo eliminamos.</p>
+          <p class="b-desc">Identificamos cada obstáculo entre el visitante y la compra y lo eliminamos</p>
         </div>
         <div class="friction-vis" id="frictionVis">
           <div class="fv-page">
@@ -735,7 +967,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <div>
           <p class="b-num">03</p>
           <h3 class="b-title">El mismo tráfico convierte más</h3>
-          <p class="b-desc">Sin gastar más en ads. Solo optimizando lo que ya tienes.</p>
+          <p class="b-desc">Sin gastar más en ads, solo optimizando lo que ya tienes</p>
         </div>
         <div class="output-vis">
           <div class="ov-label">Por cada $500 USD en ads</div>
@@ -749,7 +981,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
             <div class="ov-col">
               <div class="ov-eyebrow">Con CONI</div>
               <div class="ov-val ov-good" id="ovCounter">$0</div>
-              <div class="ov-sub" style="color:#22c55e;">CVR 3.8%</div>
+              <div class="ov-sub" style="color:#22c55e;">CVR 2.5%</div>
             </div>
           </div>
           <div class="ov-bar-wrap">
@@ -759,7 +991,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
             </div>
             <div style="display:flex;justify-content:space-between;margin-top:5px;">
               <span style="font-size:9px;color:#444;font-family:var(--font-mono);">$1.200</span>
-              <span style="font-size:9px;color:#22c55e;font-family:var(--font-mono);">×9.5 más ventas</span>
+              <span style="font-size:9px;color:#22c55e;font-family:var(--font-mono);">×6 más ventas</span>
             </div>
           </div>
         </div>
@@ -769,119 +1001,45 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
   </div>
 </section>
 
-<!-- ICP -->
-<section class="icp">
-  <div style="text-align:center;max-width:620px;margin:0 auto 3.5rem;" class="rv">
-    <h2 class="sec-title">Para un perfil muy específico.</h2>
-  </div>
-  <div class="icp-grid">
-    <div class="icp-box yes rv-left">
-      <div class="icp-header yes-h"><div class="icp-icon yes-i">✓</div>Es para ti si...</div>
-      <ul class="icp-list yes-list">
-        <li><div class="icp-check yes-c">✓</div>Tienes producto propio y ventas reales en Shopify.</li>
-        <li><div class="icp-check yes-c">✓</div>Corres o planeas correr Meta Ads.</li>
-        <li><div class="icp-check yes-c">✓</div>Quieres más conversión sin gastar más en ads.</li>
-        <li><div class="icp-check yes-c">✓</div>Tomas decisiones con datos.</li>
-      </ul>
-    </div>
-    <div class="icp-box rv-right">
-      <div class="icp-header no-h"><div class="icp-icon no-i">✕</div>No es para ti si...</div>
-      <ul class="icp-list no-list">
-        <li><div class="icp-check no-c">✕</div>Solo quieres que se vea bonita, sin métricas.</li>
-        <li><div class="icp-check no-c">✕</div>No tienes producto validado ni ventas previas.</li>
-        <li><div class="icp-check no-c">✕</div>Esperas resultados sin datos ni proceso.</li>
-        <li><div class="icp-check no-c">✕</div>No usas Shopify ni planeas usarlo.</li>
-      </ul>
-    </div>
-  </div>
-</section>
 
 <!-- METODOLOGÍA -->
 <section class="method" id="metodo">
-  <div style="text-align:center;max-width:600px;margin:0 auto 3.5rem;" class="rv">
+  <div style="text-align:center;max-width:620px;margin:0 auto 3.5rem;" class="rv">
     <h2 class="sec-title">Cómo lo hacemos.</h2>
   </div>
   <div class="timeline" id="timeline">
     <div class="timeline-line" id="timeline-line"></div>
 
-    <div class="t-item rv-left">
-      <div class="t-dot"></div>
+    <!-- FASE 01 -->
+    <div class="t-item rv-left" id="tItem1">
       <div>
         <p class="t-fase">Fase 01</p>
-        <h3 class="t-title">Diagnóstico CRO</h3>
+        <h3 class="t-title">Diagnóstico de tu tienda y mercado</h3>
       </div>
       <div>
-        <p class="t-desc">Auditamos tu tienda antes de tocar nada. Identificamos exactamente qué está frenando la conversión.</p>
-        <div class="t-highlight">Entregable: informe de diagnóstico y plan priorizado</div>
-        <div class="audit-rows">
-          <div class="audit-row">
-            <span class="audit-name">Comportamiento</span>
-            <div class="audit-track"><div class="audit-fill" style="transition-delay:.0s;"></div></div>
-            <span class="audit-tag">—</span>
-          </div>
-          <div class="audit-row">
-            <span class="audit-name">Estructura CRO</span>
-            <div class="audit-track"><div class="audit-fill" style="transition-delay:.35s;"></div></div>
-            <span class="audit-tag">—</span>
-          </div>
-          <div class="audit-row">
-            <span class="audit-name">Fricción</span>
-            <div class="audit-track"><div class="audit-fill" style="transition-delay:.7s;"></div></div>
-            <span class="audit-tag">—</span>
-          </div>
-        </div>
+        <p class="t-desc">Analizamos tu tienda, tu competencia y el comportamiento de tu mercado para determinar con precisión qué optimizar primero y cómo estructurar cada elemento hacia la compra.</p>
       </div>
     </div>
 
-    <div class="t-item rv-left d1">
-      <div class="t-dot"></div>
+    <!-- FASE 02 -->
+    <div class="t-item rv-left d1" id="tItem2">
       <div>
         <p class="t-fase">Fase 02</p>
-        <h3 class="t-title">Diseño con propósito</h3>
+        <h3 class="t-title">Diseño que respeta tu marca</h3>
       </div>
       <div>
-        <p class="t-desc">Cada elemento tiene una razón de estar ahí. No hay decoración. El diseño sirve a la venta.</p>
-        <div class="t-highlight">Sin límite de revisiones hasta que el diseño esté óptimo</div>
-        <div class="cadence-wrap">
-          <div class="cad-card">
-            <div class="cad-num">3</div>
-            <div class="cad-unit">días</div>
-            <div class="cad-label">Wireframes para revisión</div>
-            <div class="cad-dots" id="dotsAds"></div>
-          </div>
-          <div class="cad-card">
-            <div class="cad-num">7</div>
-            <div class="cad-unit">días</div>
-            <div class="cad-label">Diseño final aprobado</div>
-            <div class="cad-dots" id="dotsWeb"></div>
-          </div>
-        </div>
+        <p class="t-desc">Diseñamos respetando tu identidad visual y te presentamos una propuesta completa. Iteramos las veces necesarias hasta que el diseño esté exactamente como lo quieres antes de escribir una sola línea de código.</p>
       </div>
     </div>
 
-    <div class="t-item rv-left d2">
-      <div class="t-dot"></div>
+    <!-- FASE 03 -->
+    <div class="t-item rv-left d2" id="tItem3">
       <div>
         <p class="t-fase">Fase 03</p>
-        <h3 class="t-title">Desarrollo y medición</h3>
+        <h3 class="t-title">Instalación nativa en tu Shopify</h3>
       </div>
       <div>
-        <p class="t-desc">Construimos en Shopify nativo. Instalamos heatmaps y eventos desde el día uno. Con la misma inversión, más ventas.</p>
-        <div class="t-highlight">El trabajo no termina en la entrega. Termina cuando los números mejoran.</div>
-        <div class="ticket-compare">
-          <div class="tc-card">
-            <span class="tc-eyebrow">Antes</span>
-            <div class="tc-budget">$500 en ads</div>
-            <span class="tc-revenue" id="revAntes">$0</span>
-            <span class="tc-roas">CVR 0.4%</span>
-          </div>
-          <div class="tc-card tc-after">
-            <span class="tc-eyebrow">Con CONI</span>
-            <div class="tc-budget">$500 en ads</div>
-            <span class="tc-revenue" id="revDes">$0</span>
-            <span class="tc-roas">CVR 3.8%</span>
-          </div>
-        </div>
+        <p class="t-desc">Implementamos el diseño directamente dentro de tu tema de Shopify, sin apps externas ni dependencias adicionales. Tu tienda queda más rápida, más limpia y completamente tuya.</p>
       </div>
     </div>
   </div>
@@ -889,17 +1047,8 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
 
 <!-- SCARCITY -->
 <div class="scarcity-bar">
-  <div>
-    <svg width="48" height="48" viewBox="0 0 48 48">
-      <circle cx="24" cy="24" r="20" fill="none" stroke="#333" stroke-width="2"/>
-      <line x1="24" y1="24" x2="24" y2="9" stroke="white" stroke-width="2" stroke-linecap="round" class="clock-hand-h"/>
-      <line x1="24" y1="24" x2="35" y2="24" stroke="white" stroke-width="1.5" stroke-linecap="round" class="clock-hand-m"/>
-      <circle cx="24" cy="24" r="2.5" fill="white"/>
-    </svg>
-  </div>
-  <div class="sc-content">
-    <span class="sc-title">Máximo 5 proyectos al mes. Sin excepción.</span>
-    <span class="sc-sub">Cada proyecto recibe atención completa o no lo tomamos.</span>
+  <div class="sc-inner">
+    <span class="sc-title">Trabajamos con máximo 5 proyectos al mes.</span>
   </div>
 </div>
 
@@ -907,15 +1056,15 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
 <section class="pricing" id="precios">
   <div class="rv" style="text-align:center;max-width:560px;margin:0 auto;">
     <span class="sec-label">Servicios</span>
-    <h2 class="sec-title">Sin costos ocultos ni paquetes inflados.</h2>
+    <h2 class="sec-title">Encuentra lo que tu tienda necesita ahora.</h2>
   </div>
   <div class="pricing-grid">
     <div class="price-card rv d1">
       <span class="pc-label">Landing Page</span>
       <h3 class="pc-title">Página de conversión</h3>
       <p class="pc-desc">Un producto, un objetivo. Diseñada para el tráfico de tus anuncios.</p>
-      <div class="pc-price">$790K</div>
-      <div class="pc-period">COP · pago único</div>
+      <div class="pc-price">$219</div>
+      <div class="pc-period">USD · pago único</div>
       <ul class="pc-list">
         <li><span class="pc-check">✓</span>Diagnóstico previo incluido</li>
         <li><span class="pc-check">✓</span>Diseño con enfoque en conversión</li>
@@ -923,7 +1072,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <li><span class="pc-check">✓</span>Heatmap y Analytics instalados</li>
         <li><span class="pc-check">✓</span>Entrega en 7 días hábiles</li>
       </ul>
-      <a href="https://wa.me/57XXXXXXXXXX?text=Quiero%20una%20landing%20page%20con%20CONI" class="pc-btn">Aplicar</a>
+      <a href="javascript:void(0)" onclick="openBooking()" class="pc-btn">Aplicar</a>
     </div>
 
     <div class="price-card featured rv d2">
@@ -931,31 +1080,30 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
       <span class="pc-label">Tienda Shopify</span>
       <h3 class="pc-title">Tienda completa CRO</h3>
       <p class="pc-desc">Tu tienda construida con CRO en cada página desde el inicio.</p>
-      <div class="pc-price">$2.5M</div>
-      <div class="pc-period">COP · pago único</div>
+      <div class="pc-price">$789</div>
+      <div class="pc-period">USD · pago único</div>
       <ul class="pc-list">
         <li><span class="pc-check">✓</span>Diagnóstico y plan de acción</li>
         <li><span class="pc-check">✓</span>Home, colecciones, PDPs, checkout</li>
         <li><span class="pc-check">✓</span>Desarrollo Shopify nativo</li>
         <li><span class="pc-check">✓</span>Heatmaps y eventos configurados</li>
-        <li><span class="pc-check">✓</span>Entrega en 3 a 4 semanas</li>
+        <li><span class="pc-check">✓</span>Entrega en 3 semanas</li>
         <li><span class="pc-check">✓</span>1 mes de soporte post entrega</li>
       </ul>
-      <a href="https://wa.me/57XXXXXXXXXX?text=Quiero%20una%20tienda%20Shopify%20con%20CONI" class="pc-btn">Aplicar</a>
+      <a href="javascript:void(0)" onclick="openBooking()" class="pc-btn">Aplicar</a>
     </div>
 
     <div class="price-card rv d3">
       <span class="pc-label">CRO Mensual</span>
       <h3 class="pc-title">Optimización continua</h3>
-      <p class="pc-desc">Para tiendas que ya venden y quieren mejorar conversión mes a mes con datos reales.</p>
+      <p class="pc-desc">Cambios constantes para mejorar el CRO, adaptándonos e integrándose con tu estrategia de anuncios.</p>
       <ul class="pc-list" style="margin-top:1rem;">
-        <li><span class="pc-check">✓</span>Auditoría mensual de comportamiento</li>
-        <li><span class="pc-check">✓</span>Heatmaps y análisis de embudos</li>
-        <li><span class="pc-check">✓</span>Hasta 3 cambios de página al mes</li>
-        <li><span class="pc-check">✓</span>Informe mensual con decisiones</li>
-        <li><span class="pc-check">✓</span>Máximo 5 clientes simultáneos</li>
+        <li><span class="pc-check">✓</span>Máximo 4 landing pages al mes</li>
+        <li><span class="pc-check">✓</span>Integración con tu estrategia de ads</li>
+        <li><span class="pc-check">✓</span>Análisis de comportamiento y embudos</li>
+        <li><span class="pc-check">✓</span>Solo 4 cupos disponibles al mes</li>
       </ul>
-      <a href="https://wa.me/57XXXXXXXXXX?text=Quiero%20el%20CRO%20mensual%20con%20CONI" class="pc-contact">Hablemos del precio</a>
+      <a href="javascript:void(0)" onclick="openBooking()" class="pc-contact">Hablemos del precio</a>
     </div>
   </div>
 </section>
@@ -963,7 +1111,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
 <!-- FAQ -->
 <section class="faq">
   <div style="text-align:center;max-width:620px;margin:0 auto;" class="rv">
-    <h2 class="sec-title">Lo que preguntan antes de arrancar.</h2>
+    <h2 class="sec-title">Preguntas frecuentes</h2>
   </div>
   <div class="faq-list rv d1">
     <div class="faq-item">
@@ -976,15 +1124,16 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
     </div>
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">¿En cuánto tiempo se ven resultados?<span class="faq-icon">+</span></button>
-      <div class="faq-a" role="region"><p>Desde el día de entrega tienes datos reales. Los primeros cambios medibles aparecen en las <strong>primeras 2 a 4 semanas</strong> con tráfico activo.</p></div>
+      <div class="faq-a" role="region"><p>Depende de tu tráfico y tu estrategia de anuncios. Con buen tráfico activo, los primeros resultados medibles aparecen <strong>entre 3 y 4 semanas</strong>. Sin tráfico constante el proceso es más lento, pero los cambios están ahí desde el día uno.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">¿Puedo ver trabajos anteriores?<span class="faq-icon">+</span></button>
-      <div class="faq-a" role="region"><p>Sí. Al aplicar compartimos ejemplos y, cuando el cliente lo permite, <strong>métricas de conversión antes y después</strong>. No mostramos portafolios de diseño bonito sino proyectos con resultados medibles.</p></div>
+      <div class="faq-a" role="region"><p>Puedes ver nuestro trabajo en Instagram: <strong><a href="https://www.instagram.com/coniagency/" target="_blank" rel="noopener" style="color:var(--white);text-decoration:underline;">@coniagency</a></strong>. Ahí publicamos procesos, resultados y proyectos terminados.</p></div>
     </div>
+
     <div class="faq-item">
-      <button class="faq-q" aria-expanded="false">¿Qué necesito para empezar?<span class="faq-icon">+</span></button>
-      <div class="faq-a" role="region"><p>Para <strong>landing page</strong>: producto definido, fotos y acceso a Shopify. Para <strong>tienda completa</strong>: catálogo, fotos y marca básica. Para <strong>CRO mensual</strong>: tienda activa con al menos 1.000 visitas al mes.</p></div>
+      <button class="faq-q" aria-expanded="false">¿Son un equipo o una sola persona?<span class="faq-icon">+</span></button>
+      <div class="faq-a" role="region"><p>Somos un <strong>equipo pequeño y especializado</strong>. Trabajamos juntos en diseño, desarrollo y estrategia CRO. Cada proyecto tiene atención directa del equipo desde el diagnóstico hasta la entrega, sin intermediarios.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" aria-expanded="false">¿Por qué solo 5 proyectos al mes?<span class="faq-icon">+</span></button>
@@ -999,6 +1148,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
     <span>© 2026 · by Nicolás Parra</span>
   </div>
   <span>@bynicolasparra</span>
+  <a href="#crm" style="font-size:11px;color:#1a1a1a;text-decoration:none;" onclick="checkRoute()">admin</a>
 </footer>
 
 <script>
@@ -1023,19 +1173,84 @@ const obs=new IntersectionObserver(entries=>{
     t.classList.add('on');
     if(t.classList.contains('t-item')&&!t.dataset.animated){
       t.dataset.animated='1';
-      const fills=t.querySelectorAll('.audit-fill');
-      if(fills.length){
-        fills.forEach(f=>f.classList.add('on'));
-        t.querySelectorAll('.audit-tag').forEach((tag,i)=>{
-          setTimeout(()=>{ tag.textContent='Listo'; tag.classList.add('ready'); tag.closest('.audit-row').classList.add('done'); },1100+i*320);
+      const id=t.id;
+
+      if(id==='tItem1'){
+        // Fase 01: Ring diagnostics
+        const liveDot=t.querySelector('#ddLiveDot');
+        if(liveDot) liveDot.classList.add('active');
+        const scores=[{r:'ring1',n:'rnum1',s:'rst1',score:68,label:'Analizado'},
+                      {r:'ring2',n:'rnum2',s:'rst2',score:82,label:'Mapeado'},
+                      {r:'ring3',n:'rnum3',s:'rst3',score:74,label:'Definido'}];
+        const circ=163;
+        scores.forEach((sc,i)=>{
+          const ring=t.querySelector('#'+sc.r);
+          const num=t.querySelector('#'+sc.n);
+          const status=t.querySelector('#'+sc.s);
+          setTimeout(()=>{
+            if(ring) ring.style.strokeDashoffset=String(circ*(1-sc.score/100));
+            if(num) animCount(num,0,sc.score,1100,v=>v+'%');
+            setTimeout(()=>{
+              if(status){status.textContent=sc.label;status.classList.add('ok');}
+            },1200);
+          },i*350);
         });
+        setTimeout(()=>{
+          const res=t.querySelector('#ddResult');
+          if(res) res.classList.add('vis');
+          if(liveDot) liveDot.classList.remove('active');
+        },2200);
       }
-      const dA=t.querySelector('#dotsAds'); const dW=t.querySelector('#dotsWeb');
-      if(dA){ for(let i=1;i<=30;i++){ const d=document.createElement('div'); d.className='cad-dot'+(i%3===0?' hit':''); dA.appendChild(d); } }
-      if(dW){ for(let i=1;i<=30;i++){ const d=document.createElement('div'); d.className='cad-dot'+(i%7===0?' hit':''); dW.appendChild(d); } }
-      const rA=t.querySelector('#revAntes'); const rD=t.querySelector('#revDes');
-      if(rA) animCount(rA,0,1200,1200,v=>'$'+v.toLocaleString('es-CO'));
-      if(rD) setTimeout(()=>animCount(rD,0,2800,1400,v=>'$'+v.toLocaleString('es-CO')),200);
+
+      if(id==='tItem2'){
+        // Fase 02: Design stages
+        const stages=[t.querySelector('#dst1'),t.querySelector('#dst2'),t.querySelector('#dst3')];
+        const lines=[t.querySelector('#dstL1'),t.querySelector('#dstL2')];
+        const hero=t.querySelector('#dstpHero');
+        const b1=t.querySelector('#dstpB1');
+        const b2=t.querySelector('#dstpB2');
+        const cta=t.querySelector('#dstpCta');
+        const stamp=t.querySelector('#dstStamp');
+        // Stage 1 already done (borrador)
+        setTimeout(()=>{
+          if(lines[0]) lines[0].classList.add('lit');
+          if(stages[1]) stages[1].classList.add('dst-done');
+          if(hero) hero.classList.add('styled');
+          if(b1) b1.classList.add('styled');
+          if(b2) b2.classList.add('styled');
+        },600);
+        setTimeout(()=>{
+          if(lines[1]) lines[1].classList.add('lit');
+          if(stages[2]) stages[2].classList.add('dst-approved');
+          if(cta) cta.classList.add('styled');
+          if(stamp) stamp.classList.add('vis');
+        },1600);
+      }
+
+      if(id==='tItem3'){
+        // Fase 03: Stack compare
+        const apps=['stka1','stka2','stka3','stka4'];
+        const arrow=t.querySelector('.stk-arrow');
+        apps.forEach((aid,i)=>{
+          setTimeout(()=>{
+            const el=t.querySelector('#'+aid);
+            if(el) el.classList.add('eliminated');
+          },200+i*250);
+        });
+        setTimeout(()=>{
+          if(arrow) arrow.classList.add('lit');
+          const nat=t.querySelector('.stk-native');
+          const met=t.querySelector('.stk-metrics');
+          const zero=t.querySelector('.stk-zero-cost');
+          const fill=t.querySelector('.stk-speed-fill');
+          const m1=t.querySelector('#stkM1');
+          if(nat) nat.classList.add('vis');
+          if(met) met.classList.add('vis');
+          if(zero) zero.classList.add('vis');
+          if(fill) fill.classList.add('on');
+          if(m1) animCount(m1,4,0,800,v=>v.toString());
+        },1300);
+      }
     }
     if(t.classList.contains('mock-card')){
       setTimeout(()=>animBars(t),120);
@@ -1122,7 +1337,7 @@ function animOutput(){
   if(!bar||bar.dataset.built) return;
   bar.dataset.built='1';
   bar.style.width='95%';
-  if(counter) animCount(counter,0,11400,1600,v=>'$'+v.toLocaleString('es-CO'));
+  if(counter) animCount(counter,0,7500,1600,v=>'$'+v.toLocaleString('es-CO'));
 }
 
 function buildRainFunnel(wrap){
@@ -1198,10 +1413,10 @@ function buildRainFunnel(wrap){
 }
 function buildAgFunnel(card){
   const stages=[
-    {id:'agfd1',filled:10,active:'#4b5563',dim:'#111'},
-    {id:'agfd2',filled:6,active:'#374151',dim:'#111'},
-    {id:'agfd3',filled:2,active:'#c2410c',dim:'#111'},
-    {id:'agfd4',filled:1,active:'#ef4444',dim:'#111'},
+    {id:'agfd1',filled:10,color:'#6366f1',dim:'#111'},
+    {id:'agfd2',filled:6,color:'#f59e0b',dim:'#111'},
+    {id:'agfd3',filled:2,color:'#f97316',dim:'#111'},
+    {id:'agfd4',filled:1,color:'#ef4444',dim:'#111'},
   ];
   stages.forEach((s,si)=>{
     const el=card.querySelector('#'+s.id);
@@ -1209,7 +1424,7 @@ function buildAgFunnel(card){
     for(let i=0;i<10;i++){
       const dot=document.createElement('div');
       dot.className='agf-dot';
-      dot.style.background=i<s.filled?s.active:s.dim;
+      dot.style.background=i<s.filled?s.color:'#1a1a1a';
       if(s.id==='agfd4'&&i===0){dot.style.width='11px';dot.style.height='11px';}
       el.appendChild(dot);
       setTimeout(()=>dot.classList.add('vis'),si*160+i*55+280);
@@ -1240,7 +1455,7 @@ function animBars(card){
   const bA=card.querySelector('#barAntes'); const bD=card.querySelector('#barDespues');
   const vA=card.querySelector('#cpaAntes'); const vD=card.querySelector('#cpaDes');
   if(bA){ bA.style.height=(bA.dataset.h||'80')+'%'; if(vA) vA.textContent='0.4%'; }
-  if(bD){ bD.style.height=(bD.dataset.h||'31')+'%'; if(vD) vD.textContent='3.8%'; }
+  if(bD){ bD.style.height=(bD.dataset.h||'31')+'%'; if(vD) vD.textContent='2.5%'; }
   const vcB=card.querySelector('#vcBad'); const vcG=card.querySelector('#vcGood');
   if(vcB) animCount(vcB,0,4,1000,v=>v.toString());
   if(vcG) setTimeout(()=>animCount(vcG,0,38,1400,v=>v.toString()),300);
@@ -1252,6 +1467,387 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
     if(!isOpen){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
   });
 });
+
+/* ══════════════════════════
+   BOOKING + CRM JAVASCRIPT
+══════════════════════════ */
+const WA_NUMBER = '57XXXXXXXXXX';
+const CRM_PASSWORD = 'coni2026';
+const DAYS_ES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const SLOTS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM'];
+let mbFormData = {}, mbSelDate = null, mbSelSlot = null;
+
+// ─ ROUTING: if URL has #crm show CRM screen
+function checkRoute(){
+  if(window.location.hash === '#crm'){
+    document.getElementById('crmScreen').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    document.querySelector('nav') && (document.querySelector('nav').style.display='none');
+    if(sessionStorage.getItem('coni_crm_auth')==='1'){
+      document.getElementById('crmLogin').style.display='none';
+      document.getElementById('crmDash').style.display='block';
+      crmLoad();
+    }
+  }
+}
+window.addEventListener('hashchange', checkRoute);
+checkRoute();
+
+// ─ BOOKING OPEN/CLOSE
+function openBooking(){
+  document.getElementById('modalBooking').classList.add('open');
+  document.body.style.overflow='hidden';
+  mbReset();
+}
+function closeBooking(){
+  document.getElementById('modalBooking').classList.remove('open');
+  document.body.style.overflow='';
+}
+function mbReset(){
+  document.querySelectorAll('.mb-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('mbStep1').classList.add('active');
+  document.getElementById('mbProgFill').style.width='33%';
+  mbFormData={}; mbSelDate=null; mbSelSlot=null;
+}
+
+// ─ FORM SUBMIT
+document.getElementById('mbForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const req=['mbFname','mbLname','mbEmail','mbPhone','mbCountry','mbProblem'];
+  let ok=true;
+  req.forEach(id=>{ const el=document.getElementById(id); el.classList.remove('err'); if(!el.value.trim()){el.classList.add('err');ok=false;} });
+  if(!ok) return;
+  mbFormData={
+    nombre: document.getElementById('mbFname').value.trim()+' '+document.getElementById('mbLname').value.trim(),
+    email: document.getElementById('mbEmail').value.trim(),
+    telefono: document.getElementById('mbPhone').value.trim(),
+    pais: document.getElementById('mbCountry').value,
+    web: document.getElementById('mbWeb').value.trim(),
+    instagram: document.getElementById('mbIg').value.trim(),
+    problema: document.getElementById('mbProblem').value.trim(),
+    fecha_registro: new Date().toISOString(),
+    id: Date.now(),
+    estado: 'Nuevo'
+  };
+  const leads=JSON.parse(localStorage.getItem('coni_leads')||'[]');
+  leads.push(mbFormData);
+  localStorage.setItem('coni_leads',JSON.stringify(leads));
+  document.getElementById('mbStep1').classList.remove('active');
+  document.getElementById('mbStep2').classList.add('active');
+  document.getElementById('mbProgFill').style.width='66%';
+  mbBuildDates();
+});
+
+// ─ DATES
+function mbBuildDates(){
+  const grid=document.getElementById('mbDatesRow');
+  grid.innerHTML='';
+  let count=0, d=new Date();
+  d.setDate(d.getDate()+1);
+  while(count<10){
+    if(d.getDay()!==0 && d.getDay()!==6){
+      const btn=document.createElement('div');
+      btn.className='db';
+      const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      btn.innerHTML=`<span class="dday">${DAYS_ES[d.getDay()]}</span><span class="dnum">${d.getDate()}</span><span class="dmon">${MONTHS_ES[d.getMonth()]}</span>`;
+      btn.dataset.date=ds;
+      btn.dataset.label=`${DAYS_ES[d.getDay()]} ${d.getDate()} de ${MONTHS_ES[d.getMonth()]}`;
+      btn.addEventListener('click',()=>mbSelDateFn(btn,ds,btn.dataset.label));
+      grid.appendChild(btn);
+      count++;
+    }
+    d.setDate(d.getDate()+1);
+  }
+}
+
+function mbSelDateFn(btn,ds,label){
+  document.querySelectorAll('.db').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  mbSelDate={str:ds,label};
+  mbSelSlot=null;
+  document.getElementById('mbConfirmSection').style.display='none';
+  mbBuildSlots(ds);
+  document.getElementById('mbSlotsLbl').style.display='block';
+}
+
+function mbBuildSlots(ds){
+  const grid=document.getElementById('mbSlotsGrid');
+  grid.innerHTML='';
+  const booked=JSON.parse(localStorage.getItem('coni_booked')||'{}');
+  const dayB=booked[ds]||[];
+  SLOTS.forEach(slot=>{
+    const btn=document.createElement('div');
+    const isB=dayB.includes(slot);
+    btn.className='sb'+(isB?' sbk':'');
+    btn.innerHTML=`<span class="st">${slot}</span><span class="sd">${isB?'No disponible':'45 min'}</span>`;
+    if(!isB) btn.addEventListener('click',()=>mbSelSlotFn(btn,slot));
+    grid.appendChild(btn);
+  });
+}
+
+function mbSelSlotFn(btn,slot){
+  document.querySelectorAll('.sb').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  mbSelSlot=slot;
+  const sec=document.getElementById('mbConfirmSection');
+  document.getElementById('mbConfCard').innerHTML=`
+    <div class="conf-row"><span class="conf-lbl">Nombre</span><span class="conf-val">${mbFormData.nombre}</span></div>
+    <div class="conf-row"><span class="conf-lbl">Fecha</span><span class="conf-val">${mbSelDate.label}</span></div>
+    <div class="conf-row"><span class="conf-lbl">Hora</span><span class="conf-val">${slot} (Colombia)</span></div>
+    <div class="conf-row"><span class="conf-lbl">Duración</span><span class="conf-val">45 minutos</span></div>
+  `;
+  sec.style.display='block';
+  sec.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+document.getElementById('mbScheduleBtn').addEventListener('click',()=>{
+  if(!mbSelDate||!mbSelSlot) return;
+  const booked=JSON.parse(localStorage.getItem('coni_booked')||'{}');
+  if(!booked[mbSelDate.str]) booked[mbSelDate.str]=[];
+  booked[mbSelDate.str].push(mbSelSlot);
+  localStorage.setItem('coni_booked',JSON.stringify(booked));
+  const leads=JSON.parse(localStorage.getItem('coni_leads')||'[]');
+  const lead=leads.find(l=>l.id===mbFormData.id);
+  if(lead){lead.cita=`${mbSelDate.label} a las ${mbSelSlot}`;lead.estado='Agendado';localStorage.setItem('coni_leads',JSON.stringify(leads));}
+  const msg=`Hola Nicolás, agende llamada para ${mbSelDate.label} a las ${mbSelSlot} (Colombia). Soy ${mbFormData.nombre} — ${mbFormData.email}`;
+  document.getElementById('mbWaBtn').onclick=()=>window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,'_blank');
+  document.getElementById('mbStep2').classList.remove('active');
+  document.getElementById('mbStepDone').classList.add('active');
+  document.getElementById('mbProgFill').style.width='100%';
+});
+
+/* ══ CRM ══ */
+let crmFilter='todos';
+function crmLogin(){
+  if(document.getElementById('crmPwInput').value===CRM_PASSWORD){
+    sessionStorage.setItem('coni_crm_auth','1');
+    document.getElementById('crmLogin').style.display='none';
+    document.getElementById('crmDash').style.display='block';
+    crmLoad();
+  } else {
+    document.getElementById('crmErr').style.display='block';
+    document.getElementById('crmPwInput').value='';
+  }
+}
+function crmLogout(){
+  sessionStorage.removeItem('coni_crm_auth');
+  document.getElementById('crmDash').style.display='none';
+  document.getElementById('crmLogin').style.display='flex';
+}
+function crmGetLeads(){ return JSON.parse(localStorage.getItem('coni_leads')||'[]').reverse(); }
+function crmIsThisWeek(s){ if(!s)return false; const d=new Date(s),n=new Date(),st=new Date(n); st.setDate(n.getDate()-n.getDay()); return d>=st; }
+function crmLoad(){
+  const leads=crmGetLeads();
+  const ag=leads.filter(l=>l.estado==='Agendado').length;
+  document.getElementById('crmStats').innerHTML=`
+    <div class="crm-stat"><div class="crm-stat-lbl">Total leads</div><div class="crm-stat-val">${leads.length}</div></div>
+    <div class="crm-stat"><div class="crm-stat-lbl">Agendados</div><div class="crm-stat-val g">${ag}</div></div>
+    <div class="crm-stat"><div class="crm-stat-lbl">Sin agendar</div><div class="crm-stat-val">${leads.length-ag}</div></div>
+    <div class="crm-stat"><div class="crm-stat-lbl">Esta semana</div><div class="crm-stat-val">${leads.filter(l=>crmIsThisWeek(l.fecha_registro)).length}</div></div>
+  `;
+  crmRender();
+}
+function crmSetFilter(f,btn){ crmFilter=f; document.querySelectorAll('.crm-fb').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); crmRender(); }
+function crmFmtDate(s){ if(!s)return'—'; const d=new Date(s); return d.toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'}); }
+function crmRender(){
+  const q=(document.getElementById('crmSearch')||{}).value||'';
+  let leads=crmGetLeads();
+  if(crmFilter!=='todos') leads=leads.filter(l=>(l.estado||'Nuevo')===crmFilter);
+  if(q) leads=leads.filter(l=>(l.nombre||'').toLowerCase().includes(q.toLowerCase())||(l.email||'').toLowerCase().includes(q.toLowerCase()));
+  const c=document.getElementById('crmTableContainer');
+  if(!c) return;
+  if(!leads.length){ c.innerHTML='<div class="crm-empty"><p>No hay leads todavía.</p></div>'; return; }
+  c.innerHTML=`<table><thead><tr><th>Nombre</th><th>País</th><th>Cita</th><th>Estado</th><th>Web</th><th>Registro</th><th></th></tr></thead><tbody>
+  ${leads.map(l=>`<tr>
+    <td><div class="crm-td-name" onclick="crmOpenModal(${l.id})">${l.nombre||'—'}</div><div class="crm-td-sm">${l.email||''}</div></td>
+    <td>${l.pais||'—'}</td>
+    <td class="crm-td-cita">${l.cita||'<span style="color:var(--gray-400);font-weight:400">Sin agendar</span>'}</td>
+    <td><span class="crm-bdg ${l.estado==='Agendado'?'crm-bdg-ok':'crm-bdg-new'}">${l.estado||'Nuevo'}</span></td>
+    <td class="crm-td-sm">${l.web?`<a href="${l.web}" target="_blank" style="color:var(--black);text-decoration:underline;">${l.web.replace('https://','').substring(0,20)}</a>`:''}</td>
+    <td class="crm-td-sm">${crmFmtDate(l.fecha_registro)}</td>
+    <td><div style="display:flex;flex-direction:column;gap:4px;"><button class="crm-wa" onclick="crmWA(${l.id})">WhatsApp</button><button class="crm-del" onclick="crmDel(${l.id})">Eliminar</button></div></td>
+  </tr>`).join('')}
+  </tbody></table>`;
+}
+function crmOpenModal(id){
+  const l=crmGetLeads().find(x=>x.id===id); if(!l)return;
+  document.getElementById('crmModalContent').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+      <h3 class="crm-modal-title" style="margin:0;">${l.nombre}</h3>
+      <button onclick="crmCloseModal()" style="font-size:22px;background:none;border:none;cursor:pointer;color:var(--gray-400);font-family:var(--font-main);">×</button>
+    </div>
+    <div class="crm-mrow"><div class="crm-mlbl">Email</div><div class="crm-mval">${l.email}</div></div>
+    <div class="crm-mrow"><div class="crm-mlbl">Teléfono</div><div class="crm-mval">${l.telefono}</div></div>
+    <div class="crm-mrow"><div class="crm-mlbl">País</div><div class="crm-mval">${l.pais}</div></div>
+    <div class="crm-mrow"><div class="crm-mlbl">Instagram</div><div class="crm-mval">${l.instagram||'—'}</div></div>
+    <div class="crm-mrow"><div class="crm-mlbl">Web</div><div class="crm-mval"><a href="${l.web}" target="_blank" style="color:var(--black);text-decoration:underline;">${l.web||'—'}</a></div></div>
+    <div class="crm-mrow"><div class="crm-mlbl">Cita</div><div class="crm-mval" style="color:#22c55e;font-weight:700;">${l.cita||'Sin agendar'}</div></div>
+    <div class="crm-mrow"><div class="crm-mlbl">Problema</div><div class="crm-prob-box">${l.problema}</div></div>
+    <div style="display:flex;gap:10px;margin-top:1.5rem;">
+      <button onclick="crmWA(${l.id})" style="flex:1;padding:12px;background:#25D366;color:var(--white);border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:700;cursor:pointer;">WhatsApp</button>
+      <button onclick="crmCloseModal()" style="flex:1;padding:12px;background:var(--gray-100);border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:600;cursor:pointer;">Cerrar</button>
+    </div>
+  `;
+  document.getElementById('crmModalOv').classList.add('open');
+}
+function crmCloseModal(){ document.getElementById('crmModalOv').classList.remove('open'); }
+function crmWA(id){
+  const l=crmGetLeads().find(x=>x.id===id); if(!l)return;
+  const msg=`Hola ${l.nombre}, soy Nicolás de CONI. Vi tu solicitud para agendar una llamada con nosotros.`;
+  window.open(`https://wa.me/${(l.telefono||'').replace(/[^0-9]/g,'')}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+function crmDel(id){
+  if(!confirm('¿Eliminar este lead?'))return;
+  let leads=JSON.parse(localStorage.getItem('coni_leads')||'[]');
+  leads=leads.filter(l=>l.id!==id);
+  localStorage.setItem('coni_leads',JSON.stringify(leads));
+  crmLoad();
+}
+function crmExportCSV(){
+  const leads=crmGetLeads();
+  const hdr=['Nombre','Email','Teléfono','País','Web','Instagram','Cita','Estado','Problema','Registro'];
+  const rows=leads.map(l=>[l.nombre,l.email,l.telefono,l.pais,l.web,l.instagram,l.cita||'',l.estado||'Nuevo','"'+(l.problema||'').replace(/"/g,'""')+'"',crmFmtDate(l.fecha_registro)].join(','));
+  const csv=[hdr.join(','),...rows].join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`coni_leads_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
 </script>
+
+<!-- ══ BOOKING MODAL ══ -->
+<div class="modal-booking" id="modalBooking">
+  <div class="mb-inner">
+    <button class="mb-close" onclick="closeBooking()">×</button>
+    <div class="mb-progress"><div class="mb-prog-fill" id="mbProgFill" style="width:33%"></div></div>
+
+    <!-- Paso 1 -->
+    <div class="mb-step active" id="mbStep1">
+      <span class="mb-badge">Paso 1 de 2</span>
+      <h2 class="mb-title">Cuéntanos sobre tu negocio</h2>
+      <p class="mb-sub">Necesitamos conocer tu situación para aprovechar mejor el tiempo juntos.</p>
+      <form id="mbForm" novalidate>
+        <div class="fg">
+          <div class="ff"><label>Nombre</label><input type="text" id="mbFname" placeholder="Juan" required></div>
+          <div class="ff"><label>Apellidos</label><input type="text" id="mbLname" placeholder="García" required></div>
+          <div class="ff"><label>Correo</label><input type="email" id="mbEmail" placeholder="juan@empresa.com" required></div>
+          <div class="ff"><label>Teléfono</label><input type="tel" id="mbPhone" placeholder="+57 300 000 0000" required></div>
+          <div class="ff">
+            <label>País</label>
+            <select id="mbCountry" required>
+              <option value="">Selecciona tu país</option>
+              <option value="Colombia">Colombia</option>
+              <option value="México">México</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Chile">Chile</option>
+              <option value="Perú">Perú</option>
+              <option value="Venezuela">Venezuela</option>
+              <option value="Ecuador">Ecuador</option>
+              <option value="Bolivia">Bolivia</option>
+              <option value="Paraguay">Paraguay</option>
+              <option value="Uruguay">Uruguay</option>
+              <option value="Guatemala">Guatemala</option>
+              <option value="Honduras">Honduras</option>
+              <option value="El Salvador">El Salvador</option>
+              <option value="Nicaragua">Nicaragua</option>
+              <option value="Costa Rica">Costa Rica</option>
+              <option value="Panamá">Panamá</option>
+              <option value="Cuba">Cuba</option>
+              <option value="República Dominicana">República Dominicana</option>
+              <option value="Puerto Rico">Puerto Rico</option>
+              <option value="España">España</option>
+            </select>
+          </div>
+          <div class="ff"><label>Instagram</label><input type="text" id="mbIg" placeholder="@tutienda"></div>
+          <div class="ff fg-full"><label>Link de tu página web</label><input type="url" id="mbWeb" placeholder="https://tutienda.com"></div>
+          <div class="ff fg-full">
+            <label>¿Qué problemas tienes con tu web?</label>
+            <textarea id="mbProblem" placeholder="Cuéntanos qué no está funcionando: poco tráfico que compra, diseño que no convierte, etc." required></textarea>
+            <span class="ff-note">Mientras más detallado, mejor nos preparamos para la llamada.</span>
+          </div>
+        </div>
+        <button type="submit" class="btn-mb">Continuar y elegir horario →</button>
+      </form>
+    </div>
+
+    <!-- Paso 2 -->
+    <div class="mb-step" id="mbStep2">
+      <span class="mb-badge">Paso 2 de 2</span>
+      <h2 class="mb-title">Elige tu horario</h2>
+      <p class="mb-sub" style="font-size:13px;color:var(--gray-400);">Horarios en hora Colombia (UTC-5) · Sesiones de 45 minutos</p>
+      <span class="slots-lbl">Selecciona un día</span>
+      <div class="dates-row" id="mbDatesRow"></div>
+      <span class="slots-lbl" id="mbSlotsLbl" style="display:none;">Horarios disponibles</span>
+      <div class="slots-g" id="mbSlotsGrid"></div>
+      <div id="mbConfirmSection" style="display:none;">
+        <div class="conf-card" id="mbConfCard"></div>
+        <button class="btn-mb" id="mbScheduleBtn">Confirmar y enviar por WhatsApp →</button>
+      </div>
+    </div>
+
+    <!-- Éxito -->
+    <div class="mb-step" id="mbStepDone">
+      <div class="mb-success">
+        <div class="mb-sico">✓</div>
+        <h2 class="mb-stitle">¡Todo listo!</h2>
+        <p class="mb-ssub">Nicolás recibirá tu mensaje y confirmará la llamada en breve.</p>
+        <button class="btn-wa" id="mbWaBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Abrir WhatsApp
+        </button>
+        <div style="margin-top:12px;"><button onclick="closeBooking()" style="font-family:var(--font-main);font-size:13px;color:var(--gray-400);background:none;border:none;cursor:pointer;text-decoration:underline;">Volver a la página</button></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ CRM SCREEN ══ -->
+<div id="crmScreen">
+  <!-- Login -->
+  <div id="crmLogin" class="crm-login">
+    <div class="crm-login-card">
+      <div class="crm-logo">CO<em>NI</em></div>
+      <p class="crm-logo-sub">Panel de leads · Acceso privado</p>
+      <div class="crm-pw-field">
+        <label>Contraseña</label>
+        <input type="password" id="crmPwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')crmLogin()">
+      </div>
+      <button class="crm-btn-login" onclick="crmLogin()">Entrar al CRM</button>
+      <p class="crm-err" id="crmErr">Contraseña incorrecta</p>
+    </div>
+  </div>
+  <!-- Dashboard -->
+  <div id="crmDash" style="display:none;">
+    <div class="crm-topbar">
+      <div class="crm-tb-logo">CO<em>NI</em> <span style="font-size:11px;font-weight:500;color:#444;margin-left:6px;">CRM</span></div>
+      <div class="crm-tb-right">
+        <button class="crm-tb-btn" onclick="crmExportCSV()">Exportar CSV</button>
+        <button class="crm-tb-btn" onclick="crmLogout()">Salir</button>
+      </div>
+    </div>
+    <div class="crm-main">
+      <div class="crm-stats" id="crmStats"></div>
+      <div class="crm-actions">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <input class="crm-search" id="crmSearch" placeholder="Buscar nombre, email..." oninput="crmRender()">
+          <div class="crm-filters">
+            <button class="crm-fb on" onclick="crmSetFilter('todos',this)">Todos</button>
+            <button class="crm-fb" onclick="crmSetFilter('Nuevo',this)">Nuevos</button>
+            <button class="crm-fb" onclick="crmSetFilter('Agendado',this)">Agendados</button>
+          </div>
+        </div>
+      </div>
+      <div class="crm-table-wrap"><div id="crmTableContainer"></div></div>
+    </div>
+  </div>
+  <!-- Detail modal -->
+  <div class="crm-modal-ov" id="crmModalOv" onclick="if(event.target===this)crmCloseModal()">
+    <div class="crm-modal" id="crmModalContent"></div>
+  </div>
+</div>
+
 </body>
 </html>
