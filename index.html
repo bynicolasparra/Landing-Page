@@ -1396,110 +1396,159 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
   });
 });
 
-/* ══════════════════════════
-   BOOKING + CRM JAVASCRIPT
-══════════════════════════ */
+/* ═══════════════════════════════════
+   BOOKING + CRM — reescrito limpio
+═══════════════════════════════════ */
+
 const WA_NUMBER = '573054535799';
-const CRM_HASH = 'ff36da205c09d67736b6055dc04f6fccedfa4ab434127fd10aa94dc08df20faf';
-async function hashPw(pw){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-const DAYS_ES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-const MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-const SLOTS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM'];
-let mbFormData = {}, mbSelDate = null, mbSelSlot = null;
+const CRM_HASH  = 'ff36da205c09d67736b6055dc04f6fccedfa4ab434127fd10aa94dc08df20faf';
 
-// ─ ROUTING: if URL has #crm show CRM screen
-function checkRoute(){
-  if(window.location.hash === '#crm'){
-    const scr = document.getElementById('crmScreen');
-    if(scr){
-      scr.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    }
-    if(sessionStorage.getItem('coni_crm_auth')==='1'){
-      const login = document.getElementById('crmLogin');
-      const dash = document.getElementById('crmDash');
-      if(login) login.style.display='none';
-      if(dash){ dash.style.display='block'; crmLoad(); }
-    }
-  } else {
-    const scr = document.getElementById('crmScreen');
-    if(scr) scr.style.display = 'none';
-    document.body.style.overflow = '';
-  }
-}
-window.addEventListener('hashchange', checkRoute);
-// Run on DOM ready
-try{
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', checkRoute);
-  } else {
-    checkRoute();
-  }
-}catch(e){console.warn('Route check failed',e);}
+const DAYS  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const HORARIOS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM'];
 
-// ─ BOOKING OPEN/CLOSE
+let bkData = {}, bkFecha = null, bkHora = null;
+
+/* ── localStorage helpers ── */
+function getLeads(){ try{ return JSON.parse(localStorage.getItem('coni_leads')||'[]'); }catch(e){ return []; } }
+function saveLeads(arr){ try{ localStorage.setItem('coni_leads', JSON.stringify(arr)); }catch(e){ console.error('localStorage error',e); } }
+function getBooked(){ try{ return JSON.parse(localStorage.getItem('coni_booked')||'{}'); }catch(e){ return {}; } }
+function saveBooked(obj){ try{ localStorage.setItem('coni_booked', JSON.stringify(obj)); }catch(e){} }
+
+/* ── OPEN / CLOSE BOOKING ── */
 function openBooking(){
-  document.getElementById('modalBooking').classList.add('open');
-  document.body.style.overflow='hidden';
-  mbReset();
+  const m = document.getElementById('modalBooking');
+  if(!m) return;
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  resetBooking();
 }
 function closeBooking(){
-  document.getElementById('modalBooking').classList.remove('open');
-  document.body.style.overflow='';
+  const m = document.getElementById('modalBooking');
+  if(!m) return;
+  m.classList.remove('open');
+  document.body.style.overflow = '';
 }
-function mbReset(){
+function resetBooking(){
+  bkData = {}; bkFecha = null; bkHora = null;
+  showMbStep('mbStep1');
+  setProgress(33);
+  ['mbFname','mbLname','mbEmail','mbPhone','mbCountry','mbProblem','mbWeb','mbIg'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el){ el.value = (id==='mbCountry') ? '' : ''; el.classList.remove('err'); }
+  });
+}
+function showMbStep(id){
   document.querySelectorAll('.mb-step').forEach(s=>s.classList.remove('active'));
-  document.getElementById('mbStep1').classList.add('active');
-  document.getElementById('mbProgFill').style.width='33%';
-  mbFormData={}; mbSelDate=null; mbSelSlot=null;
+  const el = document.getElementById(id);
+  if(el) el.classList.add('active');
+}
+function setProgress(pct){
+  const el = document.getElementById('mbProgFill');
+  if(el) el.style.width = pct + '%';
 }
 
-// ─ FORM SUBMIT
-document.getElementById('mbForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const req=['mbFname','mbLname','mbEmail','mbPhone','mbCountry','mbProblem'];
-  let ok=true;
-  req.forEach(id=>{ const el=document.getElementById(id); el.classList.remove('err'); if(!el.value.trim()){el.classList.add('err');ok=false;} });
-  if(!ok) return;
-  mbFormData={
-    nombre: document.getElementById('mbFname').value.trim()+' '+document.getElementById('mbLname').value.trim(),
-    email: document.getElementById('mbEmail').value.trim(),
-    telefono: document.getElementById('mbPhone').value.trim(),
-    pais: document.getElementById('mbCountry').value,
-    web: document.getElementById('mbWeb').value.trim(),
-    instagram: document.getElementById('mbIg').value.trim(),
-    problema: document.getElementById('mbProblem').value.trim(),
-    fecha_registro: new Date().toISOString(),
-    id: Date.now(),
-    estado: 'Nuevo'
-  };
-  const leads=JSON.parse(localStorage.getItem('coni_leads')||'[]');
-  leads.push(mbFormData);
-  localStorage.setItem('coni_leads',JSON.stringify(leads));
-  document.getElementById('mbStep1').classList.remove('active');
-  document.getElementById('mbStep2').classList.add('active');
-  document.getElementById('mbProgFill').style.width='66%';
-  mbBuildDates();
-});
+/* ── FORM SUBMIT ── */
+document.addEventListener('DOMContentLoaded', function(){
 
-// ─ DATES
-function mbBuildDates(){
-  const grid=document.getElementById('mbDatesRow');
-  grid.innerHTML='';
-  let count=0, d=new Date();
+  const form = document.getElementById('mbForm');
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const reqs = ['mbFname','mbLname','mbEmail','mbPhone','mbCountry','mbProblem'];
+      let ok = true;
+      reqs.forEach(id=>{
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.classList.remove('err');
+        if(!el.value.trim()){ el.classList.add('err'); ok = false; }
+      });
+      if(!ok) return;
+
+      bkData = {
+        id: Date.now(),
+        nombre: (document.getElementById('mbFname').value.trim()+' '+document.getElementById('mbLname').value.trim()).trim(),
+        email: document.getElementById('mbEmail').value.trim(),
+        telefono: document.getElementById('mbPhone').value.trim(),
+        pais: document.getElementById('mbCountry').value,
+        web: (document.getElementById('mbWeb')||{}).value||'',
+        instagram: (document.getElementById('mbIg')||{}).value||'',
+        problema: document.getElementById('mbProblem').value.trim(),
+        fecha_registro: new Date().toISOString(),
+        estado: 'Nuevo'
+      };
+
+      /* Guardar en localStorage inmediatamente */
+      const leads = getLeads();
+      leads.push(bkData);
+      saveLeads(leads);
+
+      /* Ir a step 2 */
+      showMbStep('mbStep2');
+      setProgress(66);
+      buildDates();
+    });
+  }
+
+  /* Confirm button */
+  const schedBtn = document.getElementById('mbScheduleBtn');
+  if(schedBtn){
+    schedBtn.addEventListener('click', function(){
+      if(!bkFecha || !bkHora){
+        alert('Por favor selecciona fecha y hora');
+        return;
+      }
+      /* Mark slot as booked */
+      const booked = getBooked();
+      if(!booked[bkFecha.str]) booked[bkFecha.str] = [];
+      booked[bkFecha.str].push(bkHora);
+      saveBooked(booked);
+
+      /* Update lead with cita */
+      const leads = getLeads();
+      const idx = leads.findIndex(l=>l.id===bkData.id);
+      if(idx>-1){
+        leads[idx].cita = bkFecha.label + ' a las ' + bkHora;
+        leads[idx].estado = 'Agendado';
+        saveLeads(leads);
+      }
+
+      /* WhatsApp message */
+      const msg = 'Hola Nicolás, agende llamada para ' + bkFecha.label + ' a las ' + bkHora + ' (Colombia). Soy ' + bkData.nombre + ' — ' + bkData.email;
+      const waUrl = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
+
+      const waBtn = document.getElementById('mbWaBtn');
+      if(waBtn) waBtn.onclick = function(){ window.open(waUrl,'_blank'); };
+
+      showMbStep('mbStepDone');
+      setProgress(100);
+    });
+  }
+
+}); /* end DOMContentLoaded */
+
+/* ── BUILD DATES ── */
+function buildDates(){
+  const grid = document.getElementById('mbDatesRow');
+  if(!grid) return;
+  grid.innerHTML = '';
+  let count = 0;
+  let d = new Date();
   d.setDate(d.getDate()+1);
-  while(count<10){
+  while(count < 10){
     if(d.getDay()!==0 && d.getDay()!==6){
-      const btn=document.createElement('div');
-      btn.className='db';
-      const ds=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-      btn.innerHTML=`<span class="dday">${DAYS_ES[d.getDay()]}</span><span class="dnum">${d.getDate()}</span><span class="dmon">${MONTHS_ES[d.getMonth()]}</span>`;
-      btn.dataset.date=ds;
-      btn.dataset.label=`${DAYS_ES[d.getDay()]} ${d.getDate()} de ${MONTHS_ES[d.getMonth()]}`;
-      btn.addEventListener('click',()=>mbSelDateFn(btn,ds,btn.dataset.label));
+      const day = d.getDay();
+      const date = d.getDate();
+      const month = d.getMonth();
+      const yr = d.getFullYear();
+      const ds = yr+'-'+String(month+1).padStart(2,'0')+'-'+String(date).padStart(2,'0');
+      const label = DAYS[day]+' '+date+' de '+MESES[month];
+      const btn = document.createElement('div');
+      btn.className = 'db';
+      btn.innerHTML = '<span class="dday">'+DAYS[day]+'</span><span class="dnum">'+date+'</span><span class="dmon">'+MESES[month]+'</span>';
+      btn.addEventListener('click', (function(ds,label){
+        return function(){ selectDate(this, ds, label); };
+      })(ds, label));
       grid.appendChild(btn);
       count++;
     }
@@ -1507,161 +1556,239 @@ function mbBuildDates(){
   }
 }
 
-function mbSelDateFn(btn,ds,label){
+function selectDate(btn, ds, label){
   document.querySelectorAll('.db').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
-  mbSelDate={str:ds,label};
-  mbSelSlot=null;
-  document.getElementById('mbConfirmSection').style.display='none';
-  mbBuildSlots(ds);
-  document.getElementById('mbSlotsLbl').style.display='block';
+  bkFecha = {str: ds, label: label};
+  bkHora = null;
+  const sl = document.getElementById('mbSlotsLbl');
+  if(sl) sl.style.display = 'block';
+  const cs = document.getElementById('mbConfirmSection');
+  if(cs) cs.style.display = 'none';
+  buildSlots(ds);
 }
 
-function mbBuildSlots(ds){
-  const grid=document.getElementById('mbSlotsGrid');
-  grid.innerHTML='';
-  const booked=JSON.parse(localStorage.getItem('coni_booked')||'{}');
-  const dayB=booked[ds]||[];
-  SLOTS.forEach(slot=>{
-    const btn=document.createElement('div');
-    const isB=dayB.includes(slot);
-    btn.className='sb'+(isB?' sbk':'');
-    btn.innerHTML=`<span class="st">${slot}</span><span class="sd">${isB?'No disponible':'45 min'}</span>`;
-    if(!isB) btn.addEventListener('click',()=>mbSelSlotFn(btn,slot));
+function buildSlots(ds){
+  const grid = document.getElementById('mbSlotsGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  const booked = getBooked();
+  const dayB = booked[ds] || [];
+  HORARIOS.forEach(function(slot){
+    const isB = dayB.indexOf(slot) > -1;
+    const btn = document.createElement('div');
+    btn.className = 'sb' + (isB ? ' sbk' : '');
+    btn.innerHTML = '<span class="st">'+slot+'</span><span class="sd">'+(isB?'No disponible':'45 min')+'</span>';
+    if(!isB){
+      btn.addEventListener('click', (function(s){ return function(){ selectSlot(this,s); }; })(slot));
+    }
     grid.appendChild(btn);
   });
 }
 
-function mbSelSlotFn(btn,slot){
+function selectSlot(btn, slot){
   document.querySelectorAll('.sb').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
-  mbSelSlot=slot;
-  const sec=document.getElementById('mbConfirmSection');
-  document.getElementById('mbConfCard').innerHTML=`
-    <div class="conf-row"><span class="conf-lbl">Nombre</span><span class="conf-val">${mbFormData.nombre}</span></div>
-    <div class="conf-row"><span class="conf-lbl">Fecha</span><span class="conf-val">${mbSelDate.label}</span></div>
-    <div class="conf-row"><span class="conf-lbl">Hora</span><span class="conf-val">${slot} (Colombia)</span></div>
-    <div class="conf-row"><span class="conf-lbl">Duración</span><span class="conf-val">45 minutos</span></div>
-  `;
-  sec.style.display='block';
-  sec.scrollIntoView({behavior:'smooth',block:'nearest'});
+  bkHora = slot;
+  const cs = document.getElementById('mbConfirmSection');
+  const cc = document.getElementById('mbConfCard');
+  if(!cs || !cc) return;
+  cc.innerHTML =
+    '<div class="conf-row"><span class="conf-lbl">Nombre</span><span class="conf-val">'+bkData.nombre+'</span></div>'+
+    '<div class="conf-row"><span class="conf-lbl">Fecha</span><span class="conf-val">'+bkFecha.label+'</span></div>'+
+    '<div class="conf-row"><span class="conf-lbl">Hora</span><span class="conf-val">'+slot+' (Colombia)</span></div>'+
+    '<div class="conf-row"><span class="conf-lbl">Duración</span><span class="conf-val">45 minutos</span></div>';
+  cs.style.display = 'block';
+  cs.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
-document.getElementById('mbScheduleBtn').addEventListener('click',()=>{
-  if(!mbSelDate||!mbSelSlot) return;
-  const booked=JSON.parse(localStorage.getItem('coni_booked')||'{}');
-  if(!booked[mbSelDate.str]) booked[mbSelDate.str]=[];
-  booked[mbSelDate.str].push(mbSelSlot);
-  localStorage.setItem('coni_booked',JSON.stringify(booked));
-  const leads=JSON.parse(localStorage.getItem('coni_leads')||'[]');
-  const lead=leads.find(l=>l.id===mbFormData.id);
-  if(lead){lead.cita=`${mbSelDate.label} a las ${mbSelSlot}`;lead.estado='Agendado';localStorage.setItem('coni_leads',JSON.stringify(leads));}
-  const msg=`Hola Nicolás, agende llamada para ${mbSelDate.label} a las ${mbSelSlot} (Colombia). Soy ${mbFormData.nombre} — ${mbFormData.email}`;
-  document.getElementById('mbWaBtn').onclick=()=>window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`,'_blank');
-  document.getElementById('mbStep2').classList.remove('active');
-  document.getElementById('mbStepDone').classList.add('active');
-  document.getElementById('mbProgFill').style.width='100%';
-});
+/* ═══════════════════════════════════
+   CRM
+═══════════════════════════════════ */
 
-/* ══ CRM ══ */
-let crmFilter='todos';
+/* Hash password with SubtleCrypto */
+async function hashPw(pw){
+  try{
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }catch(e){ return ''; }
+}
+
+/* Routing */
+function checkRoute(){
+  try{
+    const isCRM = window.location.hash === '#crm';
+    const scr = document.getElementById('crmScreen');
+    if(!scr) return;
+    if(isCRM){
+      scr.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      if(sessionStorage.getItem('coni_crm_auth')==='1'){
+        const login = document.getElementById('crmLogin');
+        const dash  = document.getElementById('crmDash');
+        if(login) login.style.display = 'none';
+        if(dash){ dash.style.display = 'block'; crmLoad(); }
+      }
+    } else {
+      scr.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  }catch(e){}
+}
+window.addEventListener('hashchange', checkRoute);
+document.addEventListener('DOMContentLoaded', checkRoute);
+
 async function crmLogin(){
-  const val=document.getElementById('crmPwInput').value;
-  const h=await hashPw(val);
-  if(h===CRM_HASH){
+  const input = document.getElementById('crmPwInput');
+  const err   = document.getElementById('crmErr');
+  if(!input) return;
+  const h = await hashPw(input.value.trim());
+  if(h === CRM_HASH){
     sessionStorage.setItem('coni_crm_auth','1');
-    document.getElementById('crmLogin').style.display='none';
-    document.getElementById('crmDash').style.display='block';
-    crmLoad();
+    const login = document.getElementById('crmLogin');
+    const dash  = document.getElementById('crmDash');
+    if(login) login.style.display = 'none';
+    if(dash){ dash.style.display = 'block'; crmLoad(); }
   } else {
-    document.getElementById('crmErr').style.display='block';
-    document.getElementById('crmPwInput').value='';
+    if(err) err.style.display = 'block';
+    input.value = '';
+    setTimeout(()=>{ if(err) err.style.display='none'; }, 3000);
   }
 }
+
 function crmLogout(){
   sessionStorage.removeItem('coni_crm_auth');
-  document.getElementById('crmDash').style.display='none';
-  document.getElementById('crmLogin').style.display='flex';
+  const dash  = document.getElementById('crmDash');
+  const login = document.getElementById('crmLogin');
+  if(dash) dash.style.display = 'none';
+  if(login) login.style.display = 'flex';
 }
-function crmGetLeads(){ return JSON.parse(localStorage.getItem('coni_leads')||'[]').reverse(); }
-function crmIsThisWeek(s){ if(!s)return false; const d=new Date(s),n=new Date(),st=new Date(n); st.setDate(n.getDate()-n.getDay()); return d>=st; }
+
+let crmFilter = 'todos';
+
+function crmFmtDate(s){
+  if(!s) return '—';
+  try{ return new Date(s).toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'}); }catch(e){ return s; }
+}
+
 function crmLoad(){
-  const leads=crmGetLeads();
-  const ag=leads.filter(l=>l.estado==='Agendado').length;
-  document.getElementById('crmStats').innerHTML=`
-    <div class="crm-stat"><div class="crm-stat-lbl">Total leads</div><div class="crm-stat-val">${leads.length}</div></div>
-    <div class="crm-stat"><div class="crm-stat-lbl">Agendados</div><div class="crm-stat-val g">${ag}</div></div>
-    <div class="crm-stat"><div class="crm-stat-lbl">Sin agendar</div><div class="crm-stat-val">${leads.length-ag}</div></div>
-    <div class="crm-stat"><div class="crm-stat-lbl">Esta semana</div><div class="crm-stat-val">${leads.filter(l=>crmIsThisWeek(l.fecha_registro)).length}</div></div>
-  `;
+  const leads = getLeads().slice().reverse();
+  const ag = leads.filter(l=>l.estado==='Agendado').length;
+  const statsEl = document.getElementById('crmStats');
+  if(statsEl){
+    statsEl.innerHTML =
+      '<div class="crm-stat"><div class="crm-stat-lbl">Total leads</div><div class="crm-stat-val">'+leads.length+'</div></div>'+
+      '<div class="crm-stat"><div class="crm-stat-lbl">Agendados</div><div class="crm-stat-val g">'+ag+'</div></div>'+
+      '<div class="crm-stat"><div class="crm-stat-lbl">Sin agendar</div><div class="crm-stat-val">'+(leads.length-ag)+'</div></div>'+
+      '<div class="crm-stat"><div class="crm-stat-lbl">Esta semana</div><div class="crm-stat-val">'+leads.filter(l=>isThisWeek(l.fecha_registro)).length+'</div></div>';
+  }
   crmRender();
 }
-function crmSetFilter(f,btn){ crmFilter=f; document.querySelectorAll('.crm-fb').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); crmRender(); }
-function crmFmtDate(s){ if(!s)return'—'; const d=new Date(s); return d.toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'}); }
+
+function isThisWeek(s){
+  if(!s) return false;
+  try{ const d=new Date(s),n=new Date(),st=new Date(n); st.setDate(n.getDate()-n.getDay()); return d>=st; }catch(e){ return false; }
+}
+
+function crmSetFilter(f,btn){
+  crmFilter = f;
+  document.querySelectorAll('.crm-fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  crmRender();
+}
+
 function crmRender(){
-  const q=(document.getElementById('crmSearch')||{}).value||'';
-  let leads=crmGetLeads();
-  if(crmFilter!=='todos') leads=leads.filter(l=>(l.estado||'Nuevo')===crmFilter);
-  if(q) leads=leads.filter(l=>(l.nombre||'').toLowerCase().includes(q.toLowerCase())||(l.email||'').toLowerCase().includes(q.toLowerCase()));
-  const c=document.getElementById('crmTableContainer');
+  const q = (document.getElementById('crmSearch')||{}).value||'';
+  let leads = getLeads().slice().reverse();
+  if(crmFilter!=='todos') leads = leads.filter(l=>(l.estado||'Nuevo')===crmFilter);
+  if(q.trim()) leads = leads.filter(l=>
+    (l.nombre||'').toLowerCase().includes(q.toLowerCase()) ||
+    (l.email||'').toLowerCase().includes(q.toLowerCase())
+  );
+  const c = document.getElementById('crmTableContainer');
   if(!c) return;
-  if(!leads.length){ c.innerHTML='<div class="crm-empty"><p>No hay leads todavía.</p></div>'; return; }
-  c.innerHTML=`<table><thead><tr><th>Nombre</th><th>País</th><th>Cita</th><th>Estado</th><th>Web</th><th>Registro</th><th></th></tr></thead><tbody>
-  ${leads.map(l=>`<tr>
-    <td><div class="crm-td-name" onclick="crmOpenModal(${l.id})">${l.nombre||'—'}</div><div class="crm-td-sm">${l.email||''}</div></td>
-    <td>${l.pais||'—'}</td>
-    <td class="crm-td-cita">${l.cita||'<span style="color:var(--gray-400);font-weight:400">Sin agendar</span>'}</td>
-    <td><span class="crm-bdg ${l.estado==='Agendado'?'crm-bdg-ok':'crm-bdg-new'}">${l.estado||'Nuevo'}</span></td>
-    <td class="crm-td-sm">${l.web?`<a href="${l.web}" target="_blank" style="color:var(--black);text-decoration:underline;">${l.web.replace('https://','').substring(0,20)}</a>`:''}</td>
-    <td class="crm-td-sm">${crmFmtDate(l.fecha_registro)}</td>
-    <td><div style="display:flex;flex-direction:column;gap:4px;"><button class="crm-wa" onclick="crmWA(${l.id})">WhatsApp</button><button class="crm-del" onclick="crmDel(${l.id})">Eliminar</button></div></td>
-  </tr>`).join('')}
-  </tbody></table>`;
+  if(!leads.length){
+    c.innerHTML = '<div class="crm-empty"><p>No hay leads todavía.</p></div>';
+    return;
+  }
+  let rows = leads.map(function(l){
+    return '<tr>'+
+      '<td><div class="crm-td-name" onclick="crmOpenModal('+l.id+')" style="cursor:pointer;font-weight:700;">'+(l.nombre||'—')+'</div><div class="crm-td-sm">'+(l.email||'')+'</div><div class="crm-td-sm">'+(l.telefono||'')+'</div></td>'+
+      '<td>'+(l.pais||'—')+'</td>'+
+      '<td class="crm-td-cita">'+(l.cita||'<span style="color:#9ca3af;font-weight:400">Sin agendar</span>')+'</td>'+
+      '<td><span class="crm-bdg '+(l.estado==='Agendado'?'crm-bdg-ok':'crm-bdg-new')+'">'+(l.estado||'Nuevo')+'</span></td>'+
+      '<td class="crm-td-sm">'+(l.web?'<a href="'+l.web+'" target="_blank" style="color:var(--black);text-decoration:underline;">'+l.web.replace('https://','').substring(0,22)+'</a>':'—')+'</td>'+
+      '<td class="crm-td-sm">'+crmFmtDate(l.fecha_registro)+'</td>'+
+      '<td><div style="display:flex;flex-direction:column;gap:4px;"><button class="crm-wa" onclick="crmWA('+l.id+')">WhatsApp</button><button class="crm-del" onclick="crmDel('+l.id+')">Eliminar</button></div></td>'+
+    '</tr>';
+  }).join('');
+  c.innerHTML = '<table><thead><tr><th>Nombre</th><th>País</th><th>Cita</th><th>Estado</th><th>Web</th><th>Registro</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
+
 function crmOpenModal(id){
-  const l=crmGetLeads().find(x=>x.id===id); if(!l)return;
-  document.getElementById('crmModalContent').innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
-      <h3 class="crm-modal-title" style="margin:0;">${l.nombre}</h3>
-      <button onclick="crmCloseModal()" style="font-size:22px;background:none;border:none;cursor:pointer;color:var(--gray-400);font-family:var(--font-main);">×</button>
-    </div>
-    <div class="crm-mrow"><div class="crm-mlbl">Email</div><div class="crm-mval">${l.email}</div></div>
-    <div class="crm-mrow"><div class="crm-mlbl">Teléfono</div><div class="crm-mval">${l.telefono}</div></div>
-    <div class="crm-mrow"><div class="crm-mlbl">País</div><div class="crm-mval">${l.pais}</div></div>
-    <div class="crm-mrow"><div class="crm-mlbl">Instagram</div><div class="crm-mval">${l.instagram||'—'}</div></div>
-    <div class="crm-mrow"><div class="crm-mlbl">Web</div><div class="crm-mval"><a href="${l.web}" target="_blank" style="color:var(--black);text-decoration:underline;">${l.web||'—'}</a></div></div>
-    <div class="crm-mrow"><div class="crm-mlbl">Cita</div><div class="crm-mval" style="color:#22c55e;font-weight:700;">${l.cita||'Sin agendar'}</div></div>
-    <div class="crm-mrow"><div class="crm-mlbl">Problema</div><div class="crm-prob-box">${l.problema}</div></div>
-    <div style="display:flex;gap:10px;margin-top:1.5rem;">
-      <button onclick="crmWA(${l.id})" style="flex:1;padding:12px;background:#25D366;color:var(--white);border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:700;cursor:pointer;">WhatsApp</button>
-      <button onclick="crmCloseModal()" style="flex:1;padding:12px;background:var(--gray-100);border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:600;cursor:pointer;">Cerrar</button>
-    </div>
-  `;
-  document.getElementById('crmModalOv').classList.add('open');
+  const l = getLeads().find(x=>x.id===id);
+  if(!l) return;
+  const ov = document.getElementById('crmModalOv');
+  const mc = document.getElementById('crmModalContent');
+  if(!ov||!mc) return;
+  mc.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">'+
+      '<h3 class="crm-modal-title" style="margin:0;">'+(l.nombre||'')+'</h3>'+
+      '<button onclick="crmCloseModal()" style="font-size:22px;background:none;border:none;cursor:pointer;color:#9ca3af;font-family:var(--font-main);">×</button>'+
+    '</div>'+
+    '<div class="crm-mrow"><div class="crm-mlbl">Email</div><div class="crm-mval">'+(l.email||'—')+'</div></div>'+
+    '<div class="crm-mrow"><div class="crm-mlbl">Teléfono</div><div class="crm-mval">'+(l.telefono||'—')+'</div></div>'+
+    '<div class="crm-mrow"><div class="crm-mlbl">País</div><div class="crm-mval">'+(l.pais||'—')+'</div></div>'+
+    '<div class="crm-mrow"><div class="crm-mlbl">Instagram</div><div class="crm-mval">'+(l.instagram||'—')+'</div></div>'+
+    '<div class="crm-mrow"><div class="crm-mlbl">Web</div><div class="crm-mval"><a href="'+(l.web||'#')+'" target="_blank" style="color:var(--black);text-decoration:underline;">'+(l.web||'—')+'</a></div></div>'+
+    '<div class="crm-mrow"><div class="crm-mlbl">Cita</div><div class="crm-mval" style="color:#22c55e;font-weight:700;">'+(l.cita||'Sin agendar')+'</div></div>'+
+    '<div class="crm-mrow"><div class="crm-mlbl">Problema con su web</div><div class="crm-prob-box">'+(l.problema||'—')+'</div></div>'+
+    '<div class="crm-mrow"><div class="crm-mlbl">Registrado</div><div class="crm-mval">'+crmFmtDate(l.fecha_registro)+'</div></div>'+
+    '<div style="display:flex;gap:10px;margin-top:1.5rem;">'+
+      '<button onclick="crmWA('+l.id+')" style="flex:1;padding:12px;background:#25D366;color:white;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:700;cursor:pointer;">WhatsApp</button>'+
+      '<button onclick="crmCloseModal()" style="flex:1;padding:12px;background:#f3f4f6;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:600;cursor:pointer;">Cerrar</button>'+
+    '</div>';
+  ov.classList.add('open');
 }
-function crmCloseModal(){ document.getElementById('crmModalOv').classList.remove('open'); }
+
+function crmCloseModal(){
+  const ov = document.getElementById('crmModalOv');
+  if(ov) ov.classList.remove('open');
+}
+
 function crmWA(id){
-  const l=crmGetLeads().find(x=>x.id===id); if(!l)return;
-  const msg=`Hola ${l.nombre}, soy Nicolás de CONI. Vi tu solicitud para agendar una llamada con nosotros.`;
-  window.open(`https://wa.me/${(l.telefono||'').replace(/[^0-9]/g,'')}?text=${encodeURIComponent(msg)}`,'_blank');
+  const l = getLeads().find(x=>x.id===id);
+  if(!l) return;
+  const num = (l.telefono||'').replace(/[^0-9]/g,'');
+  const msg = 'Hola '+l.nombre+', soy Nicolás de CONI. Vi tu solicitud para agendar una llamada con nosotros.';
+  window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank');
 }
+
 function crmDel(id){
-  if(!confirm('¿Eliminar este lead?'))return;
-  let leads=JSON.parse(localStorage.getItem('coni_leads')||'[]');
-  leads=leads.filter(l=>l.id!==id);
-  localStorage.setItem('coni_leads',JSON.stringify(leads));
+  if(!confirm('¿Eliminar este lead?')) return;
+  let leads = getLeads().filter(l=>l.id!==id);
+  saveLeads(leads);
   crmLoad();
 }
+
 function crmExportCSV(){
-  const leads=crmGetLeads();
-  const hdr=['Nombre','Email','Teléfono','País','Web','Instagram','Cita','Estado','Problema','Registro'];
-  const rows=leads.map(l=>[l.nombre,l.email,l.telefono,l.pais,l.web,l.instagram,l.cita||'',l.estado||'Nuevo','"'+(l.problema||'').replace(/"/g,'""')+'"',crmFmtDate(l.fecha_registro)].join(','));
-  const csv=[hdr.join(','),...rows].join('\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download=`coni_leads_${new Date().toISOString().slice(0,10)}.csv`;
+  const leads = getLeads().slice().reverse();
+  const hdr = ['Nombre','Email','Teléfono','País','Web','Instagram','Cita','Estado','Problema','Registro'];
+  const rows = leads.map(function(l){
+    return [l.nombre,l.email,l.telefono,l.pais,l.web,l.instagram,l.cita||'',l.estado||'Nuevo','"'+(l.problema||'').replace(/"/g,'""')+'"',crmFmtDate(l.fecha_registro)].join(',');
+  });
+  const csv = [hdr.join(',')].concat(rows).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = 'coni_leads_'+new Date().toISOString().slice(0,10)+'.csv';
   a.click();
 }
+
+/* Pause loop animations when tab hidden */
+document.addEventListener('visibilitychange',function(){
+  const p = document.hidden ? 'paused' : 'running';
+  document.querySelectorAll('.loop-track').forEach(function(el){ el.style.animationPlayState = p; });
+});
 
 </script>
 
