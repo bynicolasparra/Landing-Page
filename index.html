@@ -658,6 +658,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
 .crm-bdg{font-size:9px;font-weight:700;padding:3px 8px;border-radius:100px;}
 .crm-bdg-new{background:#eff6ff;color:#1d4ed8;}
 .crm-bdg-ok{background:#f0fdf4;color:#15803d;}
+.crm-bdg-done{background:#f5f3ff;color:#7c3aed;}
 .crm-wa{font-size:10px;font-weight:700;color:#22c55e;cursor:pointer;background:#f0fdf4;border:none;border-radius:6px;padding:4px 8px;font-family:var(--font-main);transition:background .2s;}
 .crm-wa:hover{background:#dcfce7;}
 .crm-del{font-size:10px;color:var(--gray-400);cursor:pointer;padding:3px 8px;border:1px solid var(--gray-200);border-radius:6px;background:none;font-family:var(--font-main);transition:all .2s;}
@@ -1411,7 +1412,12 @@ let bkData = {}, bkFecha = null, bkHora = null;
 
 /* ── localStorage helpers ── */
 function getLeads(){ try{ return JSON.parse(localStorage.getItem('coni_leads')||'[]'); }catch(e){ return []; } }
-function saveLeads(arr){ try{ localStorage.setItem('coni_leads', JSON.stringify(arr)); }catch(e){ console.error('localStorage error',e); } }
+function saveLeads(arr){
+  try{
+    localStorage.setItem('coni_leads', JSON.stringify(arr));
+    window.dispatchEvent(new CustomEvent('coni_updated', {detail: arr}));
+  }catch(e){ console.error('localStorage error',e); }
+}
 function getBooked(){ try{ return JSON.parse(localStorage.getItem('coni_booked')||'{}'); }catch(e){ return {}; } }
 function saveBooked(obj){ try{ localStorage.setItem('coni_booked', JSON.stringify(obj)); }catch(e){} }
 
@@ -1671,16 +1677,41 @@ function crmFmtDate(s){
   try{ return new Date(s).toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'}); }catch(e){ return s; }
 }
 
+/* Real-time: escucha cambios del mismo tab y de otros tabs */
+window.addEventListener('coni_updated', function(){
+  const dash = document.getElementById('crmDash');
+  if(dash && dash.style.display !== 'none') crmLoad();
+});
+window.addEventListener('storage', function(e){
+  if(e.key === 'coni_leads'){
+    const dash = document.getElementById('crmDash');
+    if(dash && dash.style.display !== 'none') crmLoad();
+  }
+});
+
+function markAtendido(id){
+  let leads = getLeads();
+  const idx = leads.findIndex(l=>l.id===id);
+  if(idx>-1){
+    leads[idx].estado = 'Atendido';
+    leads[idx].fecha_atencion = new Date().toISOString();
+    saveLeads(leads);
+    crmCloseModal();
+    crmLoad();
+  }
+}
+
 function crmLoad(){
   const leads = getLeads().slice().reverse();
   const ag = leads.filter(l=>l.estado==='Agendado').length;
+  const at = leads.filter(l=>l.estado==='Atendido').length;
   const statsEl = document.getElementById('crmStats');
   if(statsEl){
     statsEl.innerHTML =
       '<div class="crm-stat"><div class="crm-stat-lbl">Total leads</div><div class="crm-stat-val">'+leads.length+'</div></div>'+
       '<div class="crm-stat"><div class="crm-stat-lbl">Agendados</div><div class="crm-stat-val g">'+ag+'</div></div>'+
-      '<div class="crm-stat"><div class="crm-stat-lbl">Sin agendar</div><div class="crm-stat-val">'+(leads.length-ag)+'</div></div>'+
-      '<div class="crm-stat"><div class="crm-stat-lbl">Esta semana</div><div class="crm-stat-val">'+leads.filter(l=>isThisWeek(l.fecha_registro)).length+'</div></div>';
+      '<div class="crm-stat"><div class="crm-stat-lbl">Atendidos</div><div class="crm-stat-val" style="color:#7c3aed;">'+at+'</div></div>'+
+      '<div class="crm-stat"><div class="crm-stat-lbl">Sin agendar</div><div class="crm-stat-val">'+(leads.length-ag-at)+'</div></div>';
   }
   crmRender();
 }
@@ -1716,7 +1747,7 @@ function crmRender(){
       '<td><div class="crm-td-name" onclick="crmOpenModal('+l.id+')" style="cursor:pointer;font-weight:700;">'+(l.nombre||'—')+'</div><div class="crm-td-sm">'+(l.email||'')+'</div><div class="crm-td-sm">'+(l.telefono||'')+'</div></td>'+
       '<td>'+(l.pais||'—')+'</td>'+
       '<td class="crm-td-cita">'+(l.cita||'<span style="color:#9ca3af;font-weight:400">Sin agendar</span>')+'</td>'+
-      '<td><span class="crm-bdg '+(l.estado==='Agendado'?'crm-bdg-ok':'crm-bdg-new')+'">'+(l.estado||'Nuevo')+'</span></td>'+
+      '<td><span class="crm-bdg '+(l.estado==='Atendido'?'crm-bdg-done':l.estado==='Agendado'?'crm-bdg-ok':'crm-bdg-new')+'">'+(l.estado||'Nuevo')+'</span></td>'+
       '<td class="crm-td-sm">'+(l.web?'<a href="'+l.web+'" target="_blank" style="color:var(--black);text-decoration:underline;">'+l.web.replace('https://','').substring(0,22)+'</a>':'—')+'</td>'+
       '<td class="crm-td-sm">'+crmFmtDate(l.fecha_registro)+'</td>'+
       '<td><div style="display:flex;flex-direction:column;gap:4px;"><button class="crm-wa" onclick="crmWA('+l.id+')">WhatsApp</button><button class="crm-del" onclick="crmDel('+l.id+')">Eliminar</button></div></td>'+
@@ -1731,23 +1762,48 @@ function crmOpenModal(id){
   const ov = document.getElementById('crmModalOv');
   const mc = document.getElementById('crmModalContent');
   if(!ov||!mc) return;
+
+  const badgeClass = l.estado==='Atendido'?'crm-bdg-done':l.estado==='Agendado'?'crm-bdg-ok':'crm-bdg-new';
+  const atendidoBtn = l.estado!=='Atendido'
+    ? '<button onclick="markAtendido('+l.id+')" style="flex:1;padding:12px;background:#7c3aed;color:white;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:700;cursor:pointer;">Marcar atendido ✓</button>'
+    : '<div style="flex:1;padding:12px;background:#f5f3ff;border-radius:10px;text-align:center;font-size:13px;font-weight:700;color:#7c3aed;">Llamada atendida ✓</div>';
+
   mc.innerHTML =
-    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">'+
-      '<h3 class="crm-modal-title" style="margin:0;">'+(l.nombre||'')+'</h3>'+
-      '<button onclick="crmCloseModal()" style="font-size:22px;background:none;border:none;cursor:pointer;color:#9ca3af;font-family:var(--font-main);">×</button>'+
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;">'+
+      '<div>'+
+        '<h3 class="crm-modal-title" style="margin:0 0 6px;">'+(l.nombre||'')+'</h3>'+
+        '<span class="crm-bdg '+badgeClass+'">'+(l.estado||'Nuevo')+'</span>'+
+      '</div>'+
+      '<button onclick="crmCloseModal()" style="font-size:22px;background:none;border:none;cursor:pointer;color:#9ca3af;font-family:var(--font-main);flex-shrink:0;">×</button>'+
     '</div>'+
-    '<div class="crm-mrow"><div class="crm-mlbl">Email</div><div class="crm-mval">'+(l.email||'—')+'</div></div>'+
-    '<div class="crm-mrow"><div class="crm-mlbl">Teléfono</div><div class="crm-mval">'+(l.telefono||'—')+'</div></div>'+
-    '<div class="crm-mrow"><div class="crm-mlbl">País</div><div class="crm-mval">'+(l.pais||'—')+'</div></div>'+
-    '<div class="crm-mrow"><div class="crm-mlbl">Instagram</div><div class="crm-mval">'+(l.instagram||'—')+'</div></div>'+
-    '<div class="crm-mrow"><div class="crm-mlbl">Web</div><div class="crm-mval"><a href="'+(l.web||'#')+'" target="_blank" style="color:var(--black);text-decoration:underline;">'+(l.web||'—')+'</a></div></div>'+
-    '<div class="crm-mrow"><div class="crm-mlbl">Cita</div><div class="crm-mval" style="color:#22c55e;font-weight:700;">'+(l.cita||'Sin agendar')+'</div></div>'+
-    '<div class="crm-mrow"><div class="crm-mlbl">Problema con su web</div><div class="crm-prob-box">'+(l.problema||'—')+'</div></div>'+
-    '<div class="crm-mrow"><div class="crm-mlbl">Registrado</div><div class="crm-mval">'+crmFmtDate(l.fecha_registro)+'</div></div>'+
-    '<div style="display:flex;gap:10px;margin-top:1.5rem;">'+
-      '<button onclick="crmWA('+l.id+')" style="flex:1;padding:12px;background:#25D366;color:white;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:700;cursor:pointer;">WhatsApp</button>'+
-      '<button onclick="crmCloseModal()" style="flex:1;padding:12px;background:#f3f4f6;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:600;cursor:pointer;">Cerrar</button>'+
+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;">'+
+      '<div class="crm-mrow"><div class="crm-mlbl">Email</div><div class="crm-mval">'+(l.email||'—')+'</div></div>'+
+      '<div class="crm-mrow"><div class="crm-mlbl">Teléfono</div><div class="crm-mval">'+(l.telefono||'—')+'</div></div>'+
+      '<div class="crm-mrow"><div class="crm-mlbl">País</div><div class="crm-mval">'+(l.pais||'—')+'</div></div>'+
+      '<div class="crm-mrow"><div class="crm-mlbl">Instagram</div><div class="crm-mval" style="color:#e1306c;">'+(l.instagram||'—')+'</div></div>'+
+    '</div>'+
+
+    '<div class="crm-mrow"><div class="crm-mlbl">Página web</div><div class="crm-mval">'+(l.web?'<a href="'+l.web+'" target="_blank" style="color:var(--black);text-decoration:underline;">'+l.web+'</a>':'—')+'</div></div>'+
+
+    '<div class="crm-mrow" style="margin-top:10px;">'+
+      '<div class="crm-mlbl" style="margin-bottom:6px;">Cita agendada</div>'+
+      '<div style="background:'+(l.cita?'#f0fdf4':'#f9fafb')+';border:1px solid '+(l.cita?'#bbf7d0':'#e5e7eb')+';border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:'+(l.cita?'#15803d':'#9ca3af')+'">'+(l.cita||'Sin agendar aún')+'</div>'+
+    '</div>'+
+
+    '<div class="crm-mrow" style="margin-top:14px;">'+
+      '<div class="crm-mlbl" style="margin-bottom:6px;">Problema con su web</div>'+
+      '<div class="crm-prob-box" style="font-size:14px;line-height:1.7;white-space:pre-wrap;">'+(l.problema||'No especificado')+'</div>'+
+    '</div>'+
+
+    '<div class="crm-mrow" style="margin-top:10px;"><div class="crm-mlbl">Registrado</div><div class="crm-mval">'+crmFmtDate(l.fecha_registro)+'</div></div>'+
+
+    '<div style="display:flex;gap:8px;margin-top:1.5rem;flex-wrap:wrap;">'+
+      '<button onclick="crmWA('+l.id+')" style="flex:1;min-width:120px;padding:12px;background:#25D366;color:white;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:700;cursor:pointer;">WhatsApp</button>'+
+      atendidoBtn+
+      '<button onclick="crmCloseModal()" style="padding:12px 16px;background:#f3f4f6;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:600;cursor:pointer;">Cerrar</button>'+
     '</div>';
+
   ov.classList.add('open');
 }
 
@@ -1912,6 +1968,7 @@ document.addEventListener('visibilitychange',function(){
             <button class="crm-fb on" onclick="crmSetFilter('todos',this)">Todos</button>
             <button class="crm-fb" onclick="crmSetFilter('Nuevo',this)">Nuevos</button>
             <button class="crm-fb" onclick="crmSetFilter('Agendado',this)">Agendados</button>
+            <button class="crm-fb" onclick="crmSetFilter('Atendido',this)">Atendidos</button>
           </div>
         </div>
       </div>
