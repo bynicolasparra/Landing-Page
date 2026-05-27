@@ -2,12 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CONI — CRO & Shopify para eCommerce LATAM</title>
 <meta name="description" content="Diseñamos tiendas Shopify y landing pages que convierten. CRO para ecommerce latinoamericano.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -58,7 +61,7 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 .orb-2{width:400px;height:400px;bottom:-100px;right:-100px;animation:drift 12s ease-in-out infinite reverse;}
 @keyframes drift{0%,100%{transform:translate(0,0);}50%{transform:translate(30px,-30px);}}
 .mq{border-top:1px solid var(--black);border-bottom:1px solid var(--black);background:var(--white);padding:1.4rem 0;overflow:hidden;display:flex;}
-.mq-track{display:flex;gap:3.5rem;animation:mq-scroll 28s linear infinite;white-space:nowrap;will-change:transform;}
+.mq-track{display:flex;gap:3.5rem;animation:mq-scroll 28s linear infinite;white-space:nowrap;}
 .mq-item{font-size:13px;font-weight:800;color:var(--black);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:.9rem;flex-shrink:0;}
 .mq-sep{width:5px;height:5px;border-radius:50%;background:var(--black);flex-shrink:0;}
 .mq-val{font-family:var(--font-mono);font-weight:600;}
@@ -198,6 +201,13 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 .loop-note{text-align:center;margin-top:10px;font-size:9px;color:#2a2a2a;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;}
 @keyframes loopScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
+/* Pause animations when tab hidden */
+document.addEventListener('visibilitychange',()=>{
+  const paused=document.hidden;
+  document.querySelectorAll('.loop-track').forEach(el=>{
+    el.style.animationPlayState=paused?'paused':'running';
+  });
+});
 /* Loop ticker colored steps */
 .lt-ads-step{border-color:#1e3a8a !important;background:#0f1f4a !important;}
 .lt-ads-step .lt-tag{color:#60a5fa !important;}
@@ -219,18 +229,18 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 }
 
 /* ── CARD 3: Visitor rain funnel ── */
-.rain-wrap{position:relative;height:170px;overflow:hidden;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:10px;}
-.rain-stage{position:absolute;left:0;right:0;height:1px;background:#1a1a1a;}
-.rain-stage-lbl{position:absolute;right:8px;font-size:8px;font-weight:700;font-family:var(--font-mono);color:#333;text-transform:uppercase;transform:translateY(-50%);letter-spacing:.06em;}
-.rain-stage-pct{position:absolute;left:8px;font-size:9px;font-weight:800;font-family:var(--font-mono);transform:translateY(-50%);}
-.rdot{position:absolute;width:7px;height:7px;border-radius:50%;background:#4b5563;opacity:0;animation:rainFall var(--dur) var(--delay) ease-in infinite;}
+
+
+
+
+
 .rdot.exit{animation-name:rainExit;}
 .rdot.exit2{animation-name:rainExit2;}
 .rdot.buy{background:#22c55e;animation-name:rainBuy;}
-@keyframes rainFall{0%{opacity:0;transform:translateY(0);}5%{opacity:1;}80%{opacity:1;}100%{opacity:0;transform:translateY(var(--travel));}}
-@keyframes rainExit{0%{opacity:0;transform:translate(0,0);}5%{opacity:1;}60%{opacity:1;transform:translate(var(--ex),var(--ey));}100%{opacity:0;transform:translate(calc(var(--ex) * 1.5),calc(var(--ey) * 1.1));}}
-@keyframes rainExit2{0%{opacity:0;transform:translate(0,0);}5%{opacity:1;}60%{opacity:1;transform:translate(var(--ex2),var(--ey2));}100%{opacity:0;transform:translate(calc(var(--ex2) * 1.5),calc(var(--ey2) * 1.1));}}
-@keyframes rainBuy{0%{opacity:0;transform:translateY(0) scale(.5);}5%{opacity:1;}90%{opacity:1;transform:translateY(var(--travel)) scale(1.4);}100%{opacity:0;transform:translateY(var(--travel)) scale(1);}}
+5%{opacity:1;}80%{opacity:1;}100%{opacity:0;transform:translateY(var(--travel));}}
+5%{opacity:1;}60%{opacity:1;transform:translate(var(--ex),var(--ey));}100%{opacity:0;transform:translate(calc(var(--ex) * 1.5),calc(var(--ey) * 1.1));}}
+5%{opacity:1;}60%{opacity:1;transform:translate(var(--ex2),var(--ey2));}100%{opacity:0;transform:translate(calc(var(--ex2) * 1.5),calc(var(--ey2) * 1.1));}}
+5%{opacity:1;}90%{opacity:1;transform:translateY(var(--travel)) scale(1.4);}100%{opacity:0;transform:translateY(var(--travel)) scale(1);}}
 .cy-arr{font-size:16px;color:#2a2a2a;text-align:center;opacity:0;transition:opacity .4s ease;display:flex;align-items:center;justify-content:center;}
 .cy-arr.show{opacity:1;}
 .cycle-label{grid-column:1/-1;text-align:center;font-size:10px;font-weight:700;color:#3a3a3a;text-transform:uppercase;letter-spacing:.08em;padding-top:10px;border-top:1px dashed #1e1e1e;margin-top:4px;}
@@ -881,19 +891,14 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
       <div class="ag-card rv d3">
         <h4 class="ag-title">El embudo tiene fugas invisibles</h4>
         <p class="ag-desc">Cada etapa pierde personas. Sin datos, no sabes cuál arreglar.</p>
-        <div class="rain-wrap" id="rainWrap">
-          <div class="rain-stage" style="top:40px;">
-            <span class="rain-stage-lbl">Ven producto</span>
-            <span class="rain-stage-pct" style="color:#6b7280;">58%</span>
-          </div>
-          <div class="rain-stage" style="top:95px;">
-            <span class="rain-stage-lbl">Al carrito</span>
-            <span class="rain-stage-pct" style="color:#ea580c;">22%</span>
-          </div>
-          <div class="rain-stage" style="top:148px;">
-            <span class="rain-stage-lbl">Compran</span>
-            <span class="rain-stage-pct" style="color:#ef4444;">0.4%</span>
-          </div>
+        <div class="agf-wrap" id="agFunnel2">
+          <div class="agf-row"><div class="agf-label">Llegan</div><div class="agf-dots" id="agf2d1"></div><div class="agf-info"><span>3.200</span><em>100%</em></div></div>
+          <div class="agf-drop">↓ 1.344 rebotan</div>
+          <div class="agf-row"><div class="agf-label">Ven producto</div><div class="agf-dots" id="agf2d2"></div><div class="agf-info"><span>1.856</span><em style="color:#f97316;">58%</em></div></div>
+          <div class="agf-drop">↓ 1.156 no agregan</div>
+          <div class="agf-row"><div class="agf-label">Al carrito</div><div class="agf-dots" id="agf2d3"></div><div class="agf-info"><span>700</span><em style="color:#c2410c;">22%</em></div></div>
+          <div class="agf-drop">↓ 688 abandonan</div>
+          <div class="agf-row agf-final"><div class="agf-label">Compran</div><div class="agf-dots" id="agf2d4"></div><div class="agf-info"><span style="color:#ef4444;">12</span><em style="color:#ef4444;font-weight:800;">0.4%</em></div></div>
         </div>
       </div>
 
@@ -1266,24 +1271,17 @@ const obs=new IntersectionObserver(entries=>{
     if(t.id==='bCard2') setTimeout(animFriction,300);
     if(t.id==='bCard3') setTimeout(animOutput,300);
     if(t.classList.contains('ag-card')){
-      // Card 1: live drain counter
+      // Card 1: drain counter (one-time animCount, no setInterval)
       const drainFill=t.querySelector('#drainFill');
       const drainVal=t.querySelector('#drainVal');
       if(drainFill){
         setTimeout(()=>drainFill.classList.add('on'),300);
-        let spent=0; const target=710000;
-        const interval=setInterval(()=>{
-          spent+=Math.floor(Math.random()*28000+18000);
-          if(spent>=target){spent=target;clearInterval(interval);}
-          if(drainVal) drainVal.textContent='$'+spent.toLocaleString('es-CO');
-        },120);
+        if(drainVal) animCount(drainVal,0,710000,2200,v=>'$'+v.toLocaleString('es-CO'));
       }
-      // Card 3: rain funnel animation
-      const rainWrap=t.querySelector('#rainWrap');
-      if(rainWrap) buildRainFunnel(rainWrap);
+      // Card 3: use simple funnel dots instead
     }
   });
-},{threshold:0.1,rootMargin:'0px 0px -5% 0px'});
+},{threshold:0.08,rootMargin:'0px 0px -3% 0px'});
 
 document.querySelectorAll('.rv,.rv-left,.rv-right,.rv-scale,#timeline-line,.ag-card,.mock-card,.t-item').forEach(el=>obs.observe(el));
 
@@ -1340,77 +1338,7 @@ function animOutput(){
   if(counter) animCount(counter,0,7500,1600,v=>'$'+v.toLocaleString('es-CO'));
 }
 
-function buildRainFunnel(wrap){
-  if(wrap.dataset.built) return;
-  wrap.dataset.built='1';
-  const W=wrap.offsetWidth||280;
-  // dot config: [startX%, startY, endX%, endY, color, size, exitX, exitY, type]
-  const dots=[
-    // Stage 1 drops (enter top, most exit at 40px)
-    {sx:15,sy:2,ex:15,ey:38,c:'#4b5563',s:6,type:'fall'},
-    {sx:25,sy:2,ex:25,ey:38,c:'#4b5563',s:6,type:'fall',delay:200},
-    {sx:35,sy:2,ex:35,ey:38,c:'#4b5563',s:6,type:'fall',delay:400},
-    {sx:45,sy:2,ex:45,ey:38,c:'#4b5563',s:6,type:'fall',delay:150},
-    {sx:55,sy:2,ex:55,ey:38,c:'#4b5563',s:6,type:'fall',delay:350},
-    {sx:65,sy:2,ex:65,ey:38,c:'#4b5563',s:6,type:'fall',delay:100},
-    {sx:75,sy:2,ex:75,ey:38,c:'#4b5563',s:6,type:'fall',delay:300},
-    {sx:85,sy:2,ex:85,ey:38,c:'#4b5563',s:6,type:'fall',delay:500},
-    // exit at stage 1 (go sideways)
-    {sx:20,sy:2,ex:20,ey:42,c:'#374151',s:5,type:'exit',exitX:-35,exitY:18,delay:600},
-    {sx:40,sy:2,ex:40,ey:42,c:'#374151',s:5,type:'exit',exitX:40,exitY:15,delay:800},
-    {sx:70,sy:2,ex:70,ey:42,c:'#374151',s:5,type:'exit',exitX:38,exitY:16,delay:700},
-    {sx:80,sy:2,ex:80,ey:42,c:'#374151',s:5,type:'exit',exitX:-42,exitY:12,delay:900},
-    {sx:55,sy:2,ex:55,ey:42,c:'#374151',s:5,type:'exit',exitX:36,exitY:20,delay:1100},
-    // Stage 2 drops (continue to 95px, most exit there)
-    {sx:25,sy:42,ex:25,ey:93,c:'#6b7280',s:5,type:'fall',delay:300},
-    {sx:45,sy:42,ex:45,ey:93,c:'#6b7280',s:5,type:'fall',delay:500},
-    {sx:60,sy:42,ex:60,ey:93,c:'#6b7280',s:5,type:'fall',delay:200},
-    // exit at stage 2
-    {sx:30,sy:42,ex:30,ey:97,c:'#ea580c',s:5,type:'exit',exitX:-38,exitY:16,delay:700},
-    {sx:50,sy:42,ex:50,ey:97,c:'#ea580c',s:5,type:'exit',exitX:40,exitY:14,delay:900},
-    // Stage 3 drops (very few reach bottom)
-    {sx:40,sy:96,ex:40,ey:148,c:'#c2410c',s:5,type:'fall',delay:400},
-    // exit at stage 3
-    {sx:45,sy:96,ex:45,ey:150,c:'#dc2626',s:4,type:'exit',exitX:38,exitY:12,delay:600},
-    // The ONE buyer
-    {sx:42,sy:96,ex:42,ey:162,c:'#22c55e',s:7,type:'buy',delay:800},
-  ];
-  dots.forEach(d=>{
-    const dot=document.createElement('div');
-    const xpx=Math.round(d.sx/100*W);
-    dot.style.cssText=`position:absolute;width:${d.s}px;height:${d.s}px;border-radius:50%;background:${d.c};left:${xpx}px;top:${d.sy}px;opacity:0;`;
-    wrap.appendChild(dot);
-    const dur=1200+Math.random()*400;
-    const loopDelay=(d.delay||0)+Math.random()*200;
-    const totalDur=dur+loopDelay+1000;
-    function animate(){
-      dot.style.transition='none';
-      dot.style.transform='translate(0,0)';
-      dot.style.opacity='0';
-      setTimeout(()=>{
-        dot.style.transition=`opacity .15s, transform ${dur}ms cubic-bezier(.4,0,.6,1)`;
-        dot.style.opacity='1';
-        if(d.type==='fall'){
-          dot.style.transform=`translateY(${d.ey-d.sy}px)`;
-        } else if(d.type==='exit'){
-          setTimeout(()=>{
-            dot.style.transition=`opacity .4s, transform ${dur*0.5}ms ease-out`;
-            dot.style.transform=`translate(${d.exitX||30}px,${(d.ey-d.sy)+(d.exitY||20)}px)`;
-            dot.style.opacity='0';
-          },dur*0.55);
-          dot.style.transform=`translateY(${d.ey-d.sy}px)`;
-        } else if(d.type==='buy'){
-          dot.style.transform=`translateY(${d.ey-d.sy}px) scale(1.4)`;
-          setTimeout(()=>{dot.style.opacity='0';},dur+200);
-        }
-      },50);
-    }
-    setTimeout(()=>{
-      animate();
-      setInterval(animate, totalDur);
-    },loopDelay);
-  });
-}
+
 function buildAgFunnel(card){
   const stages=[
     {id:'agfd1',filled:10,color:'#6366f1',dim:'#111'},
@@ -1472,7 +1400,11 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
    BOOKING + CRM JAVASCRIPT
 ══════════════════════════ */
 const WA_NUMBER = '573054535799';
-const CRM_PASSWORD = 'coni2026';
+const CRM_HASH = 'ff36da205c09d67736b6055dc04f6fccedfa4ab434127fd10aa94dc08df20faf';
+async function hashPw(pw){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
 const DAYS_ES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const SLOTS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM'];
@@ -1500,11 +1432,13 @@ function checkRoute(){
 }
 window.addEventListener('hashchange', checkRoute);
 // Run on DOM ready
-if(document.readyState === 'loading'){
-  document.addEventListener('DOMContentLoaded', checkRoute);
-} else {
-  checkRoute();
-}
+try{
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', checkRoute);
+  } else {
+    checkRoute();
+  }
+}catch(e){console.warn('Route check failed',e);}
 
 // ─ BOOKING OPEN/CLOSE
 function openBooking(){
@@ -1631,8 +1565,10 @@ document.getElementById('mbScheduleBtn').addEventListener('click',()=>{
 
 /* ══ CRM ══ */
 let crmFilter='todos';
-function crmLogin(){
-  if(document.getElementById('crmPwInput').value===CRM_PASSWORD){
+async function crmLogin(){
+  const val=document.getElementById('crmPwInput').value;
+  const h=await hashPw(val);
+  if(h===CRM_HASH){
     sessionStorage.setItem('coni_crm_auth','1');
     document.getElementById('crmLogin').style.display='none';
     document.getElementById('crmDash').style.display='block';
