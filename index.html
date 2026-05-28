@@ -2,15 +2,13 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CONI — CRO & Shopify para eCommerce LATAM</title>
 <meta name="description" content="Diseñamos tiendas Shopify y landing pages que convierten. CRO para ecommerce latinoamericano.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Caveat:wght@600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -61,7 +59,7 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 .orb-2{width:400px;height:400px;bottom:-100px;right:-100px;animation:drift 12s ease-in-out infinite reverse;}
 @keyframes drift{0%,100%{transform:translate(0,0);}50%{transform:translate(30px,-30px);}}
 .mq{border-top:1px solid var(--black);border-bottom:1px solid var(--black);background:var(--white);padding:1.4rem 0;overflow:hidden;display:flex;}
-.mq-track{display:flex;gap:3.5rem;animation:mq-scroll 28s linear infinite;white-space:nowrap;}
+.mq-track{display:flex;gap:3.5rem;animation:mq-scroll 28s linear infinite;white-space:nowrap;will-change:transform;}
 .mq-item{font-size:13px;font-weight:800;color:var(--black);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:.9rem;flex-shrink:0;}
 .mq-sep{width:5px;height:5px;border-radius:50%;background:var(--black);flex-shrink:0;}
 .mq-val{font-family:var(--font-mono);font-weight:600;}
@@ -201,13 +199,6 @@ nav{position:fixed;top:0;width:100%;z-index:999;background:rgba(255,255,255,.88)
 .loop-note{text-align:center;margin-top:10px;font-size:9px;color:#2a2a2a;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;}
 @keyframes loopScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
-/* Pause animations when tab hidden */
-document.addEventListener('visibilitychange',()=>{
-  const paused=document.hidden;
-  document.querySelectorAll('.loop-track').forEach(el=>{
-    el.style.animationPlayState=paused?'paused':'running';
-  });
-});
 /* Loop ticker colored steps */
 .lt-ads-step{border-color:#1e3a8a !important;background:#0f1f4a !important;}
 .lt-ads-step .lt-tag{color:#60a5fa !important;}
@@ -229,18 +220,18 @@ document.addEventListener('visibilitychange',()=>{
 }
 
 /* ── CARD 3: Visitor rain funnel ── */
-
-
-
-
-
+.rain-wrap{position:relative;height:170px;overflow:hidden;background:#0d0d0d;border:1px solid #1a1a1a;border-radius:10px;}
+.rain-stage{position:absolute;left:0;right:0;height:1px;background:#1a1a1a;}
+.rain-stage-lbl{position:absolute;right:8px;font-size:8px;font-weight:700;font-family:var(--font-mono);color:#333;text-transform:uppercase;transform:translateY(-50%);letter-spacing:.06em;}
+.rain-stage-pct{position:absolute;left:8px;font-size:9px;font-weight:800;font-family:var(--font-mono);transform:translateY(-50%);}
+.rdot{position:absolute;width:7px;height:7px;border-radius:50%;background:#4b5563;opacity:0;animation:rainFall var(--dur) var(--delay) ease-in infinite;}
 .rdot.exit{animation-name:rainExit;}
 .rdot.exit2{animation-name:rainExit2;}
 .rdot.buy{background:#22c55e;animation-name:rainBuy;}
-5%{opacity:1;}80%{opacity:1;}100%{opacity:0;transform:translateY(var(--travel));}}
-5%{opacity:1;}60%{opacity:1;transform:translate(var(--ex),var(--ey));}100%{opacity:0;transform:translate(calc(var(--ex) * 1.5),calc(var(--ey) * 1.1));}}
-5%{opacity:1;}60%{opacity:1;transform:translate(var(--ex2),var(--ey2));}100%{opacity:0;transform:translate(calc(var(--ex2) * 1.5),calc(var(--ey2) * 1.1));}}
-5%{opacity:1;}90%{opacity:1;transform:translateY(var(--travel)) scale(1.4);}100%{opacity:0;transform:translateY(var(--travel)) scale(1);}}
+@keyframes rainFall{0%{opacity:0;transform:translateY(0);}5%{opacity:1;}80%{opacity:1;}100%{opacity:0;transform:translateY(var(--travel));}}
+@keyframes rainExit{0%{opacity:0;transform:translate(0,0);}5%{opacity:1;}60%{opacity:1;transform:translate(var(--ex),var(--ey));}100%{opacity:0;transform:translate(calc(var(--ex) * 1.5),calc(var(--ey) * 1.1));}}
+@keyframes rainExit2{0%{opacity:0;transform:translate(0,0);}5%{opacity:1;}60%{opacity:1;transform:translate(var(--ex2),var(--ey2));}100%{opacity:0;transform:translate(calc(var(--ex2) * 1.5),calc(var(--ey2) * 1.1));}}
+@keyframes rainBuy{0%{opacity:0;transform:translateY(0) scale(.5);}5%{opacity:1;}90%{opacity:1;transform:translateY(var(--travel)) scale(1.4);}100%{opacity:0;transform:translateY(var(--travel)) scale(1);}}
 .cy-arr{font-size:16px;color:#2a2a2a;text-align:center;opacity:0;transition:opacity .4s ease;display:flex;align-items:center;justify-content:center;}
 .cy-arr.show{opacity:1;}
 .cycle-label{grid-column:1/-1;text-align:center;font-size:10px;font-weight:700;color:#3a3a3a;text-transform:uppercase;letter-spacing:.08em;padding-top:10px;border-top:1px dashed #1e1e1e;margin-top:4px;}
@@ -548,131 +539,6 @@ document.addEventListener('visibilitychange',()=>{
 .faq-a strong{color:var(--white);}
 footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-direction:column;gap:1rem;align-items:center;font-size:13px;color:#555;background:var(--black);}
 @media(min-width:768px){footer{flex-direction:row;justify-content:space-between;}}
-
-/* ══ MODAL OVERLAY ══ */
-.modal-booking{position:fixed;inset:0;z-index:10000;display:none;align-items:flex-start;justify-content:center;padding:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);overflow-y:auto;}
-.modal-booking.open{display:flex;}
-.mb-inner{background:var(--white);width:100%;max-width:680px;min-height:100vh;padding:2rem clamp(1.25rem,5vw,2.5rem) 4rem;margin:0 auto;position:relative;animation:mbSlide .4s cubic-bezier(.16,1,.3,1);}
-@media(min-width:700px){.mb-inner{min-height:auto;border-radius:20px;margin:2rem auto;}}
-@keyframes mbSlide{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
-.mb-close{position:absolute;top:1.25rem;right:1.25rem;width:36px;height:36px;border-radius:50%;background:var(--gray-100);border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--gray-600);transition:all .2s;font-family:var(--font-main);}
-.mb-close:hover{background:var(--gray-200);color:var(--black);}
-.mb-progress{height:3px;background:var(--gray-200);border-radius:100px;margin-bottom:2rem;overflow:hidden;}
-.mb-prog-fill{height:100%;background:var(--black);border-radius:100px;transition:width .5s cubic-bezier(.16,1,.3,1);}
-.mb-step{display:none;}
-.mb-step.active{display:block;animation:mbSlide .35s cubic-bezier(.16,1,.3,1);}
-.mb-badge{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:10px;}
-.mb-title{font-size:clamp(22px,4vw,30px);font-weight:800;letter-spacing:-.03em;margin-bottom:8px;}
-.mb-sub{font-size:14px;color:var(--gray-600);line-height:1.6;margin-bottom:2rem;}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:500px){.fg{grid-template-columns:1fr;}}
-.fg-full{grid-column:1/-1;}
-.ff{display:flex;flex-direction:column;gap:5px;}
-.ff label{font-size:11px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em;}
-.ff input,.ff select,.ff textarea{font-family:var(--font-main);font-size:14px;font-weight:500;color:var(--black);background:var(--white);border:1.5px solid var(--gray-200);border-radius:10px;padding:12px 14px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
-.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--black);box-shadow:0 0 0 3px rgba(5,5,5,.06);}
-.ff textarea{resize:vertical;min-height:110px;line-height:1.6;}
-.ff select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
-.ff-note{font-size:11px;color:var(--gray-400);}
-.ff input.err,.ff select.err,.ff textarea.err{border-color:var(--red);}
-.btn-mb{width:100%;margin-top:20px;background:var(--black);color:var(--white);font-family:var(--font-main);font-size:15px;font-weight:700;padding:16px;border-radius:12px;border:none;cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);}
-.btn-mb:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.2);}
-/* Slots */
-.dates-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:20px;scrollbar-width:none;}
-.dates-row::-webkit-scrollbar{display:none;}
-.db{flex-shrink:0;padding:10px 14px;border:1.5px solid var(--gray-200);border-radius:10px;background:var(--white);cursor:pointer;text-align:center;transition:all .2s;min-width:70px;}
-.db:hover{border-color:var(--black);}
-.db.sel{background:var(--black);border-color:var(--black);color:var(--white);}
-.db .dday{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-400);display:block;}
-.db.sel .dday{color:rgba(255,255,255,.6);}
-.db .dnum{font-size:20px;font-weight:800;color:var(--black);display:block;line-height:1.2;}
-.db.sel .dnum{color:var(--white);}
-.db .dmon{font-size:9px;color:var(--gray-400);display:block;}
-.db.sel .dmon{color:rgba(255,255,255,.5);}
-.slots-lbl{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:block;}
-.slots-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:20px;}
-.sb{padding:13px;border:1.5px solid var(--gray-200);border-radius:10px;background:var(--white);cursor:pointer;text-align:center;transition:all .2s;}
-.sb:hover:not(.sbk){border-color:var(--black);}
-.sb.sel{background:var(--black);border-color:var(--black);color:var(--white);}
-.sb.sbk{background:var(--gray-50);opacity:.45;cursor:not-allowed;}
-.sb .st{font-size:15px;font-weight:700;display:block;}
-.sb .sd{font-size:10px;color:var(--gray-400);display:block;margin-top:2px;}
-.sb.sel .sd{color:rgba(255,255,255,.5);}
-.conf-card{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:12px;padding:1rem 1.25rem;margin-bottom:16px;}
-.conf-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-200);font-size:13px;}
-.conf-row:last-child{border-bottom:none;}
-.conf-lbl{font-weight:600;color:var(--gray-400);}
-.conf-val{font-weight:700;}
-/* Success */
-.mb-success{text-align:center;padding:2rem 0;}
-.mb-sico{width:68px;height:68px;background:#f0fdf4;border:2px solid #22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:28px;}
-.mb-stitle{font-size:26px;font-weight:800;margin-bottom:8px;}
-.mb-ssub{font-size:14px;color:var(--gray-600);line-height:1.6;max-width:400px;margin:0 auto 1.5rem;}
-.btn-wa{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:var(--white);font-family:var(--font-main);font-size:15px;font-weight:700;padding:16px 28px;border-radius:12px;border:none;cursor:pointer;transition:all .3s;}
-.btn-wa:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(37,211,102,.3);}
-
-/* ══ CRM ══ */
-#crmScreen{display:none;position:fixed;inset:0;z-index:99999;background:var(--gray-50);overflow-y:auto;}
-.crm-login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
-.crm-login-card{background:var(--white);border:1px solid var(--gray-200);border-radius:20px;padding:2.5rem;width:100%;max-width:360px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.06);}
-.crm-logo{font-size:26px;font-weight:800;letter-spacing:-.04em;margin-bottom:6px;}
-.crm-logo em{font-style:italic;}
-.crm-logo-sub{font-size:12px;color:var(--gray-400);margin-bottom:2rem;}
-.crm-pw-field{text-align:left;margin-bottom:14px;}
-.crm-pw-field label{font-size:11px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:.07em;display:block;margin-bottom:5px;}
-.crm-pw-field input{width:100%;font-family:var(--font-main);font-size:15px;border:1.5px solid var(--gray-200);border-radius:10px;padding:12px 14px;outline:none;transition:border-color .2s;}
-.crm-pw-field input:focus{border-color:var(--black);}
-.crm-btn-login{width:100%;background:var(--black);color:var(--white);font-family:var(--font-main);font-size:14px;font-weight:700;padding:14px;border-radius:10px;border:none;cursor:pointer;transition:all .3s;}
-.crm-btn-login:hover{transform:translateY(-2px);}
-.crm-err{font-size:12px;color:var(--red);font-weight:600;margin-top:8px;display:none;}
-.crm-topbar{background:var(--black);padding:0 clamp(1.25rem,4vw,2.5rem);height:60px;display:flex;align-items:center;justify-content:space-between;}
-.crm-tb-logo{font-size:16px;font-weight:800;letter-spacing:-.04em;color:var(--white);}
-.crm-tb-logo em{font-style:italic;}
-.crm-tb-right{display:flex;gap:12px;align-items:center;}
-.crm-tb-btn{font-size:12px;font-weight:700;color:var(--gray-400);cursor:pointer;padding:7px 12px;border:1px solid #333;border-radius:8px;transition:all .2s;background:none;}
-.crm-tb-btn:hover{color:var(--white);border-color:#666;}
-.crm-main{max-width:1200px;margin:0 auto;padding:2rem clamp(1.25rem,4vw,2.5rem);}
-.crm-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin-bottom:2rem;}
-.crm-stat{background:var(--white);border:1px solid var(--gray-200);border-radius:14px;padding:1.25rem;}
-.crm-stat-lbl{font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
-.crm-stat-val{font-size:30px;font-weight:800;}
-.crm-stat-val.g{color:#22c55e;}
-.crm-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1.25rem;}
-.crm-search{font-family:var(--font-main);font-size:13px;padding:9px 14px;border:1.5px solid var(--gray-200);border-radius:8px;outline:none;width:220px;transition:border-color .2s;}
-.crm-search:focus{border-color:var(--black);}
-.crm-filters{display:flex;gap:6px;}
-.crm-fb{font-family:var(--font-main);font-size:11px;font-weight:700;padding:8px 14px;border:1.5px solid var(--gray-200);border-radius:8px;background:var(--white);cursor:pointer;transition:all .2s;}
-.crm-fb.on,.crm-fb:hover{background:var(--black);color:var(--white);border-color:var(--black);}
-.crm-export{font-family:var(--font-main);font-size:11px;font-weight:700;padding:8px 14px;border:1.5px solid var(--black);border-radius:8px;background:transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px;}
-.crm-export:hover{background:var(--black);color:var(--white);}
-.crm-table-wrap{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;overflow:hidden;overflow-x:auto;}
-.crm-table-wrap table{width:100%;border-collapse:collapse;min-width:700px;}
-.crm-table-wrap th{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.07em;padding:11px 14px;text-align:left;background:var(--gray-50);border-bottom:1px solid var(--gray-200);white-space:nowrap;}
-.crm-table-wrap td{font-size:12px;font-weight:500;padding:12px 14px;border-bottom:1px solid var(--gray-100);vertical-align:top;}
-.crm-table-wrap tr:last-child td{border-bottom:none;}
-.crm-table-wrap tr:hover td{background:var(--gray-50);}
-.crm-td-name{font-weight:700;cursor:pointer;}
-.crm-td-name:hover{text-decoration:underline;}
-.crm-td-sm{font-size:11px;color:var(--gray-400);}
-.crm-td-cita{font-size:11px;font-weight:600;color:#22c55e;}
-.crm-bdg{font-size:9px;font-weight:700;padding:3px 8px;border-radius:100px;}
-.crm-bdg-new{background:#eff6ff;color:#1d4ed8;}
-.crm-bdg-ok{background:#f0fdf4;color:#15803d;}
-.crm-bdg-done{background:#f5f3ff;color:#7c3aed;}
-.crm-wa{font-size:10px;font-weight:700;color:#22c55e;cursor:pointer;background:#f0fdf4;border:none;border-radius:6px;padding:4px 8px;font-family:var(--font-main);transition:background .2s;}
-.crm-wa:hover{background:#dcfce7;}
-.crm-del{font-size:10px;color:var(--gray-400);cursor:pointer;padding:3px 8px;border:1px solid var(--gray-200);border-radius:6px;background:none;font-family:var(--font-main);transition:all .2s;}
-.crm-del:hover{color:var(--red);border-color:var(--red);}
-.crm-empty{text-align:center;padding:4rem 2rem;color:var(--gray-400);}
-.crm-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20000;display:none;align-items:center;justify-content:center;padding:1rem;}
-.crm-modal-ov.open{display:flex;}
-.crm-modal{background:var(--white);border-radius:20px;padding:2rem;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;}
-.crm-modal-title{font-size:20px;font-weight:800;margin-bottom:1.25rem;}
-.crm-mrow{margin-bottom:12px;}
-.crm-mlbl{font-size:10px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
-.crm-mval{font-size:13px;font-weight:500;line-height:1.6;}
-.crm-prob-box{background:var(--gray-50);padding:12px;border-radius:8px;line-height:1.7;font-size:13px;}
-
 </style>
 </head>
 <body>
@@ -759,10 +625,10 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
             <defs><linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#050505" stop-opacity=".12"/><stop offset="100%" stop-color="#050505" stop-opacity="0"/></linearGradient></defs>
             <path id="areaPath" fill="url(#lineGrad)" d="M0,100 L0,90 L50,80 L100,72 L150,55 L200,35 L250,18 L300,8 L300,100 Z" opacity="0" style="transition:opacity 1s ease .5s"/>
             <polyline points="0,95 300,85" fill="none" stroke="#fca5a5" stroke-width="2" stroke-dasharray="5,4" opacity=".6"/>
-            <text x="240" y="80" font-size="9" fill="#fca5a5" font-family="Poppins" font-weight="600">0.4%</text>
+            <text x="240" y="80" font-size="9" fill="#fca5a5" font-family="Fira Code" font-weight="600">0.4%</text>
             <polyline id="mainLine" points="0,90 50,80 100,72 150,55 200,35 250,18 300,8" fill="none" stroke="#050505" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="line-path"/>
             <circle id="endDot" cx="300" cy="8" r="5" fill="#050505" opacity="0" style="transition:opacity .4s ease 1.6s"/>
-            <text id="endLabel" x="260" y="6" font-size="9" fill="#050505" font-family="Poppins" font-weight="700" opacity="0" style="transition:opacity .4s ease 1.6s">2.5%</text>
+            <text id="endLabel" x="260" y="6" font-size="9" fill="#050505" font-family="Fira Code" font-weight="700" opacity="0" style="transition:opacity .4s ease 1.6s">2.5%</text>
           </svg>
         </div>
         <div class="conv-badge">
@@ -892,14 +758,14 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
       <div class="ag-card rv d3">
         <h4 class="ag-title">El embudo tiene fugas invisibles</h4>
         <p class="ag-desc">Cada etapa pierde personas. Sin datos, no sabes cuál arreglar.</p>
-        <div class="agf-wrap" id="agFunnel2">
-          <div class="agf-row"><div class="agf-label">Llegan</div><div class="agf-dots" id="agf2d1"></div><div class="agf-info"><span>3.200</span><em>100%</em></div></div>
+        <div class="agf-wrap" id="agFunnel">
+          <div class="agf-row"><div class="agf-label">Llegan</div><div class="agf-dots" id="agfd1"></div><div class="agf-info"><span>3.200</span><em>100%</em></div></div>
           <div class="agf-drop">↓ 1.344 rebotan</div>
-          <div class="agf-row"><div class="agf-label">Ven producto</div><div class="agf-dots" id="agf2d2"></div><div class="agf-info"><span>1.856</span><em style="color:#f97316;">58%</em></div></div>
+          <div class="agf-row"><div class="agf-label">Ven producto</div><div class="agf-dots" id="agfd2"></div><div class="agf-info"><span>1.856</span><em style="color:#f97316;">58%</em></div></div>
           <div class="agf-drop">↓ 1.156 no agregan</div>
-          <div class="agf-row"><div class="agf-label">Al carrito</div><div class="agf-dots" id="agf2d3"></div><div class="agf-info"><span>700</span><em style="color:#c2410c;">22%</em></div></div>
+          <div class="agf-row"><div class="agf-label">Al carrito</div><div class="agf-dots" id="agfd3"></div><div class="agf-info"><span>700</span><em style="color:#c2410c;">22%</em></div></div>
           <div class="agf-drop">↓ 688 abandonan</div>
-          <div class="agf-row agf-final"><div class="agf-label">Compran</div><div class="agf-dots" id="agf2d4"></div><div class="agf-info"><span style="color:#ef4444;">12</span><em style="color:#ef4444;font-weight:800;">0.4%</em></div></div>
+          <div class="agf-row agf-final"><div class="agf-label">Compran</div><div class="agf-dots" id="agfd4"></div><div class="agf-info"><span style="color:#ef4444;">12</span><em style="color:#ef4444;font-weight:800;">0.4%</em></div></div>
         </div>
       </div>
 
@@ -931,14 +797,14 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <div class="journey-vis" id="journeyVis">
           <svg viewBox="0 0 260 148" xmlns="http://www.w3.org/2000/svg" width="100%" style="display:block;">
             <rect x="8" y="8" width="244" height="26" rx="5" fill="#111" stroke="#222" stroke-width="1"/>
-            <text x="130" y="25" text-anchor="middle" font-size="7.5" fill="#3a3a3a" font-family="Poppins, sans-serif" font-weight="700">HEADLINE</text>
+            <text x="130" y="25" text-anchor="middle" font-size="7.5" fill="#3a3a3a" font-family="Georgia, serif" font-weight="700">HEADLINE</text>
             <rect x="8" y="42" width="116" height="68" rx="5" fill="#111" stroke="#222" stroke-width="1"/>
-            <text x="66" y="80" text-anchor="middle" font-size="7.5" fill="#3a3a3a" font-family="Poppins, sans-serif" font-weight="700">PRODUCTO</text>
+            <text x="66" y="80" text-anchor="middle" font-size="7.5" fill="#3a3a3a" font-family="Georgia, serif" font-weight="700">PRODUCTO</text>
             <rect x="132" y="42" width="120" height="16" rx="3" fill="#111" stroke="#222" stroke-width="1"/>
             <rect x="132" y="64" width="120" height="10" rx="3" fill="#111" stroke="#222" stroke-width="1"/>
             <rect x="132" y="80" width="120" height="10" rx="3" fill="#111" stroke="#222" stroke-width="1"/>
             <rect x="132" y="98" width="84" height="22" rx="7" fill="#1a2a1a" stroke="#22c55e" stroke-width="1.5"/>
-            <text x="174" y="113" text-anchor="middle" font-size="8" fill="#22c55e" font-family="Poppins, sans-serif" font-weight="700">COMPRAR</text>
+            <text x="174" y="113" text-anchor="middle" font-size="8" fill="#22c55e" font-family="Georgia, serif" font-weight="700">COMPRAR</text>
             <path id="eyePath" d="M130,21 C110,35 66,40 66,42 L66,110 C66,120 110,119 132,109 Q174,104 174,120" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-dasharray="340" stroke-dashoffset="340" style="transition:stroke-dashoffset 2.2s cubic-bezier(.16,1,.3,1);"/>
             <circle id="ejD1" cx="130" cy="21" r="4" fill="#22c55e" opacity="0" style="transition:opacity .3s .2s;"/>
             <circle id="ejD2" cx="66" cy="76" r="4" fill="#22c55e" opacity="0" style="transition:opacity .3s 1.2s;"/>
@@ -1078,7 +944,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <li><span class="pc-check">✓</span>Heatmap y Analytics instalados</li>
         <li><span class="pc-check">✓</span>Entrega en 7 días hábiles</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openBooking()" class="pc-btn">Aplicar</a>
+      <a href="https://wa.me/573054535799?text=Hola+Nicol%C3%A1s%2C+me+interesa+la+Landing+Page+de+CONI+%28%24219+USD%29.+%C2%BFPodemos+hablar%3F" class="pc-btn" target="_blank">Aplicar</a>
     </div>
 
     <div class="price-card featured rv d2">
@@ -1096,7 +962,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <li><span class="pc-check">✓</span>Entrega en 3 semanas</li>
         <li><span class="pc-check">✓</span>1 mes de soporte post entrega</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openBooking()" class="pc-btn">Aplicar</a>
+      <a href="https://wa.me/573054535799?text=Hola+Nicol%C3%A1s%2C+me+interesa+la+Tienda+Shopify+completa+de+CONI+%28%24789+USD%29.+%C2%BFPodemos+hablar%3F" class="pc-btn" target="_blank">Aplicar</a>
     </div>
 
     <div class="price-card rv d3">
@@ -1109,7 +975,7 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
         <li><span class="pc-check">✓</span>Análisis de comportamiento y embudos</li>
         <li><span class="pc-check">✓</span>Solo 4 cupos disponibles al mes</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openBooking()" class="pc-contact">Hablemos del precio</a>
+      <a href="https://wa.me/573054535799?text=Hola+Nicol%C3%A1s%2C+me+interesa+el+CRO+Mensual+de+CONI.+%C2%BFPodemos+hablar%3F" class="pc-contact" target="_blank">Hablemos del precio</a>
     </div>
   </div>
 </section>
@@ -1154,7 +1020,6 @@ footer{padding:3rem var(--px);border-top:1px solid #1a1a1a;display:flex;flex-dir
     <span>© 2026 · by Nicolás Parra</span>
   </div>
   <span>@bynicolasparra</span>
-  <a href="#crm" style="font-size:11px;color:#1a1a1a;text-decoration:none;" onclick="window.location.hash='crm';checkRoute();">admin</a>
 </footer>
 
 <script>
@@ -1272,17 +1137,16 @@ const obs=new IntersectionObserver(entries=>{
     if(t.id==='bCard2') setTimeout(animFriction,300);
     if(t.id==='bCard3') setTimeout(animOutput,300);
     if(t.classList.contains('ag-card')){
-      // Card 1: drain counter (one-time animCount, no setInterval)
+      // Card 1: drain counter
       const drainFill=t.querySelector('#drainFill');
       const drainVal=t.querySelector('#drainVal');
-      if(drainFill){
-        setTimeout(()=>drainFill.classList.add('on'),300);
-        if(drainVal) animCount(drainVal,0,710000,2200,v=>'$'+v.toLocaleString('es-CO'));
-      }
-      // Card 3: use simple funnel dots instead
+      if(drainFill){setTimeout(()=>drainFill.classList.add('on'),300);}
+      if(drainVal) animCount(drainVal,0,710000,2200,v=>'$'+v.toLocaleString('es-CO'));
+      // Card 3: funnel dots
+      buildAgFunnel(t);
     }
   });
-},{threshold:0.08,rootMargin:'0px 0px -3% 0px'});
+},{threshold:0.1,rootMargin:'0px 0px -5% 0px'});
 
 document.querySelectorAll('.rv,.rv-left,.rv-right,.rv-scale,#timeline-line,.ag-card,.mock-card,.t-item').forEach(el=>obs.observe(el));
 
@@ -1395,591 +1259,13 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
     document.querySelectorAll('.faq-item.open').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-q').setAttribute('aria-expanded','false'); });
     if(!isOpen){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
   });
-});
 
-/* ═══════════════════════════════════
-   BOOKING + CRM — reescrito limpio
-═══════════════════════════════════ */
-
-const WA_NUMBER = '573054535799';
-const CRM_HASH  = 'ff36da205c09d67736b6055dc04f6fccedfa4ab434127fd10aa94dc08df20faf';
-
-const DAYS  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-const HORARIOS = ['10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM'];
-
-let bkData = {}, bkFecha = null, bkHora = null;
-
-/* ── localStorage helpers ── */
-function getLeads(){ try{ return JSON.parse(localStorage.getItem('coni_leads')||'[]'); }catch(e){ return []; } }
-function saveLeads(arr){
-  try{
-    localStorage.setItem('coni_leads', JSON.stringify(arr));
-    window.dispatchEvent(new CustomEvent('coni_updated', {detail: arr}));
-  }catch(e){ console.error('localStorage error',e); }
-}
-function getBooked(){ try{ return JSON.parse(localStorage.getItem('coni_booked')||'{}'); }catch(e){ return {}; } }
-function saveBooked(obj){ try{ localStorage.setItem('coni_booked', JSON.stringify(obj)); }catch(e){} }
-
-/* ── OPEN / CLOSE BOOKING ── */
-function openBooking(){
-  const m = document.getElementById('modalBooking');
-  if(!m) return;
-  m.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  resetBooking();
-}
-function closeBooking(){
-  const m = document.getElementById('modalBooking');
-  if(!m) return;
-  m.classList.remove('open');
-  document.body.style.overflow = '';
-}
-function resetBooking(){
-  bkData = {}; bkFecha = null; bkHora = null;
-  showMbStep('mbStep1');
-  setProgress(33);
-  ['mbFname','mbLname','mbEmail','mbPhone','mbCountry','mbProblem','mbWeb','mbIg'].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el){ el.value = (id==='mbCountry') ? '' : ''; el.classList.remove('err'); }
-  });
-}
-function showMbStep(id){
-  document.querySelectorAll('.mb-step').forEach(s=>s.classList.remove('active'));
-  const el = document.getElementById(id);
-  if(el) el.classList.add('active');
-}
-function setProgress(pct){
-  const el = document.getElementById('mbProgFill');
-  if(el) el.style.width = pct + '%';
-}
-
-/* ── FORM SUBMIT ── */
-document.addEventListener('DOMContentLoaded', function(){
-
-  const form = document.getElementById('mbForm');
-  if(form){
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      const reqs = ['mbFname','mbLname','mbEmail','mbPhone','mbCountry','mbProblem'];
-      let ok = true;
-      reqs.forEach(id=>{
-        const el = document.getElementById(id);
-        if(!el) return;
-        el.classList.remove('err');
-        if(!el.value.trim()){ el.classList.add('err'); ok = false; }
-      });
-      if(!ok) return;
-
-      bkData = {
-        id: Date.now(),
-        nombre: (document.getElementById('mbFname').value.trim()+' '+document.getElementById('mbLname').value.trim()).trim(),
-        email: document.getElementById('mbEmail').value.trim(),
-        telefono: document.getElementById('mbPhone').value.trim(),
-        pais: document.getElementById('mbCountry').value,
-        web: (document.getElementById('mbWeb')||{}).value||'',
-        instagram: (document.getElementById('mbIg')||{}).value||'',
-        problema: document.getElementById('mbProblem').value.trim(),
-        fecha_registro: new Date().toISOString(),
-        estado: 'Nuevo'
-      };
-
-      /* Guardar en localStorage inmediatamente */
-      const leads = getLeads();
-      leads.push(bkData);
-      saveLeads(leads);
-
-      /* Ir a step 2 */
-      showMbStep('mbStep2');
-      setProgress(66);
-      buildDates();
-    });
-  }
-
-  /* Confirm button */
-  const schedBtn = document.getElementById('mbScheduleBtn');
-  if(schedBtn){
-    schedBtn.addEventListener('click', function(){
-      if(!bkFecha || !bkHora){
-        alert('Por favor selecciona fecha y hora');
-        return;
-      }
-      /* Mark slot as booked */
-      const booked = getBooked();
-      if(!booked[bkFecha.str]) booked[bkFecha.str] = [];
-      booked[bkFecha.str].push(bkHora);
-      saveBooked(booked);
-
-      /* Update lead with cita */
-      const leads = getLeads();
-      const idx = leads.findIndex(l=>l.id===bkData.id);
-      if(idx>-1){
-        leads[idx].cita = bkFecha.label + ' a las ' + bkHora;
-        leads[idx].estado = 'Agendado';
-        saveLeads(leads);
-      }
-
-      /* WhatsApp message */
-      const msg = 'Hola Nicolás, agende llamada para ' + bkFecha.label + ' a las ' + bkHora + ' (Colombia). Soy ' + bkData.nombre + ' — ' + bkData.email;
-      const waUrl = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg);
-
-      const waBtn = document.getElementById('mbWaBtn');
-      if(waBtn) waBtn.onclick = function(){ window.open(waUrl,'_blank'); };
-
-      showMbStep('mbStepDone');
-      setProgress(100);
-    });
-  }
-
-}); /* end DOMContentLoaded */
-
-/* ── BUILD DATES ── */
-function buildDates(){
-  const grid = document.getElementById('mbDatesRow');
-  if(!grid) return;
-  grid.innerHTML = '';
-  let count = 0;
-  let d = new Date();
-  d.setDate(d.getDate()+1);
-  while(count < 10){
-    if(d.getDay()!==0 && d.getDay()!==6){
-      const day = d.getDay();
-      const date = d.getDate();
-      const month = d.getMonth();
-      const yr = d.getFullYear();
-      const ds = yr+'-'+String(month+1).padStart(2,'0')+'-'+String(date).padStart(2,'0');
-      const label = DAYS[day]+' '+date+' de '+MESES[month];
-      const btn = document.createElement('div');
-      btn.className = 'db';
-      btn.innerHTML = '<span class="dday">'+DAYS[day]+'</span><span class="dnum">'+date+'</span><span class="dmon">'+MESES[month]+'</span>';
-      btn.addEventListener('click', (function(ds,label){
-        return function(){ selectDate(this, ds, label); };
-      })(ds, label));
-      grid.appendChild(btn);
-      count++;
-    }
-    d.setDate(d.getDate()+1);
-  }
-}
-
-function selectDate(btn, ds, label){
-  document.querySelectorAll('.db').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');
-  bkFecha = {str: ds, label: label};
-  bkHora = null;
-  const sl = document.getElementById('mbSlotsLbl');
-  if(sl) sl.style.display = 'block';
-  const cs = document.getElementById('mbConfirmSection');
-  if(cs) cs.style.display = 'none';
-  buildSlots(ds);
-}
-
-function buildSlots(ds){
-  const grid = document.getElementById('mbSlotsGrid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  const booked = getBooked();
-  const dayB = booked[ds] || [];
-  HORARIOS.forEach(function(slot){
-    const isB = dayB.indexOf(slot) > -1;
-    const btn = document.createElement('div');
-    btn.className = 'sb' + (isB ? ' sbk' : '');
-    btn.innerHTML = '<span class="st">'+slot+'</span><span class="sd">'+(isB?'No disponible':'45 min')+'</span>';
-    if(!isB){
-      btn.addEventListener('click', (function(s){ return function(){ selectSlot(this,s); }; })(slot));
-    }
-    grid.appendChild(btn);
-  });
-}
-
-function selectSlot(btn, slot){
-  document.querySelectorAll('.sb').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');
-  bkHora = slot;
-  const cs = document.getElementById('mbConfirmSection');
-  const cc = document.getElementById('mbConfCard');
-  if(!cs || !cc) return;
-  cc.innerHTML =
-    '<div class="conf-row"><span class="conf-lbl">Nombre</span><span class="conf-val">'+bkData.nombre+'</span></div>'+
-    '<div class="conf-row"><span class="conf-lbl">Fecha</span><span class="conf-val">'+bkFecha.label+'</span></div>'+
-    '<div class="conf-row"><span class="conf-lbl">Hora</span><span class="conf-val">'+slot+' (Colombia)</span></div>'+
-    '<div class="conf-row"><span class="conf-lbl">Duración</span><span class="conf-val">45 minutos</span></div>';
-  cs.style.display = 'block';
-  cs.scrollIntoView({behavior:'smooth', block:'nearest'});
-}
-
-/* ═══════════════════════════════════
-   CRM
-═══════════════════════════════════ */
-
-/* Hash password with SubtleCrypto */
-async function hashPw(pw){
-  try{
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
-    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-  }catch(e){ return ''; }
-}
-
-/* Routing */
-function checkRoute(){
-  try{
-    const isCRM = window.location.hash === '#crm';
-    const scr = document.getElementById('crmScreen');
-    if(!scr) return;
-    if(isCRM){
-      scr.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-      if(sessionStorage.getItem('coni_crm_auth')==='1'){
-        const login = document.getElementById('crmLogin');
-        const dash  = document.getElementById('crmDash');
-        if(login) login.style.display = 'none';
-        if(dash){ dash.style.display = 'block'; crmLoad(); }
-      }
-    } else {
-      scr.style.display = 'none';
-      document.body.style.overflow = '';
-    }
-  }catch(e){}
-}
-window.addEventListener('hashchange', checkRoute);
-document.addEventListener('DOMContentLoaded', checkRoute);
-
-async function crmLogin(){
-  const input = document.getElementById('crmPwInput');
-  const err   = document.getElementById('crmErr');
-  if(!input) return;
-  const h = await hashPw(input.value.trim());
-  if(h === CRM_HASH){
-    sessionStorage.setItem('coni_crm_auth','1');
-    const login = document.getElementById('crmLogin');
-    const dash  = document.getElementById('crmDash');
-    if(login) login.style.display = 'none';
-    if(dash){ dash.style.display = 'block'; crmLoad(); }
-  } else {
-    if(err) err.style.display = 'block';
-    input.value = '';
-    setTimeout(()=>{ if(err) err.style.display='none'; }, 3000);
-  }
-}
-
-function crmLogout(){
-  sessionStorage.removeItem('coni_crm_auth');
-  const dash  = document.getElementById('crmDash');
-  const login = document.getElementById('crmLogin');
-  if(dash) dash.style.display = 'none';
-  if(login) login.style.display = 'flex';
-}
-
-let crmFilter = 'todos';
-
-function crmFmtDate(s){
-  if(!s) return '—';
-  try{ return new Date(s).toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'}); }catch(e){ return s; }
-}
-
-/* Real-time: escucha cambios del mismo tab y de otros tabs */
-window.addEventListener('coni_updated', function(){
-  const dash = document.getElementById('crmDash');
-  if(dash && dash.style.display !== 'none') crmLoad();
-});
-window.addEventListener('storage', function(e){
-  if(e.key === 'coni_leads'){
-    const dash = document.getElementById('crmDash');
-    if(dash && dash.style.display !== 'none') crmLoad();
-  }
-});
-
-function markAtendido(id){
-  let leads = getLeads();
-  const idx = leads.findIndex(l=>l.id===id);
-  if(idx>-1){
-    leads[idx].estado = 'Atendido';
-    leads[idx].fecha_atencion = new Date().toISOString();
-    saveLeads(leads);
-    crmCloseModal();
-    crmLoad();
-  }
-}
-
-function crmLoad(){
-  const leads = getLeads().slice().reverse();
-  const ag = leads.filter(l=>l.estado==='Agendado').length;
-  const at = leads.filter(l=>l.estado==='Atendido').length;
-  const statsEl = document.getElementById('crmStats');
-  if(statsEl){
-    statsEl.innerHTML =
-      '<div class="crm-stat"><div class="crm-stat-lbl">Total leads</div><div class="crm-stat-val">'+leads.length+'</div></div>'+
-      '<div class="crm-stat"><div class="crm-stat-lbl">Agendados</div><div class="crm-stat-val g">'+ag+'</div></div>'+
-      '<div class="crm-stat"><div class="crm-stat-lbl">Atendidos</div><div class="crm-stat-val" style="color:#7c3aed;">'+at+'</div></div>'+
-      '<div class="crm-stat"><div class="crm-stat-lbl">Sin agendar</div><div class="crm-stat-val">'+(leads.length-ag-at)+'</div></div>';
-  }
-  crmRender();
-}
-
-function isThisWeek(s){
-  if(!s) return false;
-  try{ const d=new Date(s),n=new Date(),st=new Date(n); st.setDate(n.getDate()-n.getDay()); return d>=st; }catch(e){ return false; }
-}
-
-function crmSetFilter(f,btn){
-  crmFilter = f;
-  document.querySelectorAll('.crm-fb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  crmRender();
-}
-
-function crmRender(){
-  const q = (document.getElementById('crmSearch')||{}).value||'';
-  let leads = getLeads().slice().reverse();
-  if(crmFilter!=='todos') leads = leads.filter(l=>(l.estado||'Nuevo')===crmFilter);
-  if(q.trim()) leads = leads.filter(l=>
-    (l.nombre||'').toLowerCase().includes(q.toLowerCase()) ||
-    (l.email||'').toLowerCase().includes(q.toLowerCase())
-  );
-  const c = document.getElementById('crmTableContainer');
-  if(!c) return;
-  if(!leads.length){
-    c.innerHTML = '<div class="crm-empty"><p>No hay leads todavía.</p></div>';
-    return;
-  }
-  let rows = leads.map(function(l){
-    return '<tr>'+
-      '<td><div class="crm-td-name" onclick="crmOpenModal('+l.id+')" style="cursor:pointer;font-weight:700;">'+(l.nombre||'—')+'</div><div class="crm-td-sm">'+(l.email||'')+'</div><div class="crm-td-sm">'+(l.telefono||'')+'</div></td>'+
-      '<td>'+(l.pais||'—')+'</td>'+
-      '<td class="crm-td-cita">'+(l.cita||'<span style="color:#9ca3af;font-weight:400">Sin agendar</span>')+'</td>'+
-      '<td><span class="crm-bdg '+(l.estado==='Atendido'?'crm-bdg-done':l.estado==='Agendado'?'crm-bdg-ok':'crm-bdg-new')+'">'+(l.estado||'Nuevo')+'</span></td>'+
-      '<td class="crm-td-sm">'+(l.web?'<a href="'+l.web+'" target="_blank" style="color:var(--black);text-decoration:underline;">'+l.web.replace('https://','').substring(0,22)+'</a>':'—')+'</td>'+
-      '<td class="crm-td-sm">'+crmFmtDate(l.fecha_registro)+'</td>'+
-      '<td><div style="display:flex;flex-direction:column;gap:4px;"><button class="crm-wa" onclick="crmWA('+l.id+')">WhatsApp</button><button class="crm-del" onclick="crmDel('+l.id+')">Eliminar</button></div></td>'+
-    '</tr>';
-  }).join('');
-  c.innerHTML = '<table><thead><tr><th>Nombre</th><th>País</th><th>Cita</th><th>Estado</th><th>Web</th><th>Registro</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
-}
-
-function crmOpenModal(id){
-  const l = getLeads().find(x=>x.id===id);
-  if(!l) return;
-  const ov = document.getElementById('crmModalOv');
-  const mc = document.getElementById('crmModalContent');
-  if(!ov||!mc) return;
-
-  const badgeClass = l.estado==='Atendido'?'crm-bdg-done':l.estado==='Agendado'?'crm-bdg-ok':'crm-bdg-new';
-  const atendidoBtn = l.estado!=='Atendido'
-    ? '<button onclick="markAtendido('+l.id+')" style="flex:1;padding:12px;background:#7c3aed;color:white;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:700;cursor:pointer;">Marcar atendido ✓</button>'
-    : '<div style="flex:1;padding:12px;background:#f5f3ff;border-radius:10px;text-align:center;font-size:13px;font-weight:700;color:#7c3aed;">Llamada atendida ✓</div>';
-
-  mc.innerHTML =
-    '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;">'+
-      '<div>'+
-        '<h3 class="crm-modal-title" style="margin:0 0 6px;">'+(l.nombre||'')+'</h3>'+
-        '<span class="crm-bdg '+badgeClass+'">'+(l.estado||'Nuevo')+'</span>'+
-      '</div>'+
-      '<button onclick="crmCloseModal()" style="font-size:22px;background:none;border:none;cursor:pointer;color:#9ca3af;font-family:var(--font-main);flex-shrink:0;">×</button>'+
-    '</div>'+
-
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;">'+
-      '<div class="crm-mrow"><div class="crm-mlbl">Email</div><div class="crm-mval">'+(l.email||'—')+'</div></div>'+
-      '<div class="crm-mrow"><div class="crm-mlbl">Teléfono</div><div class="crm-mval">'+(l.telefono||'—')+'</div></div>'+
-      '<div class="crm-mrow"><div class="crm-mlbl">País</div><div class="crm-mval">'+(l.pais||'—')+'</div></div>'+
-      '<div class="crm-mrow"><div class="crm-mlbl">Instagram</div><div class="crm-mval" style="color:#e1306c;">'+(l.instagram||'—')+'</div></div>'+
-    '</div>'+
-
-    '<div class="crm-mrow"><div class="crm-mlbl">Página web</div><div class="crm-mval">'+(l.web?'<a href="'+l.web+'" target="_blank" style="color:var(--black);text-decoration:underline;">'+l.web+'</a>':'—')+'</div></div>'+
-
-    '<div class="crm-mrow" style="margin-top:10px;">'+
-      '<div class="crm-mlbl" style="margin-bottom:6px;">Cita agendada</div>'+
-      '<div style="background:'+(l.cita?'#f0fdf4':'#f9fafb')+';border:1px solid '+(l.cita?'#bbf7d0':'#e5e7eb')+';border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;color:'+(l.cita?'#15803d':'#9ca3af')+'">'+(l.cita||'Sin agendar aún')+'</div>'+
-    '</div>'+
-
-    '<div class="crm-mrow" style="margin-top:14px;">'+
-      '<div class="crm-mlbl" style="margin-bottom:6px;">Problema con su web</div>'+
-      '<div class="crm-prob-box" style="font-size:14px;line-height:1.7;white-space:pre-wrap;">'+(l.problema||'No especificado')+'</div>'+
-    '</div>'+
-
-    '<div class="crm-mrow" style="margin-top:10px;"><div class="crm-mlbl">Registrado</div><div class="crm-mval">'+crmFmtDate(l.fecha_registro)+'</div></div>'+
-
-    '<div style="display:flex;gap:8px;margin-top:1.5rem;flex-wrap:wrap;">'+
-      '<button onclick="crmWA('+l.id+')" style="flex:1;min-width:120px;padding:12px;background:#25D366;color:white;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:700;cursor:pointer;">WhatsApp</button>'+
-      atendidoBtn+
-      '<button onclick="crmCloseModal()" style="padding:12px 16px;background:#f3f4f6;border:none;border-radius:10px;font-family:var(--font-main);font-size:13px;font-weight:600;cursor:pointer;">Cerrar</button>'+
-    '</div>';
-
-  ov.classList.add('open');
-}
-
-function crmCloseModal(){
-  const ov = document.getElementById('crmModalOv');
-  if(ov) ov.classList.remove('open');
-}
-
-function crmWA(id){
-  const l = getLeads().find(x=>x.id===id);
-  if(!l) return;
-  const num = (l.telefono||'').replace(/[^0-9]/g,'');
-  const msg = 'Hola '+l.nombre+', soy Nicolás de CONI. Vi tu solicitud para agendar una llamada con nosotros.';
-  window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank');
-}
-
-function crmDel(id){
-  if(!confirm('¿Eliminar este lead?')) return;
-  let leads = getLeads().filter(l=>l.id!==id);
-  saveLeads(leads);
-  crmLoad();
-}
-
-function crmExportCSV(){
-  const leads = getLeads().slice().reverse();
-  const hdr = ['Nombre','Email','Teléfono','País','Web','Instagram','Cita','Estado','Problema','Registro'];
-  const rows = leads.map(function(l){
-    return [l.nombre,l.email,l.telefono,l.pais,l.web,l.instagram,l.cita||'',l.estado||'Nuevo','"'+(l.problema||'').replace(/"/g,'""')+'"',crmFmtDate(l.fecha_registro)].join(',');
-  });
-  const csv = [hdr.join(',')].concat(rows).join('\n');
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download = 'coni_leads_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();
-}
-
-/* Pause loop animations when tab hidden */
+/* Pause animations when tab hidden */
 document.addEventListener('visibilitychange',function(){
-  const p = document.hidden ? 'paused' : 'running';
-  document.querySelectorAll('.loop-track').forEach(function(el){ el.style.animationPlayState = p; });
+  var p=document.hidden?'paused':'running';
+  document.querySelectorAll('.loop-track,.mq-track').forEach(function(el){el.style.animationPlayState=p;});
 });
-
+});
 </script>
-
-<!-- ══ BOOKING MODAL ══ -->
-<div class="modal-booking" id="modalBooking">
-  <div class="mb-inner">
-    <button class="mb-close" onclick="closeBooking()">×</button>
-    <div class="mb-progress"><div class="mb-prog-fill" id="mbProgFill" style="width:33%"></div></div>
-
-    <!-- Paso 1 -->
-    <div class="mb-step active" id="mbStep1">
-      <span class="mb-badge">Paso 1 de 2</span>
-      <h2 class="mb-title">Cuéntanos sobre tu negocio</h2>
-      <p class="mb-sub">Necesitamos conocer tu situación para aprovechar mejor el tiempo juntos.</p>
-      <form id="mbForm" novalidate>
-        <div class="fg">
-          <div class="ff"><label>Nombre</label><input type="text" id="mbFname" placeholder="Juan" required></div>
-          <div class="ff"><label>Apellidos</label><input type="text" id="mbLname" placeholder="García" required></div>
-          <div class="ff"><label>Correo</label><input type="email" id="mbEmail" placeholder="juan@empresa.com" required></div>
-          <div class="ff"><label>Teléfono</label><input type="tel" id="mbPhone" placeholder="+57 300 000 0000" required></div>
-          <div class="ff">
-            <label>País</label>
-            <select id="mbCountry" required>
-              <option value="">Selecciona tu país</option>
-              <option value="Colombia">Colombia</option>
-              <option value="México">México</option>
-              <option value="Argentina">Argentina</option>
-              <option value="Chile">Chile</option>
-              <option value="Perú">Perú</option>
-              <option value="Venezuela">Venezuela</option>
-              <option value="Ecuador">Ecuador</option>
-              <option value="Bolivia">Bolivia</option>
-              <option value="Paraguay">Paraguay</option>
-              <option value="Uruguay">Uruguay</option>
-              <option value="Guatemala">Guatemala</option>
-              <option value="Honduras">Honduras</option>
-              <option value="El Salvador">El Salvador</option>
-              <option value="Nicaragua">Nicaragua</option>
-              <option value="Costa Rica">Costa Rica</option>
-              <option value="Panamá">Panamá</option>
-              <option value="Cuba">Cuba</option>
-              <option value="República Dominicana">República Dominicana</option>
-              <option value="Puerto Rico">Puerto Rico</option>
-              <option value="España">España</option>
-            </select>
-          </div>
-          <div class="ff"><label>Instagram</label><input type="text" id="mbIg" placeholder="@tutienda"></div>
-          <div class="ff fg-full"><label>Link de tu página web</label><input type="url" id="mbWeb" placeholder="https://tutienda.com"></div>
-          <div class="ff fg-full">
-            <label>¿Qué problemas tienes con tu web?</label>
-            <textarea id="mbProblem" placeholder="Cuéntanos qué no está funcionando: poco tráfico que compra, diseño que no convierte, etc." required></textarea>
-            <span class="ff-note">Mientras más detallado, mejor nos preparamos para la llamada.</span>
-          </div>
-        </div>
-        <button type="submit" class="btn-mb">Continuar y elegir horario →</button>
-      </form>
-    </div>
-
-    <!-- Paso 2 -->
-    <div class="mb-step" id="mbStep2">
-      <span class="mb-badge">Paso 2 de 2</span>
-      <h2 class="mb-title">Elige tu horario</h2>
-      <p class="mb-sub" style="font-size:13px;color:var(--gray-400);">Horarios en hora Colombia (UTC-5) · Sesiones de 45 minutos</p>
-      <span class="slots-lbl">Selecciona un día</span>
-      <div class="dates-row" id="mbDatesRow"></div>
-      <span class="slots-lbl" id="mbSlotsLbl" style="display:none;">Horarios disponibles</span>
-      <div class="slots-g" id="mbSlotsGrid"></div>
-      <div id="mbConfirmSection" style="display:none;">
-        <div class="conf-card" id="mbConfCard"></div>
-        <button class="btn-mb" id="mbScheduleBtn">Confirmar y enviar por WhatsApp →</button>
-      </div>
-    </div>
-
-    <!-- Éxito -->
-    <div class="mb-step" id="mbStepDone">
-      <div class="mb-success">
-        <div class="mb-sico">✓</div>
-        <h2 class="mb-stitle">¡Todo listo!</h2>
-        <p class="mb-ssub">Nicolás recibirá tu mensaje y confirmará la llamada en breve.</p>
-        <button class="btn-wa" id="mbWaBtn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Abrir WhatsApp
-        </button>
-        <div style="margin-top:12px;"><button onclick="closeBooking()" style="font-family:var(--font-main);font-size:13px;color:var(--gray-400);background:none;border:none;cursor:pointer;text-decoration:underline;">Volver a la página</button></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══ CRM SCREEN ══ -->
-<div id="crmScreen">
-  <!-- Login -->
-  <div id="crmLogin" class="crm-login">
-    <div class="crm-login-card">
-      <div class="crm-logo">CO<em>NI</em></div>
-      <p class="crm-logo-sub">Panel de leads · Acceso privado</p>
-      <div class="crm-pw-field">
-        <label>Contraseña</label>
-        <input type="password" id="crmPwInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')crmLogin()">
-      </div>
-      <button class="crm-btn-login" onclick="crmLogin()">Entrar al CRM</button>
-      <p class="crm-err" id="crmErr">Contraseña incorrecta</p>
-    </div>
-  </div>
-  <!-- Dashboard -->
-  <div id="crmDash" style="display:none;">
-    <div class="crm-topbar">
-      <div class="crm-tb-logo">CO<em>NI</em> <span style="font-size:11px;font-weight:500;color:#444;margin-left:6px;">CRM</span></div>
-      <div class="crm-tb-right">
-        <button class="crm-tb-btn" onclick="crmExportCSV()">Exportar CSV</button>
-        <button class="crm-tb-btn" onclick="crmLogout()">Salir</button>
-      </div>
-    </div>
-    <div class="crm-main">
-      <div class="crm-stats" id="crmStats"></div>
-      <div class="crm-actions">
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-          <input class="crm-search" id="crmSearch" placeholder="Buscar nombre, email..." oninput="crmRender()">
-          <div class="crm-filters">
-            <button class="crm-fb on" onclick="crmSetFilter('todos',this)">Todos</button>
-            <button class="crm-fb" onclick="crmSetFilter('Nuevo',this)">Nuevos</button>
-            <button class="crm-fb" onclick="crmSetFilter('Agendado',this)">Agendados</button>
-            <button class="crm-fb" onclick="crmSetFilter('Atendido',this)">Atendidos</button>
-          </div>
-        </div>
-      </div>
-      <div class="crm-table-wrap"><div id="crmTableContainer"></div></div>
-    </div>
-  </div>
-  <!-- Detail modal -->
-  <div class="crm-modal-ov" id="crmModalOv" onclick="if(event.target===this)crmCloseModal()">
-    <div class="crm-modal" id="crmModalContent"></div>
-  </div>
-</div>
-
 </body>
 </html>
